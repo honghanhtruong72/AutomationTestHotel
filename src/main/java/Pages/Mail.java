@@ -17,8 +17,8 @@ public class Mail {
         return By.xpath(String.format("//button[@class='lm']/div[@class='lms' and contains(text(), '%s')]", title));
     }
 
-    private WebElement getTotalMailByTitle(String title, int index) {
-        return driver.findElements(mailLocator(title)).get(index);
+    private WebElement getTotalMailByTitle(String title) {
+        return driver.findElement(mailLocator(title));
     }
 
     private void enterAddressMail(String addressMail) {
@@ -35,7 +35,7 @@ public class Mail {
 
     public void openMostRecentMailByTitle(String title){
         switchToListMail();
-        getTotalMailByTitle(title,0).click();
+        getTotalMailByTitle(title).click();
     }
 
     public String getRoomType() {
