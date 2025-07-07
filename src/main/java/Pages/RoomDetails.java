@@ -90,13 +90,13 @@ public class RoomDetails {
         openBookNowPage();
     }
 
-    public static String getToday() {
+    public String getToday() {
         LocalDate today = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         return today.format(formatter);
     }
 
-    public static String getTomorrowDate() {
+    public String getTomorrowDate() {
         LocalDate tomorrow = LocalDate.now().plusDays(1);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         return tomorrow.format(formatter);
