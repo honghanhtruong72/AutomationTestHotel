@@ -31,9 +31,6 @@ public class Rooms {
     }
 
 
-
-
-
     public Rooms(WebDriver driver) {
         this.driver = driver;
     }

@@ -11,8 +11,6 @@ import java.time.format.DateTimeFormatter;
 
 public class RoomDetails {
     private final WebDriver driver;
-    private By titleRommDetailLocator = By.xpath("//h2[text()='Room Detail')]");
-    private By priceRoomDetailLocator = By.className("yemm_top_price");
     private By bookingButtonLocator = By.xpath("//input[@value='Book Now']");
     private By checkInDateLocator = By.id("check-in");
     private By checkOutDateLocator = By.id("check-out");
@@ -93,15 +91,15 @@ public class RoomDetails {
     }
 
     public static String getToday() {
-        LocalDate tomorrow = LocalDate.now();
+        LocalDate today = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        return tomorrow.format(formatter);
+        return today.format(formatter);
     }
 
     public static String getTomorrowDate() {
-        LocalDate dayAfterTomorrow = LocalDate.now().plusDays(1);
+        LocalDate tomorrow = LocalDate.now().plusDays(1);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        return dayAfterTomorrow.format(formatter);
+        return tomorrow.format(formatter);
     }
 
 
