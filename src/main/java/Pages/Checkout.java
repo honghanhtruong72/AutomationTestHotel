@@ -11,6 +11,7 @@ public class Checkout {
     private By cardCvcLocator = By.id("cvvcode");
     private By cardNameLocator = By.id("ownerName");
     private By payNowButtonLocator = By.xpath("//input[@value='Pay Now']");
+    private By errorMessageForCreditCardLocator = By.xpath("//div[@class='dic_msg clear']");
 
     private void enterCardNumber(String number) {
         driver.findElement(cardNumberLocator).sendKeys(number);
@@ -37,6 +38,10 @@ public class Checkout {
         enterCardExpiry(expiry);
         enterCardCvc(cvc);
         clickPayNow();
+    }
+
+    public String getErrorMessageForCreditCard() {
+        return driver.findElement(errorMessageForCreditCardLocator).getText();
     }
 
     public Checkout(WebDriver driver) {

@@ -30,8 +30,8 @@ public class TC07 {
                 Constants.ADULT_NUMBER, Constants.CHILD_NUMBER);
         bookNow.fillUserInfoForm(Constants.FULL_NAME,
                 Constants.MAIL, Constants.PHONE_NUMBER, Constants.ADDRESS);
-        checkout.fillCardDetails(Constants.CARD_NUMBER,
-                Constants.CARD_NAME, Constants.EXPIRY_DATE, Constants.CVV);
+        checkout.fillCardDetails(Constants.VALID_CARD_NUMBER,
+                Constants.VALID_CARD_NAME, Constants.EXPIRY_DATE, Constants.CVV);
 
         confirm.displaySuccessBookingMessage(Constants.MESSAGE_BOOKING_SUCCESS);
         softAssert.assertEquals(confirm.getRoomType(), roomType, "Room type is incorrect");
