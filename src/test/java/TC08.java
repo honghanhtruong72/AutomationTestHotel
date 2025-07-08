@@ -1,4 +1,5 @@
-import Pages.*;
+import pages.hotel.HomePage;
+import pages.hotel.SearchPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterMethod;
@@ -13,11 +14,9 @@ public class TC08 {
                     "when the guest search number booking not exists"
     )
     public void VerifySystemDisplaysErrorWhenTheGuestSearchNumberBookingNotExists(){
-        webDriver.get(Constants.HOTEL_BOOKING_URL);
-        webDriver.manage().window().maximize();
 
-        home.searchBookingNumber(Constants.INVALID_BOOKING_NUMBER);
-        softAssert.assertEquals(search.getErrorMessage(),
+        homePage.searchBookingNumber("000001");
+        softAssert.assertEquals(searchPage.getErrorMessage(),
                 Constants.ERROR_MESSAGE_BOOKING_NOT_FOUND, "Error message is incorrect");
 
         softAssert.assertAll();
@@ -27,9 +26,11 @@ public class TC08 {
     @BeforeMethod
     public void init() {
         webDriver = new ChromeDriver();
+        webDriver.get(Constants.HOTEL_BOOKING_URL);
+        webDriver.manage().window().maximize();
         softAssert = new SoftAssert();
-        home = new Home(webDriver);
-        search = new Search(webDriver);
+        homePage = new HomePage(webDriver);
+        searchPage = new SearchPage(webDriver);
     }
 
     @AfterMethod
@@ -39,6 +40,6 @@ public class TC08 {
 
     WebDriver webDriver;
     SoftAssert softAssert;
-    Home home;
-    Search search;
+    HomePage homePage;
+    SearchPage searchPage;
 }

@@ -1,16 +1,17 @@
-package Pages;
+package pages.hotel;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Locale;
 
-public class Confirm {
+public class ConfirmPage {
     private final WebDriver driver;
     private By titleConfirmLocator = By.xpath("//h2[contains(text(), 'Confirm')]");
     private By roomTypeLocator = By.xpath("//div[@class='row']//h5");
@@ -54,19 +55,18 @@ public class Confirm {
         return Integer.parseInt(childrenText.replace("Children", "").trim());
     }
 
-    public static String convertDate(String dateString){
-        SimpleDateFormat inputFormat = new SimpleDateFormat("MMM dd yyyy");
-        SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+    public static String convertDate(String dateString) {
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("MMM dd yyyy", Locale.ENGLISH);
         try {
-            Date date = inputFormat.parse(dateString);
-            return outputFormat.format(date);
-        } catch (ParseException e) {
+            LocalDate date = LocalDate.parse(dateString, inputFormatter);
+            return date.toString();
+        } catch (DateTimeParseException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    public Confirm(WebDriver driver) {
+    public ConfirmPage(WebDriver driver) {
         this.driver = driver;
     }
 }

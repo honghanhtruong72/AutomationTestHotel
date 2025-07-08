@@ -1,4 +1,4 @@
-import Pages.*;
+import pages.hotel.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WindowType;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -6,8 +6,10 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+import pages.mail.MailPage;
 import utils.Constants;
 
+import java.time.LocalDate;
 import java.util.Random;
 
 public class TC07 {
@@ -15,39 +17,37 @@ public class TC07 {
             description = "Verify users book room successfully"
     )
     public void VerifyUsersBookRoomSuccessfully(){
-        webDriver.get(Constants.HOTEL_BOOKING_URL);
-        webDriver.manage().window().maximize();
 
-        home.openRoomsPage();
+        homePage.openRoomsPage();
 
-        int roomIndex = random.nextInt(rooms.getTotalRooms());
-        String checkInDate = roomDetails.getToday();
-        String checkOutDate = roomDetails.getTomorrowDate();
-        String roomType = rooms.getRoomTypeByIndex(roomIndex);
+        int roomIndex = random.nextInt(roomsPage.getTotalRooms());
+        String checkInDate = LocalDate.now().toString();
+        String checkOutDate = LocalDate.now().plusDays(1).toString();
+        String roomType = roomsPage.getRoomTypeByIndex(roomIndex);
 
-        rooms.openRoomByIndex(roomIndex);
-        roomDetails.fillBookingForm(checkInDate,checkOutDate,
-                Constants.ADULT_NUMBER, Constants.CHILD_NUMBER);
-        bookNow.fillUserInfoForm(Constants.FULL_NAME,
+        roomsPage.openRoomByIndex(roomIndex);
+        roomDetailsPage.fillBookingForm(checkInDate,checkOutDate, 1, 0);
+        bookNowPage.fillUserInfoForm(Constants.FULL_NAME,
                 Constants.MAIL, Constants.PHONE_NUMBER, Constants.ADDRESS);
-        checkout.fillCardDetails(Constants.VALID_CARD_NUMBER,
+        checkoutPage.fillCardDetails(Constants.VALID_CARD_NUMBER,
                 Constants.VALID_CARD_NAME, Constants.EXPIRY_DATE, Constants.CVV);
 
-        confirm.displaySuccessBookingMessage(Constants.MESSAGE_BOOKING_SUCCESS);
-        softAssert.assertEquals(confirm.getRoomType(), roomType, "Room type is incorrect");
-        softAssert.assertEquals(confirm.getCheckInDate(),checkInDate, "Check in date is incorrect");
-        softAssert.assertEquals(confirm.getCheckOutDate(),checkOutDate, "Check out date is incorrect");
-        softAssert.assertEquals(confirm.getAdultNumber(), Constants.ADULT_NUMBER, "Adult number is incorrect");
-        softAssert.assertEquals(confirm.getChildrenNumber(), Constants.CHILD_NUMBER, "Children number is incorrect");
+        softAssert.assertTrue(confirmPage.displaySuccessBookingMessage(Constants.MESSAGE_BOOKING_SUCCESS),
+                "Success booking message is not displayed");
+        softAssert.assertEquals(confirmPage.getRoomType(), roomType, "Room type is incorrect");
+        softAssert.assertEquals(confirmPage.getCheckInDate(),checkInDate, "Check in date is incorrect");
+        softAssert.assertEquals(confirmPage.getCheckOutDate(),checkOutDate, "Check out date is incorrect");
+        softAssert.assertEquals(confirmPage.getAdultNumber(), 1, "Adult number is incorrect");
+        softAssert.assertEquals(confirmPage.getChildrenNumber(), 0, "Children number is incorrect");
 
         webDriver.switchTo().newWindow(WindowType.TAB);
         webDriver.get(Constants.YOPMAIL_URL);
 
-        mail.openMail(Constants.MAIL);
-        mail.openMostRecentMailByTitle(Constants.TITLE_MAIL_BOOKING_SUCCESS);
-        softAssert.assertEquals(mail.getRoomType(), roomType, "Room type in mail is incorrect");
-        softAssert.assertEquals(mail.getCheckIn(),checkInDate, "Check in date in mail is incorrect");
-        softAssert.assertEquals(mail.getCheckOut(),checkOutDate, "Check out date in mail is incorrect");
+        mailPage.openMail(Constants.MAIL);
+        mailPage.openMostRecentMailByTitle(Constants.TITLE_MAIL_BOOKING_SUCCESS);
+        softAssert.assertEquals(mailPage.getRoomType(), roomType, "Room type in mail is incorrect");
+        softAssert.assertEquals(mailPage.getCheckIn(),checkInDate, "Check in date in mail is incorrect");
+        softAssert.assertEquals(mailPage.getCheckOut(),checkOutDate, "Check out date in mail is incorrect");
 
         softAssert.assertAll();
 
@@ -55,15 +55,17 @@ public class TC07 {
     @BeforeMethod
     public void init() {
         webDriver = new ChromeDriver();
+        webDriver.get(Constants.HOTEL_BOOKING_URL);
+        webDriver.manage().window().maximize();
         softAssert = new SoftAssert();
-        home = new Home(webDriver);
-        rooms = new Rooms(webDriver);
+        homePage = new HomePage(webDriver);
+        roomsPage = new RoomsPage(webDriver);
         random = new Random();
-        roomDetails = new RoomDetails(webDriver);
-        bookNow = new BookNow(webDriver);
-        checkout = new Checkout(webDriver);
-        confirm = new Confirm(webDriver);
-        mail = new Mail(webDriver);
+        roomDetailsPage = new RoomDetailsPage(webDriver);
+        bookNowPage = new BookNowPage(webDriver);
+        checkoutPage = new CheckoutPage(webDriver);
+        confirmPage = new ConfirmPage(webDriver);
+        mailPage = new MailPage(webDriver);
     }
 
     @AfterMethod
@@ -73,12 +75,12 @@ public class TC07 {
 
     WebDriver webDriver;
     SoftAssert softAssert;
-    Home home;
-    Rooms rooms;
+    HomePage homePage;
+    RoomsPage roomsPage;
     Random random;
-    RoomDetails roomDetails;
-    BookNow bookNow;
-    Checkout checkout;
-    Confirm confirm;
-    Mail mail;
+    RoomDetailsPage roomDetailsPage;
+    BookNowPage bookNowPage;
+    CheckoutPage checkoutPage;
+    ConfirmPage confirmPage;
+    MailPage mailPage;
 }
