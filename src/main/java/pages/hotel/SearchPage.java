@@ -1,9 +1,9 @@
-package Pages;
+package pages.hotel;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class Search {
+public class SearchPage {
     private final WebDriver driver;
     private By errorMessageLocator = By.xpath("//h1[@class='mmb-blc-title']");
 
@@ -11,7 +11,7 @@ public class Search {
         return driver.findElement(errorMessageLocator).getText();
     }
 
-    public Search(WebDriver driver) {
+    public SearchPage(WebDriver driver) {
         this.driver = driver;
     }
 }
