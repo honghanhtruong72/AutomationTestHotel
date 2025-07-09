@@ -1,28 +1,33 @@
-package Pages;
+package Pages.Hotel;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
-public class Confirm {
+public class ConfirmPage {
     private final WebDriver driver;
-    private By titleConfirmLocator = By.xpath("//h2[contains(text(), 'Confirm')]");
+    private By titleConfirmLocator = By.xpath("//h2[contains(text(), 'ConfirmPage')]");
     private By roomTypeLocator = By.xpath("//div[@class='row']//h5");
     private By checkInDateLocator = By.xpath("//li[strong[contains(text(), 'Check-In')]]/p");
     private By checkOutDateLocator = By.xpath("//li[strong[contains(text(), 'Check-Out')]]/p");
     private By quantityAdultLocator = By.xpath("//p[@class='getsts_cont']/span[contains(text(),'Adult')]");
     private By quantityChildrenLocator = By.xpath("//p[@class='getsts_cont']/span[contains(text(),'Children')]");
+    private By idBookingLocator = By.xpath("//p[@class='clearfix']/span[2]");
+
+    public ConfirmPage(WebDriver driver) {
+        this.driver = driver;
+    }
 
     protected By messageSuccessBookingLocator(String message) {
-        return By.xpath(String.format("//div[@class= 'alert alert-success' and contains(., '%s')]",message));
+        return By.xpath(String.format("//div[@class= 'alert alert-success' and contains(., '%s')]", message));
 
     }
+
 
     public boolean displaySuccessBookingMessage(String message) {
         waitOpenConfirmPage();
@@ -34,39 +39,39 @@ public class Confirm {
         wait.until(ExpectedConditions.visibilityOfElementLocated(titleConfirmLocator));
     }
 
+
     public String getRoomType() {
         return driver.findElement(roomTypeLocator).getText();
     }
-    public String getCheckInDate() {
+
+
+    public LocalDate getCheckInDate() {
         String checkInDateText = driver.findElement(checkInDateLocator).getText();
-        return convertDate(checkInDateText);
+        System.out.println("Check-in date text: " + LocalDate.parse(checkInDateText, DateTimeFormatter.ofPattern("MMM dd yyyy")));
+        return LocalDate.parse(checkInDateText, DateTimeFormatter.ofPattern("MMM dd yyyy"));
     }
-    public String getCheckOutDate() {
+
+
+    public LocalDate getCheckOutDate() {
         String checkOutDateText = driver.findElement(checkOutDateLocator).getText();
-        return convertDate(checkOutDateText);
+        return LocalDate.parse(checkOutDateText, DateTimeFormatter.ofPattern("MMM dd yyyy"));
     }
+
+
     public int getAdultNumber() {
         String adultText = driver.findElement(quantityAdultLocator).getText();
         return Integer.parseInt(adultText.replace("Adult", "").trim());
     }
+
+
     public int getChildrenNumber() {
         String childrenText = driver.findElement(quantityChildrenLocator).getText();
         return Integer.parseInt(childrenText.replace("Children", "").trim());
     }
 
-    public static String convertDate(String dateString){
-        SimpleDateFormat inputFormat = new SimpleDateFormat("MMM dd yyyy");
-        SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
-        try {
-            Date date = inputFormat.parse(dateString);
-            return outputFormat.format(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public String getBookingId() {
+        return driver.findElement(idBookingLocator).getText().replace("Id: ", "").trim();
     }
 
-    public Confirm(WebDriver driver) {
-        this.driver = driver;
-    }
+
 }

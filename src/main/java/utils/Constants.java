@@ -3,8 +3,8 @@ package utils;
 public class Constants {
     public static final String HOTEL_BOOKING_URL = "http://14.176.232.213:8084/";
     public static final String YOPMAIL_URL = "https://yopmail.com/";
-    public static final int ADULT_NUMBER = 2;
-    public static final int CHILD_NUMBER = 1;
+    public static final int ADULT_NUMBER = 1;
+    public static final int CHILD_NUMBER = 0;
     public static final String FULL_NAME = "team 03";
     public static final String MAIL = "team03@yopmail.com";
     public static final String PHONE_NUMBER = "012345678";
@@ -19,6 +19,9 @@ public class Constants {
     public static final String INVALID_BOOKING_NUMBER = "000001";
     public static final String ERROR_MESSAGE_BOOKING_NOT_FOUND = "Opps ! No booking found !";
     public static final String ERROR_MESSAGE_CARD_NOT_EXIST = "CreditCard not exists !!!";
+    public static final String Promocode = "MT03";
+    public static final String USERNAME = "team03";
+    public static final String PASSWORD = "123456";
 
 
 

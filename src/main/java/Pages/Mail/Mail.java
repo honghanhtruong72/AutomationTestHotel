@@ -1,4 +1,4 @@
-package Pages;
+package Pages.Mail;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
