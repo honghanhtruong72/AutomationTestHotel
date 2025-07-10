@@ -25,23 +25,17 @@ public class RoomDetailsPage {
                 month - 1, year, day));
     }
 
-    private void chooseCheckInTimePicker(String dateCheckIn) {
+    private void clickCheckInLocator() {
         driver.findElement(checkInDateLocator).click();
-        waitTimePicker();
-        String[] parts = dateCheckIn.split("-");
-        int year = Integer.parseInt(parts[0]);
-        int month = Integer.parseInt(parts[1]);
-        int day = Integer.parseInt(parts[2]);
-
-        navigateToMonthYearInTimePicker(month, year);
-
-        driver.findElement(chooseTimeBook(day, month, year)).click();
     }
 
-    private void chooseCheckOutTimePicker(String dateCheckOut) {
+    private void clickCheckOutLocator() {
         driver.findElement(checkOutDateLocator).click();
+    }
+
+    private void chooseDateInTimePicker(String date) {
         waitTimePicker();
-        String[] parts = dateCheckOut.split("-");
+        String[] parts = date.split("-");
         int year = Integer.parseInt(parts[0]);
         int month = Integer.parseInt(parts[1]);
         int day = Integer.parseInt(parts[2]);
@@ -52,20 +46,18 @@ public class RoomDetailsPage {
     }
 
     private void navigateToMonthYearInTimePicker(int month, int year) {
+        String monthName = Month.of(month).getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+
         while (true) {
             String displayedMonthYear = driver.findElement(timePickerLocator).getText();
 
-            if (displayedMonthYear.contains(getMonthName(month)) &&
+            if (displayedMonthYear.contains(monthName) &&
                     displayedMonthYear.contains(String.valueOf(year))) {
                 break;
             }
 
             driver.findElement(By.className("ui-datepicker-next")).click();
         }
-    }
-
-    private String getMonthName(int month) {
-        return Month.of(month).getDisplayName(TextStyle.FULL, Locale.ENGLISH);
     }
 
     private void enterAdultNumber(int adultQuantity) {
@@ -83,8 +75,10 @@ public class RoomDetailsPage {
     }
 
     public void fillBookingForm(String dateCheckIn, String dateCheckOut, int adultQuantity, int childrenQuantity) {
-        chooseCheckInTimePicker(dateCheckIn);
-        chooseCheckOutTimePicker(dateCheckOut);
+        clickCheckInLocator();
+        chooseDateInTimePicker(dateCheckIn);
+        clickCheckOutLocator();
+        chooseDateInTimePicker(dateCheckOut);
         enterAdultNumber(adultQuantity);
         enterChildrenNumber(childrenQuantity);
         openBookNowPage();

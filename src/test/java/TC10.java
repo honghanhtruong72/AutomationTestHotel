@@ -1,20 +1,20 @@
-import pages.hotel.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+import pages.hotel.*;
 import utils.Constants;
 
 import java.time.LocalDate;
 import java.util.Random;
 
-public class TC09 {
+public class TC10 {
     @Test(
-            description = "Verify that the system validates card numbers with insufficient digits"
+            description = "Verify that the system validates card numbers with wrong Name in card"
     )
-    public void VerifySystemValidatesCardNumbersWithInsufficientDigits() {
+    public void VerifySystemValidatesCardNumbersWithWrongNameCard() {
 
         homePage.openRoomsPage();
 
@@ -27,11 +27,11 @@ public class TC09 {
         roomDetailsPage.fillBookingForm(checkInDate, checkOutDate, 1, 0);
         bookNowPage.fillUserInfoForm(Constants.FULL_NAME,
                 Constants.MAIL, Constants.PHONE_NUMBER, Constants.ADDRESS);
-        checkoutPage.fillCardDetails("2222 3333 4444",
-                Constants.CARD_NAME, Constants.EXPIRY_DATE, Constants.CVV);
+        checkoutPage.fillCardDetails(Constants.CARD_NUMBER,
+                "JOHN", Constants.EXPIRY_DATE, Constants.CVV);
 
-        softAssert.assertEquals(checkoutPage.getErrorMessageForCreditCard(), Constants.ERROR_MESSAGE_CARD_NOT_EXIST,
-                "Error message for invalid card number is incorrect");
+        softAssert.assertEquals(checkoutPage.getErrorMessageForCreditCard(), Constants.ERROR_MESSAGE_WRONG_CARD_INFO,
+                "Error message for wrong card name is incorrect");
 
         softAssert.assertAll();
 
