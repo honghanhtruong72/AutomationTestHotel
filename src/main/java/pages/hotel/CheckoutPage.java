@@ -3,6 +3,10 @@ package pages.hotel;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class CheckoutPage {
     private final WebDriver driver;
@@ -12,6 +16,13 @@ public class CheckoutPage {
     private By cardNameLocator = By.id("ownerName");
     private By payNowButtonLocator = By.xpath("//input[@value='Pay Now']");
     private By errorMessageForCreditCardLocator = By.xpath("//div[@class='dic_msg clear']");
+    private By priceTotalLocator = By.xpath("//strong[@class='total_pey']");
+
+    public double getPriceTotal() {
+        waitForPriceTotal();
+        String priceText = driver.findElement(priceTotalLocator).getText();
+        return Double.parseDouble(priceText.replaceAll("[^0-9.]", ""));
+    }
 
     private void enterCardNumber(String number) {
         driver.findElement(cardNumberLocator).sendKeys(number);
@@ -36,6 +47,7 @@ public class CheckoutPage {
     }
 
     public void fillCardDetails(String number, String name, String expiry, String cvc) {
+        waitForCreditCardForm();
         enterCardNumber(number);
         enterCardName(name);
         enterCardExpiry(expiry);
@@ -45,6 +57,16 @@ public class CheckoutPage {
 
     public String getErrorMessageForCreditCard() {
         return driver.findElement(errorMessageForCreditCardLocator).getText();
+    }
+
+    private void waitForPriceTotal() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(priceTotalLocator));
+    }
+
+    private void waitForCreditCardForm() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(cardNumberLocator));
     }
 
     public CheckoutPage(WebDriver driver) {

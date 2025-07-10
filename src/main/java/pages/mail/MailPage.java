@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import utils.DateUtils;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
@@ -56,22 +57,16 @@ public class MailPage {
         String checkInText = driver.findElement(checkInLocator).getText();
         checkInText = checkInText.replace("Day Check In: ", "")
                 .replace(",", "").trim();
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
-        TemporalAccessor accessor = formatter.parse(checkInText);
-        LocalDate date = LocalDate.from(accessor);
-        return date.toString();
+        return DateUtils.convertDateToIsoFormat(checkInText);
     }
 
     public String getCheckOut() {
         String checkOutText = driver.findElement(checkOutLocator).getText();
         checkOutText = checkOutText.replace("Day Check Out: ", "")
                 .replace(",", "").trim();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
-        TemporalAccessor accessor = formatter.parse(checkOutText);
-        LocalDate date = LocalDate.from(accessor);
-        return date.toString();
+        return DateUtils.convertDateToIsoFormat(checkOutText);
     }
+
 
     private void switchToListMail() {
         driver.switchTo().frame("ifinbox");

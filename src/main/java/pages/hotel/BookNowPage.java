@@ -41,6 +41,10 @@ public class BookNowPage {
         fillEmail(email);
         fillPhone(phone);
         fillAddress(address);
+        submitUserInfoForm();
+    }
+
+    public void submitUserInfoForm(){
         clickCheckBox();
         clickSubmitButton();
     }

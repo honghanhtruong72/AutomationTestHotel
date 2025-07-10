@@ -23,14 +23,14 @@ public class TC07 {
         int roomIndex = random.nextInt(roomsPage.getTotalRooms());
         String checkInDate = LocalDate.now().toString();
         String checkOutDate = LocalDate.now().plusDays(1).toString();
-        String roomType = roomsPage.getRoomTypeByIndex(roomIndex);
+        String roomType = roomsPage.getRoomTypeByIndex(0);
 
-        roomsPage.openRoomByIndex(roomIndex);
+        roomsPage.openRoomByIndex(0);
         roomDetailsPage.fillBookingForm(checkInDate,checkOutDate, 1, 0);
         bookNowPage.fillUserInfoForm(Constants.FULL_NAME,
                 Constants.MAIL, Constants.PHONE_NUMBER, Constants.ADDRESS);
-        checkoutPage.fillCardDetails(Constants.VALID_CARD_NUMBER,
-                Constants.VALID_CARD_NAME, Constants.EXPIRY_DATE, Constants.CVV);
+        checkoutPage.fillCardDetails(Constants.CARD_NUMBER,
+                Constants.CARD_NAME, Constants.EXPIRY_DATE, Constants.CVV);
 
         softAssert.assertTrue(confirmPage.displaySuccessBookingMessage(Constants.MESSAGE_BOOKING_SUCCESS),
                 "Success booking message is not displayed");
