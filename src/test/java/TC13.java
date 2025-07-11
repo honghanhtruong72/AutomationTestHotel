@@ -15,9 +15,9 @@ import java.util.Random;
 import utils.DateUtils;
 
 public class TC13 {
-    @Test(description = "Verify user can view the details of a booked room by booking number")
+    @Test(description = "Verify the booked room information is correctly displayed in My history section")
 
-    public void VerifyUserCanViewDetailsOfBookedRoomByBookingNumber() {
+    public void VerifyBookedRoomInformationIsDisplayedInMyHistorySection() {
 
         //Login
         homePage.login(Constants.USERNAME, Constants.PASSWORD);
