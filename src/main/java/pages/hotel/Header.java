@@ -1,5 +1,6 @@
 package pages.hotel;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -44,6 +45,7 @@ public class Header {
         driver.findElement(findingButtonLocator).click();
     }
 
+    @Step("Search for booking number: {bookingNumber}")
     public void searchBookingNumber(String bookingNumber) {
         clickFindingButton();
         driver.findElement(searchFieldLocator).sendKeys(bookingNumber, Keys.ENTER);

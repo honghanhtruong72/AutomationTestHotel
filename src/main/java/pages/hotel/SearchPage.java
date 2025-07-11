@@ -1,5 +1,6 @@
 package pages.hotel;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -15,6 +16,7 @@ public class SearchPage {
     private By priceLocator = By.xpath("//div[@class='receipt_widgets']/strong");
     private By roomTypeLocator = By.xpath("//h5");
 
+    @Step("Get error message displayed on the search page")
     public String getErrorMessage() {
         return driver.findElement(errorMessageLocator).getText();
     }
