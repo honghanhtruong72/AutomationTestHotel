@@ -1,5 +1,6 @@
 package pages.hotel;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -12,31 +13,38 @@ public class BookNowPage {
     private By checkBoxLocator = By.xpath("//label[@class='custom-control custom-checkbox']");
     private By submitButtonLocator = By.xpath("//input[@value='Submit']");
 
+    @Step("Enter full name: {fullName}")
     private void fillFullName(String fullName) {
         driver.findElement(fullNameLocator).sendKeys(fullName);
     }
 
+    @Step("Enter email: {email}")
     private void fillEmail(String email) {
         driver.findElement(emailLocator).sendKeys(email);
     }
 
+    @Step("Enter phone: {phone}")
     private void fillPhone(String phone) {
         driver.findElement(phoneLocator).sendKeys(phone);
     }
 
+    @Step("Enter address: {address}")
     private void fillAddress(String address) {
         driver.findElement(addressLocator).sendKeys(address);
     }
 
+    @Step("Click checkbox to agree with terms and conditions")
     private void clickCheckBox() {
         driver.findElement(checkBoxLocator).click();
     }
 
+    @Step("Click Submit button")
     private void clickSubmitButton() {
         driver.findElement(submitButtonLocator).click();
     }
 
-    public void fillUserInfoForm(String fullName, String email, String phone, String address) {
+    @Step("Submit user information form with full name: {fullName}, email: {email}, phone: {phone}, address: {address}")
+    public void submitUserInfoForm(String fullName, String email, String phone, String address) {
         fillFullName(fullName);
         fillEmail(email);
         fillPhone(phone);

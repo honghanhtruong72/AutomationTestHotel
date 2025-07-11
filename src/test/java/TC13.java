@@ -29,11 +29,11 @@ public class TC13 {
         String checkOutDate = LocalDate.now().plusDays(1).toString();
         String roomType = roomsPage.getRoomTypeByIndex(roomIndex);
 
-        roomsPage.openRoomByIndex(roomIndex);
-        roomDetailsPage.fillBookingForm(checkInDate, checkOutDate, 1, 0);
+        roomsPage.openRoomDetailByIndex(roomIndex);
+        roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
         bookNowPage.submitUserInfoForm();
         double priceTotal = checkoutPage.getPriceTotal();
-        checkoutPage.fillCardDetails(Constants.CARD_NUMBER,
+        checkoutPage.submitCardDetails(Constants.CARD_NUMBER,
                 Constants.CARD_NAME, Constants.EXPIRY_DATE, Constants.CVV);
 
         String dateTimeBooking = DateUtils.convertToDateAndTime(LocalDateTime.now());

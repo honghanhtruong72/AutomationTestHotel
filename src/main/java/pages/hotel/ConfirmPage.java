@@ -1,5 +1,6 @@
 package pages.hotel;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -26,6 +27,7 @@ public class ConfirmPage extends Header {
 
     }
 
+    @Step("Display success booking message: {message}")
     public boolean displaySuccessBookingMessage(String message) {
         waitOpenConfirmPage();
         return driver.findElement(messageSuccessBookingLocator(message)).isDisplayed();
@@ -36,25 +38,30 @@ public class ConfirmPage extends Header {
         wait.until(ExpectedConditions.visibilityOfElementLocated(titleConfirmLocator));
     }
 
+    @Step("Get room type")
     public String getRoomType() {
         return driver.findElement(roomTypeLocator).getText();
     }
 
+    @Step("Get check-in date")
     public String getCheckInDate() {
         String checkInDateText = driver.findElement(checkInDateLocator).getText();
         return DateUtils.convertToIsoDate(checkInDateText);
     }
 
+    @Step("Get check-out date")
     public String getCheckOutDate() {
         String checkOutDateText = driver.findElement(checkOutDateLocator).getText();
         return DateUtils.convertToIsoDate(checkOutDateText);
     }
 
+    @Step("Get number of adults")
     public int getAdultNumber() {
         String adultText = driver.findElement(quantityAdultLocator).getText();
         return Integer.parseInt(adultText.replace("Adult", "").trim());
     }
 
+    @Step("Get number of children")
     public int getChildrenNumber() {
         String childrenText = driver.findElement(quantityChildrenLocator).getText();
         return Integer.parseInt(childrenText.replace("Children", "").trim());

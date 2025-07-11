@@ -1,5 +1,6 @@
 package pages.hotel;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -25,14 +26,17 @@ public class RoomDetailsPage {
                 month - 1, year, day));
     }
 
+    @Step("Click on Check-In date text field")
     private void clickCheckInLocator() {
         driver.findElement(checkInDateLocator).click();
     }
 
+    @Step("Click on Check-Out date text field")
     private void clickCheckOutLocator() {
         driver.findElement(checkOutDateLocator).click();
     }
 
+    @Step("Choose date in time picker: {date}")
     private void chooseDateInTimePicker(String date) {
         waitTimePicker();
         String[] parts = date.split("-");
@@ -60,21 +64,25 @@ public class RoomDetailsPage {
         }
     }
 
+    @Step("Enter number of adults: {adultQuantity}")
     private void enterAdultNumber(int adultQuantity) {
         driver.findElement(adultQuantityLocator).clear();
         driver.findElement(adultQuantityLocator).sendKeys(String.valueOf(adultQuantity));
     }
 
+    @Step("Enter number of children: {childrenQuantity}")
     private void enterChildrenNumber(int childrenQuantity) {
         driver.findElement(childrenQuantityLocator).clear();
         driver.findElement(childrenQuantityLocator).sendKeys(String.valueOf(childrenQuantity));
     }
 
+    @Step("Click on 'Book Now' button")
     public void openBookNowPage() {
         driver.findElement(bookingButtonLocator).click();
     }
 
-    public void fillBookingForm(String dateCheckIn, String dateCheckOut, int adultQuantity, int childrenQuantity) {
+    @Step("Submit booking form with Check-In: {dateCheckIn}, Check-Out: {dateCheckOut}, Adults: {adultQuantity}, Children: {childrenQuantity}")
+    public void submitBookingForm(String dateCheckIn, String dateCheckOut, int adultQuantity, int childrenQuantity) {
         clickCheckInLocator();
         chooseDateInTimePicker(dateCheckIn);
         clickCheckOutLocator();

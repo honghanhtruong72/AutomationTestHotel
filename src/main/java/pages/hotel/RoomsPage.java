@@ -1,5 +1,6 @@
 package pages.hotel;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -19,7 +20,8 @@ public class RoomsPage {
         return driver.findElements(containerRoomsLocator).get(index);
     }
 
-    public void openRoomByIndex(int index) {
+    @Step("Open room detail by index: {index}")
+    public void openRoomDetailByIndex(int index) {
         getRoomLocatorByIndex(index).findElement(viewDetailButtonLocator).click();
     }
 

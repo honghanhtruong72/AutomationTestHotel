@@ -24,12 +24,12 @@ public class TC12 {
         String checkOutDate = LocalDate.now().plusDays(1).toString();
         String roomType = roomsPage.getRoomTypeByIndex(roomIndex);
 
-        roomsPage.openRoomByIndex(roomIndex);
-        roomDetailsPage.fillBookingForm(checkInDate, checkOutDate, 1, 0);
-        bookNowPage.fillUserInfoForm(Constants.FULL_NAME, Constants.MAIL, Constants.PHONE_NUMBER, Constants.ADDRESS);
+        roomsPage.openRoomDetailByIndex(roomIndex);
+        roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
+        bookNowPage.submitUserInfoForm(Constants.FULL_NAME, Constants.MAIL, Constants.PHONE_NUMBER, Constants.ADDRESS);
 
         double priceTotal = checkoutPage.getPriceTotal();
-        checkoutPage.fillCardDetails(Constants.CARD_NUMBER, Constants.CARD_NAME, Constants.EXPIRY_DATE, Constants.CVV);
+        checkoutPage.submitCardDetails(Constants.CARD_NUMBER, Constants.CARD_NAME, Constants.EXPIRY_DATE, Constants.CVV);
 
         confirmPage.searchBookingNumber(confirmPage.getBookingId());
         softAssert.assertEquals(searchPage.getRoomType(), roomType, "Room type is incorrect");

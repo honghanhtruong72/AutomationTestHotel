@@ -1,5 +1,6 @@
 package pages.hotel;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -24,29 +25,35 @@ public class CheckoutPage {
         return Double.parseDouble(priceText.replaceAll("[^0-9.]", ""));
     }
 
+    @Step("Enter credit card number: {number}")
     private void enterCardNumber(String number) {
         driver.findElement(cardNumberLocator).sendKeys(number);
     }
 
+    @Step("Enter credit card expiry date: {expiry}")
     private void enterCardExpiry(String expiry) {
         driver.findElement(cardExpiryLocator).sendKeys(expiry);
     }
 
+    @Step("Enter credit card CVC: {cvc}")
     private void enterCardCvc(String cvc) {
         WebElement cvcField = driver.findElement(cardCvcLocator);
         cvcField.clear();
         cvcField.sendKeys(cvc);
     }
 
+    @Step("Enter credit card name: {name}")
     private void enterCardName(String name) {
         driver.findElement(cardNameLocator).sendKeys(name);
     }
 
+    @Step("Click Pay Now button")
     private void clickPayNow() {
         driver.findElement(payNowButtonLocator).click();
     }
 
-    public void fillCardDetails(String number, String name, String expiry, String cvc) {
+    @Step("Submit credit card with number: {number}, name: {name}, expiry: {expiry}, cvc: {cvc}")
+    public void submitCardDetails(String number, String name, String expiry, String cvc) {
         waitForCreditCardForm();
         enterCardNumber(number);
         enterCardName(name);

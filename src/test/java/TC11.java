@@ -22,11 +22,11 @@ public class TC11 {
         String checkInDate = LocalDate.now().toString();
         String checkOutDate = LocalDate.now().plusDays(1).toString();
 
-        roomsPage.openRoomByIndex(roomIndex);
-        roomDetailsPage.fillBookingForm(checkInDate,checkOutDate, 1, 0);
-        bookNowPage.fillUserInfoForm(Constants.FULL_NAME,
+        roomsPage.openRoomDetailByIndex(roomIndex);
+        roomDetailsPage.submitBookingForm(checkInDate,checkOutDate, 1, 0);
+        bookNowPage.submitUserInfoForm(Constants.FULL_NAME,
                 Constants.MAIL, Constants.PHONE_NUMBER, Constants.ADDRESS);
-        checkoutPage.fillCardDetails(Constants.CARD_NUMBER_NO_MONEY,
+        checkoutPage.submitCardDetails(Constants.CARD_NUMBER_NO_MONEY,
                 Constants.CARD_NAME_NO_MONEY, Constants.EXPIRY_DATE, Constants.CVV);
 
         softAssert.assertEquals(checkoutPage.getErrorMessageForCreditCard(), Constants.ERROR_MESSAGE_CARD_NOT_MONEY,
