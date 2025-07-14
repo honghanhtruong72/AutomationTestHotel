@@ -4,6 +4,10 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+
 
 public class SearchPage {
     private final WebDriver driver;
@@ -21,34 +25,43 @@ public class SearchPage {
         return driver.findElement(errorMessageLocator).getText();
     }
 
+    @Step("Get room type from search results")
     public String getRoomType() {
         return driver.findElement(roomTypeLocator).getText();
     }
 
+    @Step("Get number of nights from search results")
     public int getNights() {
         String nightsText = driver.findElement(roomForNightsLocator).getText()
                 .replace("nights", "").trim();
         return Integer.parseInt(nightsText);
     }
 
+    @Step("Get check-in date from search results")
     public String getCheckInDate() {
-        return driver.findElement(checkInDateLocator).getText();
+        String checkInDate = driver.findElement(checkInDateLocator).getText();
+        return checkInDate;
     }
 
+    @Step("Get check-out date from search results")
     public String getCheckOutDate() {
-        return driver.findElement(checkOutDateLocator).getText();
+        String checkOutDate = driver.findElement(checkOutDateLocator).getText();
+        return checkOutDate;
     }
 
+    @Step("Get number of adults from search results")
     public int getAdultNumber() {
         String adultText = driver.findElement(adultNumberLocator).getText();
         return Integer.parseInt(adultText.replace("Adult", "").trim());
     }
 
+    @Step("Get number of children from search results")
     public int getChildrenNumber() {
         String childText = driver.findElement(childNumberLocator).getText();
         return Integer.parseInt(childText.replace("Children", "").trim());
     }
 
+    @Step("Get total price from search results")
     public double getPrice() {
         String priceText = driver.findElement(priceLocator).getText().replace("$", "").trim();
         return Double.parseDouble(priceText);

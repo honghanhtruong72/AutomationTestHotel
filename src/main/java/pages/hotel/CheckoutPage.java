@@ -25,24 +25,24 @@ public class CheckoutPage {
         return Double.parseDouble(priceText.replaceAll("[^0-9.]", ""));
     }
 
-    @Step("Enter credit card number: {number}")
+    @Step("Enter credit card number")
     private void enterCardNumber(String number) {
         driver.findElement(cardNumberLocator).sendKeys(number);
     }
 
-    @Step("Enter credit card expiry date: {expiry}")
+    @Step("Enter credit card expiry date")
     private void enterCardExpiry(String expiry) {
         driver.findElement(cardExpiryLocator).sendKeys(expiry);
     }
 
-    @Step("Enter credit card CVC: {cvc}")
+    @Step("Enter credit card CVC")
     private void enterCardCvc(String cvc) {
         WebElement cvcField = driver.findElement(cardCvcLocator);
         cvcField.clear();
         cvcField.sendKeys(cvc);
     }
 
-    @Step("Enter credit card name: {name}")
+    @Step("Enter credit card name")
     private void enterCardName(String name) {
         driver.findElement(cardNameLocator).sendKeys(name);
     }
@@ -52,7 +52,7 @@ public class CheckoutPage {
         driver.findElement(payNowButtonLocator).click();
     }
 
-    @Step("Submit credit card with number: {number}, name: {name}, expiry: {expiry}, cvc: {cvc}")
+    @Step("Make payment with credit card")
     public void submitCardDetails(String number, String name, String expiry, String cvc) {
         waitForCreditCardForm();
         enterCardNumber(number);
@@ -62,7 +62,9 @@ public class CheckoutPage {
         clickPayNow();
     }
 
+    @Step("Get error message for credit card")
     public String getErrorMessageForCreditCard() {
+        waitForErrorMessage();
         return driver.findElement(errorMessageForCreditCardLocator).getText();
     }
 
@@ -74,6 +76,11 @@ public class CheckoutPage {
     private void waitForCreditCardForm() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOfElementLocated(cardNumberLocator));
+    }
+
+    private void waitForErrorMessage() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessageForCreditCardLocator));
     }
 
     public CheckoutPage(WebDriver driver) {

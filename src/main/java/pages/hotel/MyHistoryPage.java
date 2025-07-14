@@ -1,72 +1,73 @@
 package pages.hotel;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+
 import org.openqa.selenium.WebElement;
 
-import utils.DateUtils;
-
-import java.util.List;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class MyHistoryPage {
     private final WebDriver driver;
-    private By dateTimeBookingLocator = By.xpath("//span[@class='book_date_class']");
-    private By typeRoomLocator = By.xpath("//div[@class='col-lg-7 col-md-5 listing-detail_modaul']/h4");
-    private By dateChecInLocator = By.xpath("//li[.//strong[contains(text(),'Check-In')]]//p");
-    private By dateCheckOutLocator = By.xpath("//li[.//strong[contains(text(),'Check-Out')]]//p");
-    private By adultNumberLocator = By.xpath("//li//span[contains(text(),'Adult')]");
-    private By childNumberLocator = By.xpath("//li//span[contains(text(),'Children')]");
-    private By priceLocator = By.xpath("//div[@class='price_modual_sec']/strong");
-    private By cancelBookingButtonLocator = By.linkText("Cancel");
+    private By typeRoomLocator = By.xpath(".//h4");
+    private By dateCheckInLocator = By.xpath(".//li[.//strong[contains(text(),'Check-In')]]//p");
+    private By dateCheckOutLocator = By.xpath(".//li[.//strong[contains(text(),'Check-Out')]]//p");
+    private By adultNumberLocator = By.xpath(".//li//span[contains(text(),'Adult')]");
+    private By childNumberLocator = By.xpath(".//li//span[contains(text(),'Children')]");
+    private By priceLocator = By.xpath(".//div[@class='price_modual_sec']/strong");
+    private By cancelBookingButtonLocator = By.xpath(".//a[text()='Cancel']");
 
-
-    public int getIndexOfBooking(String bookingDate) {
-        List<WebElement> dateElements = driver.findElements(dateTimeBookingLocator);
-        int index = -1;
-
-        for (int i = 0; i < dateElements.size(); i++) {
-            WebElement span = dateElements.get(i);
-            String fullText = span.getText().trim();
-
-            if (fullText.contains(bookingDate)) {
-                index = i;
-                break;
-            }
-        }
-        return index;
+    protected By containerBookingLocator(String id) {
+        return By.xpath(String.format("//div[@class='row listing_widgets'][.//strong[contains(text(),'%s')]]", id));
     }
 
-    public String getTypeRoomByIndex(int index) {
-        return driver.findElements(typeRoomLocator).get(index).getText();
+    @Step("Get Type Room")
+    public String getTypeRoom(String id) {
+        WebElement container = driver.findElement(containerBookingLocator(id));
+        return container.findElement(typeRoomLocator).getText();
     }
 
-    public String getDateCheckInByIndex(int index) {
-        String dateCheckInText = driver.findElements(dateChecInLocator).get(index).getText();
-        return DateUtils.convertToIsoDateWithDate(dateCheckInText);
+    @Step("Get Date Check-In")
+    public LocalDate getDateCheckInById(String id) {
+        WebElement container = driver.findElement(containerBookingLocator(id));
+        String dateCheckInText = container.findElement(dateCheckInLocator).getText();
+        return LocalDate.parse(dateCheckInText, DateTimeFormatter.ofPattern("MMM dd yyyy"));
     }
 
-    public String getDateCheckOutByIndex(int index) {
-        String dateCheckOutText = driver.findElements(dateCheckOutLocator).get(index).getText();
-        return DateUtils.convertToIsoDateWithDate(dateCheckOutText);
+    @Step("Get Date Check-Out")
+    public LocalDate getDateCheckOutById(String id) {
+        WebElement container = driver.findElement(containerBookingLocator(id));
+        String dateCheckOutText = container.findElement(dateCheckOutLocator).getText();
+        return LocalDate.parse(dateCheckOutText, DateTimeFormatter.ofPattern("MMM dd yyyy"));
     }
 
-    public int getAdultNumberByIndex(int index) {
-        String adultText = driver.findElements(adultNumberLocator).get(index).getText();
+    @Step("Get Adult Number")
+    public int getAdultNumberById(String id) {
+        WebElement container = driver.findElement(containerBookingLocator(id));
+        String adultText = container.findElement(adultNumberLocator).getText();
         return Integer.parseInt(adultText.replace("Adult", "").trim());
     }
 
-    public int getChildrenNumberByIndex(int index) {
-        String childText = driver.findElements(childNumberLocator).get(index).getText();
+    @Step("Get Children Number")
+    public int getChildrenNumberById(String id) {
+        WebElement container = driver.findElement(containerBookingLocator(id));
+        String childText = container.findElement(childNumberLocator).getText();
         return Integer.parseInt(childText.replace("Children", "").trim());
     }
 
-    public double getPriceByIndex(int index) {
-        String priceText = driver.findElements(priceLocator).get(index).getText().replace("$", "").trim();
+    @Step("Get Price")
+    public double getPriceById(String id) {
+        WebElement container = driver.findElement(containerBookingLocator(id));
+        String priceText = container.findElement(priceLocator).getText().replace("$", "").trim();
         return Double.parseDouble(priceText);
     }
 
-    public boolean checkCancelButtonByIndex(int index) {
-        return driver.findElements(cancelBookingButtonLocator).get(index).isDisplayed();
+    @Step("Check Cancel Button is displayed")
+    public boolean checkCancelButtonById(String id) {
+        WebElement container = driver.findElement(containerBookingLocator(id));
+        return container.findElement(cancelBookingButtonLocator).isDisplayed();
     }
 
 

@@ -1,3 +1,4 @@
+import io.qameta.allure.Step;
 import pages.hotel.HomePage;
 import pages.hotel.SearchPage;
 import org.openqa.selenium.WebDriver;
@@ -13,7 +14,7 @@ public class TC08 {
             description = "Verify system displays an error " +
                     "when the guest search number booking not exists"
     )
-    public void VerifySystemDisplaysErrorWhenTheGuestSearchNumberBookingNotExists(){
+    public void VerifySystemDisplaysErrorWhenTheGuestSearchNumberBookingNotExists() {
 
         homePage.searchBookingNumber("000001");
         softAssert.assertEquals(searchPage.getErrorMessage(),
@@ -24,6 +25,7 @@ public class TC08 {
     }
 
     @BeforeMethod
+    @Step("Go to hotel booking page")
     public void init() {
         webDriver = new ChromeDriver();
         webDriver.get(Constants.HOTEL_BOOKING_URL);

@@ -1,3 +1,4 @@
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterMethod;
@@ -8,6 +9,7 @@ import pages.hotel.*;
 import utils.Constants;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 public class TC10 {
@@ -18,10 +20,9 @@ public class TC10 {
 
         homePage.openRoomsPage();
 
-        int roomIndex = random.nextInt(roomsPage.getTotalRooms());
-        String checkInDate = LocalDate.now().toString();
-        String checkOutDate = LocalDate.now().plusDays(1).toString();
-
+        roomIndex = random.nextInt(roomsPage.getTotalRooms());
+        checkInDate = LocalDate.now().plusMonths(1);
+        checkOutDate = checkInDate.plusDays(1);
         roomsPage.openRoomDetailByIndex(roomIndex);
 
         roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
@@ -38,6 +39,7 @@ public class TC10 {
     }
 
     @BeforeMethod
+    @Step("Go to hotel booking page")
     public void init() {
         webDriver = new ChromeDriver();
         webDriver.get(Constants.HOTEL_BOOKING_URL);
@@ -64,4 +66,7 @@ public class TC10 {
     RoomDetailsPage roomDetailsPage;
     BookNowPage bookNowPage;
     CheckoutPage checkoutPage;
+    LocalDate checkInDate;
+    LocalDate checkOutDate;
+    int roomIndex;
 }

@@ -1,3 +1,4 @@
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterMethod;
@@ -8,22 +9,23 @@ import pages.hotel.*;
 import utils.Constants;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 public class TC11 {
     @Test(
             description = "Verify user can't book room when credit card is not enough money"
     )
-    public void VerifyUserCanNotBookRoomWhenCreditCardIsNotEnoughMoney(){
+    public void VerifyUserCanNotBookRoomWhenCreditCardIsNotEnoughMoney() {
 
         homePage.openRoomsPage();
 
-        int roomIndex = random.nextInt(roomsPage.getTotalRooms());
-        String checkInDate = LocalDate.now().toString();
-        String checkOutDate = LocalDate.now().plusDays(1).toString();
+        roomIndex = random.nextInt(roomsPage.getTotalRooms());
+        checkInDate = LocalDate.now().plusMonths(1);
+        checkOutDate = checkInDate.plusDays(1);
 
         roomsPage.openRoomDetailByIndex(roomIndex);
-        roomDetailsPage.submitBookingForm(checkInDate,checkOutDate, 1, 0);
+        roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
         bookNowPage.submitUserInfoForm(Constants.FULL_NAME,
                 Constants.MAIL, Constants.PHONE_NUMBER, Constants.ADDRESS);
         checkoutPage.submitCardDetails(Constants.CARD_NUMBER_NO_MONEY,
@@ -35,7 +37,9 @@ public class TC11 {
         softAssert.assertAll();
 
     }
+
     @BeforeMethod
+    @Step("Go to hotel booking page")
     public void init() {
         webDriver = new ChromeDriver();
         webDriver.get(Constants.HOTEL_BOOKING_URL);
@@ -64,4 +68,7 @@ public class TC11 {
     BookNowPage bookNowPage;
     CheckoutPage checkoutPage;
     ConfirmPage confirmPage;
+    LocalDate checkInDate;
+    LocalDate checkOutDate;
+    int roomIndex;
 }
