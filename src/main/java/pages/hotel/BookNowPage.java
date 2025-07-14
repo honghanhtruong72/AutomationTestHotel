@@ -13,22 +13,22 @@ public class BookNowPage {
     private By checkBoxLocator = By.xpath("//label[@class='custom-control custom-checkbox']");
     private By submitButtonLocator = By.xpath("//input[@value='Submit']");
 
-    @Step("Enter full name: {fullName}")
+    @Step("Enter full name")
     private void fillFullName(String fullName) {
         driver.findElement(fullNameLocator).sendKeys(fullName);
     }
 
-    @Step("Enter email: {email}")
+    @Step("Enter email")
     private void fillEmail(String email) {
         driver.findElement(emailLocator).sendKeys(email);
     }
 
-    @Step("Enter phone: {phone}")
+    @Step("Enter phone")
     private void fillPhone(String phone) {
         driver.findElement(phoneLocator).sendKeys(phone);
     }
 
-    @Step("Enter address: {address}")
+    @Step("Enter address")
     private void fillAddress(String address) {
         driver.findElement(addressLocator).sendKeys(address);
     }
@@ -43,7 +43,7 @@ public class BookNowPage {
         driver.findElement(submitButtonLocator).click();
     }
 
-    @Step("Submit user information form with full name: {fullName}, email: {email}, phone: {phone}, address: {address}")
+    @Step("Submit user information form")
     public void submitUserInfoForm(String fullName, String email, String phone, String address) {
         fillFullName(fullName);
         fillEmail(email);
@@ -52,7 +52,8 @@ public class BookNowPage {
         submitUserInfoForm();
     }
 
-    public void submitUserInfoForm(){
+    @Step("Click Submit Button")
+    public void submitUserInfoForm() {
         clickCheckBox();
         clickSubmitButton();
     }

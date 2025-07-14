@@ -9,47 +9,24 @@ import pages.hotel.*;
 import utils.Constants;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Random;
 
-import utils.DateUtils;
 
 public class TC13 {
     @Test(description = "Verify the booked room information is correctly displayed in My history section")
 
     public void VerifyBookedRoomInformationIsDisplayedInMyHistorySection() {
 
-        //Login
-        homePage.login(Constants.USERNAME, Constants.PASSWORD);
-
-        homePage.openRoomsPage();
-
-        int roomIndex = random.nextInt(roomsPage.getTotalRooms());
-        String checkInDate = LocalDate.now().toString();
-        String checkOutDate = LocalDate.now().plusDays(1).toString();
-        String roomType = roomsPage.getRoomTypeByIndex(roomIndex);
-
-        roomsPage.openRoomDetailByIndex(roomIndex);
-        roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
-        bookNowPage.submitUserInfoForm();
-        double priceTotal = checkoutPage.getPriceTotal();
-        checkoutPage.submitCardDetails(Constants.CARD_NUMBER,
-                Constants.CARD_NAME, Constants.EXPIRY_DATE, Constants.CVV);
-
-        String dateTimeBooking = DateUtils.convertToDateAndTime(LocalDateTime.now());
-
         confirmPage.openMyHistoryPage();
-        int indexOfBooking = myHistoryPage.getIndexOfBooking(dateTimeBooking);
-        softAssert.assertEquals(myHistoryPage.getTypeRoomByIndex(indexOfBooking), roomType, "Room type is incorrect");
-        softAssert.assertEquals(myHistoryPage.getDateCheckInByIndex(indexOfBooking), checkInDate,
+        softAssert.assertEquals(myHistoryPage.getTypeRoom(idBooking), roomType, "Room type is incorrect");
+        softAssert.assertEquals(myHistoryPage.getDateCheckIn(idBooking), checkInDate,
                 "Check in date is incorrect");
-        softAssert.assertEquals(myHistoryPage.getDateCheckOutByIndex(indexOfBooking), checkOutDate,
+        softAssert.assertEquals(myHistoryPage.getDateCheckOut(idBooking), checkOutDate,
                 "Check out date is incorrect");
-        softAssert.assertEquals(myHistoryPage.getAdultNumberByIndex(indexOfBooking), 1, "Adult number is incorrect");
-        softAssert.assertEquals(myHistoryPage.getChildrenNumberByIndex(indexOfBooking), 0, "Children number is incorrect");
-        //currently price in my history page does not include tax
-        softAssert.assertEquals(myHistoryPage.getPriceByIndex(indexOfBooking), priceTotal, "Price total is incorrect");
-        softAssert.assertTrue(myHistoryPage.checkCancelButtonByIndex(indexOfBooking), "Cancel button is not displayed");
+        softAssert.assertEquals(myHistoryPage.getAdultNumber(idBooking), 1, "Adult number is incorrect");
+        softAssert.assertEquals(myHistoryPage.getChildrenNumber(idBooking), 0, "Children number is incorrect");
+        softAssert.assertEquals(myHistoryPage.getPrice(idBooking), priceTotal, "Price total is incorrect");
+        softAssert.assertTrue(myHistoryPage.checkCancelButton(idBooking), "Cancel button is not displayed");
 
         softAssert.assertAll();
     }
@@ -61,6 +38,7 @@ public class TC13 {
         webDriver = new ChromeDriver(options);
         webDriver.get(Constants.HOTEL_BOOKING_URL);
         webDriver.manage().window().maximize();
+
         softAssert = new SoftAssert();
         homePage = new HomePage(webDriver);
         roomsPage = new RoomsPage(webDriver);
@@ -71,6 +49,24 @@ public class TC13 {
         confirmPage = new ConfirmPage(webDriver);
         searchPage = new SearchPage(webDriver);
         myHistoryPage = new MyHistoryPage(webDriver);
+
+        homePage.login(Constants.USERNAME, Constants.PASSWORD);
+
+        homePage.openRoomsPage();
+
+        roomIndex = random.nextInt(roomsPage.getTotalRooms());
+        checkInDate = LocalDate.now().plusMonths(1);
+        checkOutDate = checkInDate.plusDays(1);
+        roomType = roomsPage.getRoomTypeByIndex(roomIndex);
+
+        roomsPage.openRoomDetailByIndex(roomIndex);
+        roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
+        bookNowPage.submitUserInfoForm();
+        priceTotal = checkoutPage.getPriceTotal();
+        checkoutPage.submitCardDetails(Constants.CARD_NUMBER,
+                Constants.CARD_NAME, Constants.EXPIRY_DATE, Constants.CVV);
+        idBooking = confirmPage.getBookingId();
+
     }
 
     @AfterMethod
@@ -89,5 +85,11 @@ public class TC13 {
     ConfirmPage confirmPage;
     SearchPage searchPage;
     MyHistoryPage myHistoryPage;
+    LocalDate checkInDate;
+    LocalDate checkOutDate;
+    String roomType;
+    int roomIndex;
+    double priceTotal;
+    String idBooking;
 
 }

@@ -20,12 +20,12 @@ public class RoomsPage {
         return driver.findElements(containerRoomsLocator).get(index);
     }
 
-    @Step("Open room detail by index: {index}")
+    @Step("Open room detail")
     public void openRoomDetailByIndex(int index) {
         getRoomLocatorByIndex(index).findElement(viewDetailButtonLocator).click();
     }
 
-
+    @Step("Get room type")
     public String getRoomTypeByIndex(int index) {
         return getRoomLocatorByIndex(index).findElement(roomTypeLocator).getText();
     }

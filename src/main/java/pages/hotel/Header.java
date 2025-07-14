@@ -20,23 +20,19 @@ public class Header {
     private By SignInButtonLocator = By.xpath("//input[@value='Sign In']");
     private By userNameLocator = By.id("NavebarProfileDrop");
     private By myBookingsLocator = By.linkText("My Bookings");
-    private By cancelBookingLocator = By.linkText("Cancel Bookings");
 
     private void openDropDownFromUserName() {
         waitForUserName();
         driver.findElement(userNameLocator).click();
     }
 
+    @Step("Open My History page")
     public void openMyHistoryPage() {
         openDropDownFromUserName();
         driver.findElement(myBookingsLocator).click();
     }
 
-    public void openCancelBookingPage() {
-        openDropDownFromUserName();
-        driver.findElement(cancelBookingLocator).click();
-    }
-
+    @Step("Open Rooms page")
     public void openRoomsPage() {
         driver.findElement(roomMenuLocator).click();
     }
@@ -45,7 +41,7 @@ public class Header {
         driver.findElement(findingButtonLocator).click();
     }
 
-    @Step("Search for booking number: {bookingNumber}")
+    @Step("Search for booking number")
     public void searchBookingNumber(String bookingNumber) {
         clickFindingButton();
         driver.findElement(searchFieldLocator).sendKeys(bookingNumber, Keys.ENTER);
@@ -67,6 +63,7 @@ public class Header {
         driver.findElement(loginButtonLocator).click();
     }
 
+    @Step("Login with user name and password")
     public void login(String userName, String password) {
         clickLoginButton();
         waitForLoginPopUp();

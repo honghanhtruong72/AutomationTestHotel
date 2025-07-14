@@ -7,7 +7,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.Month;
+import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.Locale;
 
@@ -36,26 +38,27 @@ public class RoomDetailsPage {
         driver.findElement(checkOutDateLocator).click();
     }
 
-    @Step("Choose date in time picker: {date}")
-    private void chooseDateInTimePicker(String date) {
+    @Step("Choose date in time picker")
+    private void chooseDateInTimePicker(LocalDate date) {
         waitTimePicker();
-        String[] parts = date.split("-");
-        int year = Integer.parseInt(parts[0]);
-        int month = Integer.parseInt(parts[1]);
-        int day = Integer.parseInt(parts[2]);
+
+        String month = date.getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+        int day = date.getDayOfMonth();
+        int year = date.getYear();
 
         navigateToMonthYearInTimePicker(month, year);
 
-        driver.findElement(chooseTimeBook(day, month, year)).click();
+        int monthNumber = date.getMonthValue();
+
+        driver.findElement(chooseTimeBook(day, monthNumber, year)).click();
     }
 
-    private void navigateToMonthYearInTimePicker(int month, int year) {
-        String monthName = Month.of(month).getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+    private void navigateToMonthYearInTimePicker(String month, int year) {
 
         while (true) {
             String displayedMonthYear = driver.findElement(timePickerLocator).getText();
 
-            if (displayedMonthYear.contains(monthName) &&
+            if (displayedMonthYear.contains(month) &&
                     displayedMonthYear.contains(String.valueOf(year))) {
                 break;
             }
@@ -64,13 +67,13 @@ public class RoomDetailsPage {
         }
     }
 
-    @Step("Enter number of adults: {adultQuantity}")
+    @Step("Enter number of adults")
     private void enterAdultNumber(int adultQuantity) {
         driver.findElement(adultQuantityLocator).clear();
         driver.findElement(adultQuantityLocator).sendKeys(String.valueOf(adultQuantity));
     }
 
-    @Step("Enter number of children: {childrenQuantity}")
+    @Step("Enter number of children")
     private void enterChildrenNumber(int childrenQuantity) {
         driver.findElement(childrenQuantityLocator).clear();
         driver.findElement(childrenQuantityLocator).sendKeys(String.valueOf(childrenQuantity));
@@ -81,8 +84,8 @@ public class RoomDetailsPage {
         driver.findElement(bookingButtonLocator).click();
     }
 
-    @Step("Submit booking form with Check-In: {dateCheckIn}, Check-Out: {dateCheckOut}, Adults: {adultQuantity}, Children: {childrenQuantity}")
-    public void submitBookingForm(String dateCheckIn, String dateCheckOut, int adultQuantity, int childrenQuantity) {
+    @Step("Submit booking form")
+    public void submitBookingForm(LocalDate dateCheckIn, LocalDate dateCheckOut, int adultQuantity, int childrenQuantity) {
         clickCheckInLocator();
         chooseDateInTimePicker(dateCheckIn);
         clickCheckOutLocator();

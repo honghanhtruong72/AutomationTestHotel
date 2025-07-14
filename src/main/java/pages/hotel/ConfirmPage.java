@@ -7,8 +7,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
-
-import utils.DateUtils;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 
 public class ConfirmPage extends Header {
@@ -27,7 +27,7 @@ public class ConfirmPage extends Header {
 
     }
 
-    @Step("Display success booking message: {message}")
+    @Step("Display success booking message")
     public boolean displaySuccessBookingMessage(String message) {
         waitOpenConfirmPage();
         return driver.findElement(messageSuccessBookingLocator(message)).isDisplayed();
@@ -44,15 +44,16 @@ public class ConfirmPage extends Header {
     }
 
     @Step("Get check-in date")
-    public String getCheckInDate() {
+    public LocalDate getCheckInDate() {
         String checkInDateText = driver.findElement(checkInDateLocator).getText();
-        return DateUtils.convertToIsoDate(checkInDateText);
+        System.out.println("Check-in date text: " + LocalDate.parse(checkInDateText, DateTimeFormatter.ofPattern("MMM dd yyyy")));
+        return LocalDate.parse(checkInDateText, DateTimeFormatter.ofPattern("MMM dd yyyy"));
     }
 
     @Step("Get check-out date")
-    public String getCheckOutDate() {
+    public LocalDate getCheckOutDate() {
         String checkOutDateText = driver.findElement(checkOutDateLocator).getText();
-        return DateUtils.convertToIsoDate(checkOutDateText);
+        return LocalDate.parse(checkOutDateText, DateTimeFormatter.ofPattern("MMM dd yyyy"));
     }
 
     @Step("Get number of adults")
