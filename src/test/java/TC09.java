@@ -45,6 +45,7 @@ public class TC09 {
         webDriver = new ChromeDriver();
         webDriver.get(Constants.HOTEL_BOOKING_URL);
         webDriver.manage().window().maximize();
+
         softAssert = new SoftAssert();
         homePage = new HomePage(webDriver);
         roomsPage = new RoomsPage(webDriver);

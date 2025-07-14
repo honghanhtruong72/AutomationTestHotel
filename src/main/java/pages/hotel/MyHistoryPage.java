@@ -30,42 +30,42 @@ public class MyHistoryPage {
     }
 
     @Step("Get Date Check-In")
-    public LocalDate getDateCheckInById(String id) {
+    public LocalDate getDateCheckIn(String id) {
         WebElement container = driver.findElement(containerBookingLocator(id));
         String dateCheckInText = container.findElement(dateCheckInLocator).getText();
         return LocalDate.parse(dateCheckInText, DateTimeFormatter.ofPattern("MMM dd yyyy"));
     }
 
     @Step("Get Date Check-Out")
-    public LocalDate getDateCheckOutById(String id) {
+    public LocalDate getDateCheckOut(String id) {
         WebElement container = driver.findElement(containerBookingLocator(id));
         String dateCheckOutText = container.findElement(dateCheckOutLocator).getText();
         return LocalDate.parse(dateCheckOutText, DateTimeFormatter.ofPattern("MMM dd yyyy"));
     }
 
     @Step("Get Adult Number")
-    public int getAdultNumberById(String id) {
+    public int getAdultNumber(String id) {
         WebElement container = driver.findElement(containerBookingLocator(id));
         String adultText = container.findElement(adultNumberLocator).getText();
         return Integer.parseInt(adultText.replace("Adult", "").trim());
     }
 
     @Step("Get Children Number")
-    public int getChildrenNumberById(String id) {
+    public int getChildrenNumber(String id) {
         WebElement container = driver.findElement(containerBookingLocator(id));
         String childText = container.findElement(childNumberLocator).getText();
         return Integer.parseInt(childText.replace("Children", "").trim());
     }
 
     @Step("Get Price")
-    public double getPriceById(String id) {
+    public double getPrice(String id) {
         WebElement container = driver.findElement(containerBookingLocator(id));
         String priceText = container.findElement(priceLocator).getText().replace("$", "").trim();
         return Double.parseDouble(priceText);
     }
 
     @Step("Check Cancel Button is displayed")
-    public boolean checkCancelButtonById(String id) {
+    public boolean checkCancelButton(String id) {
         WebElement container = driver.findElement(containerBookingLocator(id));
         return container.findElement(cancelBookingButtonLocator).isDisplayed();
     }
