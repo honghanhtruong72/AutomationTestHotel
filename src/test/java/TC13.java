@@ -8,11 +8,8 @@ import org.testng.asserts.SoftAssert;
 import pages.hotel.*;
 import utils.Constants;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Random;
 
-import utils.DateUtils;
 
 public class TC13 {
     @Test(description = "Verify the booked room information is correctly displayed in My history section")
