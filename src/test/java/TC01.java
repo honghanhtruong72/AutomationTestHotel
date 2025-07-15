@@ -49,8 +49,7 @@ public class TC01 {
         softAssert.assertEquals(roomDetailsPage.getRoomType(),expectedroomType,"Room type mismatch");
         softAssert.assertEquals(roomDetailsPage.getDisplayPrice(),expectedPrice,"Room price mismatch");
         softAssert.assertEquals(roomDetailsPage.getCheckInDate(),checkInDate,"Check in date is incorrect");
-        softAssert.assertEquals(roomDetailsPage.getCheckOutDate(),checkOutDate,"Check out date is incorrect");
-
+        softAssert.assertEquals(roomDetailsPage.getCheckOutDate(),checkOutDate,"Check out dates is incorrect");
 
 
 
