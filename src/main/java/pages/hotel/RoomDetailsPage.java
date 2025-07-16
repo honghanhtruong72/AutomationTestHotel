@@ -115,15 +115,15 @@ public class RoomDetailsPage {
 
     @Step("Get check-in date")
     public LocalDate getCheckInDate() {
-        String checkInDateText = driver.findElement(checkInDateLocator).getText();
-        System.out.println("Check-in date text: " + LocalDate.parse(checkInDateText, DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-        return LocalDate.parse(checkInDateText, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String checkInDateText = driver.findElement(checkInDateLocator).getAttribute("value");
+        System.out.println("Check-in date text: " + LocalDate.parse(checkInDateText, DateTimeFormatter.ofPattern("yyyy/MM/dd")));
+        return LocalDate.parse(checkInDateText, DateTimeFormatter.ofPattern("yyyy/MM/dd"));
     }
 
     @Step("Get check-out date")
     public LocalDate getCheckOutDate() {
-        String checkOutDateText = driver.findElement(checkOutDateLocator).getText();
-        return LocalDate.parse(checkOutDateText, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String checkOutDateText = driver.findElement(checkOutDateLocator).getAttribute("value");
+        return LocalDate.parse(checkOutDateText, DateTimeFormatter.ofPattern("yyyy/MM/dd"));
     }
 
     public RoomDetailsPage(WebDriver driver) {

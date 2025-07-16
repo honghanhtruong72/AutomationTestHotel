@@ -33,7 +33,6 @@ public class TC01 {
         checkInDate = LocalDate.now().plusMonths(1);
 
         checkOutDate = checkInDate.plusDays(1);
-
         homePage.submitBookingForm(checkInDate,checkOutDate,1,0);
 
         softAssert.assertTrue(roomsPage.hasAvailableRooms(),"No rooms available");
@@ -46,19 +45,10 @@ public class TC01 {
 
         roomsPage.openRoomDetailByIndex(roomIndex);
 
-        softAssert.assertEquals(roomDetailsPage.getRoomType(),expectedroomType,"Room type mismatch");
-        softAssert.assertEquals(roomDetailsPage.getDisplayPrice(),expectedPrice,"Room price mismatch");
+        softAssert.assertEquals(roomDetailsPage.getRoomType(), expectedroomType,"Room type mismatch");
+        softAssert.assertEquals(roomDetailsPage.getDisplayPrice(), expectedPrice,"Room price mismatch");
         softAssert.assertEquals(roomDetailsPage.getCheckInDate(),checkInDate,"Check in date is incorrect");
         softAssert.assertEquals(roomDetailsPage.getCheckOutDate(),checkOutDate,"Check out dates is incorrect");
-
-
-
-
-
-
-
-
-
     }
 
     @AfterMethod
