@@ -126,6 +126,18 @@ public class RoomDetailsPage {
         return LocalDate.parse(checkOutDateText, DateTimeFormatter.ofPattern("yyyy/MM/dd"));
     }
 
+    @Step("Get Adult")
+    public int getAdult (){
+        String text = driver.findElement(adultQuantityLocator).getAttribute("value");
+        return Integer.parseInt(text);
+    }
+
+    @Step("Get Chilren")
+    public int getChilren(){
+        String text = driver.findElement(childrenQuantityLocator).getAttribute("value");
+        return Integer.parseInt(text);
+    }
+
     public RoomDetailsPage(WebDriver driver) {
         this.driver = driver;
     }

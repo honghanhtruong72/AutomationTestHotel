@@ -49,11 +49,15 @@ public class TC01 {
         softAssert.assertEquals(roomDetailsPage.getDisplayPrice(), expectedPrice,"Room price mismatch");
         softAssert.assertEquals(roomDetailsPage.getCheckInDate(),checkInDate,"Check in date is incorrect");
         softAssert.assertEquals(roomDetailsPage.getCheckOutDate(),checkOutDate,"Check out dates is incorrect");
+        softAssert.assertEquals(roomDetailsPage.getAdult(),1,"Adult number is incorrect");
+        softAssert.assertEquals(roomDetailsPage.getChilren(),0,"Children number is incorrect");
+
+        softAssert.assertAll();
     }
 
     @AfterMethod
     public void tearDown (){
-
+        webDriver.quit();
     }
     WebDriver webDriver;
     SoftAssert softAssert;
