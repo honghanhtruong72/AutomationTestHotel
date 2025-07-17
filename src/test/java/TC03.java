@@ -12,11 +12,11 @@ import utils.DateUtils;
 import java.time.LocalDate;
 import java.util.Random;
 
-public class TC02 {
+public class TC03 {
     @Test(
-            description = "Verify Grand Total Calculation Includes Tax and Discount"
+            description = "Verify Grand Total Calculation without discount"
     )
-    public void VerifyGrandTotalCalculationIncludesTaxAndDiscount() {
+    public void VerifyGrandTotalCalculationWithoutDiscount() {
 
         header.clickRoom();
 
@@ -32,8 +32,6 @@ public class TC02 {
 
         roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
 
-        bookNowPage.applyPromocode(Constants.VALID_PROMOCODE);
-
         night = DateUtils.calculateNights(checkInDate, checkOutDate);
 
         ExpectedSubTotal = Math.round(night * priceOneNight * 100.0) / 100.0;
@@ -42,7 +40,9 @@ public class TC02 {
 
         discount = bookNowPage.getDiscount();
 
-        expectedGrandTotal = Math.round((ExpectedSubTotal + tax - discount) * 100.0) / 100.0;
+        expectedGrandTotal = Math.round((ExpectedSubTotal + tax ) * 100.0) / 100.0;
+
+        softAssert.assertEquals(bookNowPage.getDiscount(),0.0,"Discount not show be $0.0");
 
         softAssert.assertEquals(bookNowPage.getGrandTotal(), expectedGrandTotal, "The Total formula is applied and gives incorrect result");
 
@@ -92,5 +92,4 @@ public class TC02 {
     LocalDate checkInDate;
     LocalDate checkOutDate;
     Header header;
-
 }
