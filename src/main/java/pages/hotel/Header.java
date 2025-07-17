@@ -33,7 +33,7 @@ public class Header {
     }
 
     @Step("Open Rooms page")
-    public void openRoomsPage() {
+    public void clickRoom() {
         driver.findElement(roomMenuLocator).click();
     }
 

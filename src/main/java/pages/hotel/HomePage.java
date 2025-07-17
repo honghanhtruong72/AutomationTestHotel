@@ -20,7 +20,6 @@ public class HomePage extends Header{
     private By searchButtonLocator = By.xpath("//input[@value='Search']");
     private By timePickerLocator = By.className("ui-datepicker-title");
 
-
     public HomePage(WebDriver driver) {
         super(driver);
         this.driver = driver;
@@ -80,7 +79,7 @@ public class HomePage extends Header{
     }
 
     @Step("Click on 'Search' button")
-    public void openRoomsPage(){
+    public void clickRoom(){
         driver.findElement(searchButtonLocator).click();
     }
     @Step("Submit booking form")
@@ -91,10 +90,12 @@ public class HomePage extends Header{
         chooseDateInTimePicker(dateCheckOut);
         enterAdultNumber(adultQuantity);
         enterChildrenNumber(childrenQuantity);
-        openRoomsPage();
+        clickRoom();
     }
     private void waitTimePicker() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOfElementLocated(timePickerLocator));
     }
+
+
 }
