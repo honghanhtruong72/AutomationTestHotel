@@ -22,6 +22,9 @@ public class Constants {
     public static final String USERNAME = "team03";
     public static final String PASSWORD = "123456";
     public static final String VALID_PROMOCODE ="MT03";
+    public static final String INVALID_PROMOCODE ="BT03";
+
+
 
 
 

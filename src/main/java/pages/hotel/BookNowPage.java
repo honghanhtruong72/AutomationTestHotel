@@ -1,7 +1,6 @@
 package pages.hotel;
 
 import io.qameta.allure.Step;
-import io.qameta.allure.TmsLink;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -20,6 +19,7 @@ public class BookNowPage {
     private By taxLocator = By.xpath("//td[contains(text(), 'Tax')]/following-sibling::td");
     private By discountLocator = By.xpath("//td[contains(text(), 'Discount')]/following-sibling::td");
     private By grandTotalLocator = By.xpath("//table/tbody/tr[5]/td[2]/strong");
+    private By errorPromotion = By.xpath("//p[contains(text(), 'Promotion Code not exists')]");
 
 
 
@@ -84,7 +84,7 @@ public class BookNowPage {
     }
 
     @Step("Aplly Promocode")
-    public void applyPromocode (String a){
+    public void applyPromocode(String a){
         clickRadioButtonPromcode();
         enterTextboxPromcode(a);
         clickbuttonApply();
@@ -113,6 +113,11 @@ public class BookNowPage {
         return Double.parseDouble(text);
     }
 
+    @Step("Get Display Error Promotion")
+    public boolean getDisplayErrorPromotion(){
+        driver.findElement(errorPromotion).isDisplayed();
+        return true;
+    }
 
     public BookNowPage(WebDriver driver) {
         this.driver = driver;
