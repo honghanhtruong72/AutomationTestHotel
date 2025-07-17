@@ -119,6 +119,25 @@ public class BookNowPage {
         return true;
     }
 
+    @Step("Get FullName")
+    public String getFullName (){
+        return  driver.findElement(fullNameLocator).getAttribute("value");
+    }
+
+    @Step("Get Email")
+    public String getEmail (){
+        return driver.findElement(emailLocator).getAttribute("value");
+    }
+
+    @Step("Get PhoneNumber")
+    public String getPhoneNumber (){
+        return   driver.findElement(phoneLocator).getAttribute("value");
+    }
+
+    @Step("Get getAdress")
+    public String getAdress (){
+        return  driver.findElement(addressLocator).getAttribute("value");
+    }
     public BookNowPage(WebDriver driver) {
         this.driver = driver;
     }
