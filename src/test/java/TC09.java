@@ -9,7 +9,6 @@ import org.testng.asserts.SoftAssert;
 import utils.Constants;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 public class TC09 {
@@ -18,7 +17,7 @@ public class TC09 {
     )
     public void VerifySystemValidatesCardNumbersWithInsufficientDigits() {
 
-        homePage.openRoomsPage();
+        homePage.clickRoom();
 
         roomIndex = random.nextInt(roomsPage.getTotalRooms());
         checkInDate = LocalDate.now().plusMonths(1);

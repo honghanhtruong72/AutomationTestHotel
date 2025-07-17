@@ -11,7 +11,6 @@ import pages.mail.MailPage;
 import utils.Constants;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 public class TC07 {
@@ -20,7 +19,7 @@ public class TC07 {
     )
     public void VerifyUsersBookRoomSuccessfully() {
 
-        homePage.openRoomsPage();
+        homePage.clickRoom();
 
         roomIndex = random.nextInt(roomsPage.getTotalRooms());
         checkInDate = LocalDate.now().plusMonths(1);

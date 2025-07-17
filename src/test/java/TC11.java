@@ -9,7 +9,6 @@ import pages.hotel.*;
 import utils.Constants;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 public class TC11 {
@@ -18,7 +17,7 @@ public class TC11 {
     )
     public void VerifyUserCanNotBookRoomWhenCreditCardIsNotEnoughMoney() {
 
-        homePage.openRoomsPage();
+        homePage.clickRoom();
 
         roomIndex = random.nextInt(roomsPage.getTotalRooms());
         checkInDate = LocalDate.now().plusMonths(1);

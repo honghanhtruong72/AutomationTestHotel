@@ -58,7 +58,7 @@ public class TC12 {
         confirmPage = new ConfirmPage(webDriver);
         searchPage = new SearchPage(webDriver);
 
-        homePage.openRoomsPage();
+        homePage.clickRoom();
         roomIndex = random.nextInt(roomsPage.getTotalRooms());
         checkInDate = LocalDate.now().plusMonths(1);
         checkOutDate = checkInDate.plusDays(1);
