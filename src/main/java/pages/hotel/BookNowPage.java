@@ -119,23 +119,23 @@ public class BookNowPage {
         return true;
     }
 
-    @Step("Get FullName")
-    public String getFullName (){
+    @Step("Get Value FullName")
+    public String getFullNameTextBoxValue(){
         return  driver.findElement(fullNameLocator).getAttribute("value");
     }
 
-    @Step("Get Email")
-    public String getEmail (){
+    @Step("Get Value Email")
+    public String getEmailTextBoxValue(){
         return driver.findElement(emailLocator).getAttribute("value");
     }
 
-    @Step("Get PhoneNumber")
-    public String getPhoneNumber (){
+    @Step("Get Value PhoneNumber")
+    public String getPhoneTextBoxValue(){
         return   driver.findElement(phoneLocator).getAttribute("value");
     }
 
-    @Step("Get getAdress")
-    public String getAdress (){
+    @Step("Get Value getAdress")
+    public String getAdressTextBoxValue(){
         return  driver.findElement(addressLocator).getAttribute("value");
     }
 

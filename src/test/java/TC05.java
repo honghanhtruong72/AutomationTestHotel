@@ -22,10 +22,10 @@ public class TC05 {
 
         header.openMyAccount();
 
-        expectedFullname = myAccountPage.getFullName();
-        expectedEmail = myAccountPage.getEmail();
-        expectedPhone = myAccountPage.getPhoneNumber();
-        expectedAdress = myAccountPage.getAdress();
+        expectedFullname = myAccountPage.getFullNameTextBoxValue();
+        expectedEmail = myAccountPage.getEmailTextBoxValue();
+        expectedPhone = myAccountPage.getPhoneNumberTextBoxValue();
+        expectedAdress = myAccountPage.getAdressTextBoxValue();
 
         header.clickRoom();
 
@@ -39,10 +39,10 @@ public class TC05 {
 
         roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
 
-        actualFullname = bookNowPage.getFullName();
-        actualEmail = bookNowPage.getEmail();
-        actualPhone = bookNowPage.getPhoneNumber();
-        actualAdress = bookNowPage.getAdress();
+        actualFullname = bookNowPage.getFullNameTextBoxValue();
+        actualEmail = bookNowPage.getEmailTextBoxValue();
+        actualPhone = bookNowPage.getPhoneTextBoxValue();
+        actualAdress = bookNowPage.getAdressTextBoxValue();
 
         softAssert.assertEquals(actualFullname, expectedFullname, "Full name not match");
         softAssert.assertEquals(actualEmail, expectedEmail, "Email not match");
