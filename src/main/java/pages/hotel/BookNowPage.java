@@ -138,6 +138,7 @@ public class BookNowPage {
     public String getAdress (){
         return  driver.findElement(addressLocator).getAttribute("value");
     }
+
     public BookNowPage(WebDriver driver) {
         this.driver = driver;
     }

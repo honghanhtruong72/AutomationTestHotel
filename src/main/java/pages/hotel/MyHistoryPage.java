@@ -2,12 +2,18 @@ package pages.hotel;
 
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class MyHistoryPage {
     private final WebDriver driver;
@@ -70,6 +76,12 @@ public class MyHistoryPage {
         return container.findElement(cancelBookingButtonLocator).isDisplayed();
     }
 
+    @Step("Click Button Cancel")
+    public void cancelBookingFromHistoryById(String bookingId) {
+        String cancelXpath = "//strong[contains(text(),' + bookingId +')]/ancestor::div[contains(@class,'item')]//a[contains(text(),'Cancel')]";
+        WebElement cancelButton = driver.findElement(By.xpath(cancelXpath));
+        cancelButton.click();
+    }
 
     public MyHistoryPage(WebDriver driver) {
         this.driver = driver;
