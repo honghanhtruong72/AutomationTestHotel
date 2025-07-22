@@ -21,6 +21,8 @@ public class Header {
     private By userNameLocator = By.id("NavebarProfileDrop");
     private By myBookingsLocator = By.linkText("My Bookings");
     private By myAccountLocator = By.linkText("My Account");
+    private By cancelBookingLocator = By.linkText("Cancel Bookings");
+
 
     private void openDropDownFromUserName() {
         waitForUserName();
@@ -38,6 +40,12 @@ public class Header {
         openDropDownFromUserName();
         driver.findElement(myAccountLocator).click();
     }
+
+    public void openCancelledBookingPage (){
+        openDropDownFromUserName();
+        driver.findElement(cancelBookingLocator).click();
+    }
+
 
     @Step("Open Rooms page")
     public void clickRoom() {
