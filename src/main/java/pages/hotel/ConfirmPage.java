@@ -46,7 +46,6 @@ public class ConfirmPage extends Header {
     @Step("Get check-in date")
     public LocalDate getCheckInDate() {
         String checkInDateText = driver.findElement(checkInDateLocator).getText();
-        System.out.println("Check-in date text: " + LocalDate.parse(checkInDateText, DateTimeFormatter.ofPattern("MMM dd yyyy")));
         return LocalDate.parse(checkInDateText, DateTimeFormatter.ofPattern("MMM dd yyyy"));
     }
 

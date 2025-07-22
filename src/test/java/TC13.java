@@ -63,8 +63,7 @@ public class TC13 {
         roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
         bookNowPage.submitUserInfoForm();
         priceTotal = checkoutPage.getPriceTotal();
-        checkoutPage.submitCardDetails(Constants.CARD_NUMBER,
-                Constants.CARD_NAME, Constants.EXPIRY_DATE, Constants.CVV);
+        checkoutPage.submitCardDetails(Constants.VALID_CREDIT_CARD);
         idBooking = confirmPage.getBookingId();
 
     }

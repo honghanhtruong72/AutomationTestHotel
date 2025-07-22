@@ -9,7 +9,6 @@ import pages.hotel.*;
 import utils.Constants;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 public class TC11 {
@@ -28,8 +27,7 @@ public class TC11 {
         roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
         bookNowPage.submitUserInfoForm(Constants.FULL_NAME,
                 Constants.MAIL, Constants.PHONE_NUMBER, Constants.ADDRESS);
-        checkoutPage.submitCardDetails(Constants.CARD_NUMBER_NO_MONEY,
-                Constants.CARD_NAME_NO_MONEY, Constants.EXPIRY_DATE, Constants.CVV);
+        checkoutPage.submitCardDetails(Constants.CREDIT_CARD_NO_MONEY);
 
         softAssert.assertEquals(checkoutPage.getErrorMessageForCreditCard(), Constants.ERROR_MESSAGE_CARD_NOT_MONEY,
                 "The error message for insufficient funds is incorrect.");

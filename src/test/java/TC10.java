@@ -9,7 +9,6 @@ import pages.hotel.*;
 import utils.Constants;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 public class TC10 {
@@ -28,8 +27,7 @@ public class TC10 {
         roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
         bookNowPage.submitUserInfoForm(Constants.FULL_NAME,
                 Constants.MAIL, Constants.PHONE_NUMBER, Constants.ADDRESS);
-        checkoutPage.submitCardDetails(Constants.CARD_NUMBER,
-                "JOHN", Constants.EXPIRY_DATE, Constants.CVV);
+        checkoutPage.submitCardDetailsWrongName("JOHN", Constants.VALID_CREDIT_CARD);
 
         softAssert.assertEquals(checkoutPage.getErrorMessageForCreditCard(), Constants.ERROR_MESSAGE_WRONG_CARD_INFO,
                 "Error message for wrong card name is incorrect");

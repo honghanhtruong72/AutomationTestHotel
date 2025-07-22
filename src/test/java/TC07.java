@@ -1,5 +1,4 @@
 import io.qameta.allure.Step;
-import pages.hotel.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WindowType;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -7,11 +6,11 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+import pages.hotel.*;
 import pages.mail.MailPage;
 import utils.Constants;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 public class TC07 {
@@ -25,14 +24,13 @@ public class TC07 {
         roomIndex = random.nextInt(roomsPage.getTotalRooms());
         checkInDate = LocalDate.now().plusMonths(1);
         checkOutDate = checkInDate.plusDays(1);
-        roomType = roomsPage.getRoomTypeByIndex(roomIndex);
+        roomType = roomsPage.getRoomTypeByIndex(0);
 
-        roomsPage.openRoomDetailByIndex(roomIndex);
+        roomsPage.openRoomDetailByIndex(0);
         roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
         bookNowPage.submitUserInfoForm(Constants.FULL_NAME,
                 Constants.MAIL, Constants.PHONE_NUMBER, Constants.ADDRESS);
-        checkoutPage.submitCardDetails(Constants.CARD_NUMBER,
-                Constants.CARD_NAME, Constants.EXPIRY_DATE, Constants.CVV);
+        checkoutPage.submitCardDetails(Constants.VALID_CREDIT_CARD);
 
         softAssert.assertTrue(confirmPage.displaySuccessBookingMessage(Constants.MESSAGE_BOOKING_SUCCESS),
                 "Success booking message is not displayed");

@@ -1,6 +1,7 @@
 package pages.hotel;
 
 import io.qameta.allure.Step;
+import model.CreditCard;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -53,14 +54,29 @@ public class CheckoutPage {
     }
 
     @Step("Make payment with credit card")
-    public void submitCardDetails(String number, String name, String expiry, String cvc) {
+    public void submitCardDetails(CreditCard creditCard) {
+        submitCardDetails(creditCard.getCardNumber(), creditCard.getCardName(), creditCard.getExpiryDateString(), creditCard.getCvv());
+    }
+
+    @Step("Make payment with credit card using the insufficient digits")
+    public void submitCardDetailsWrongNumber(String numberCard, CreditCard creditCard) {
+        submitCardDetails(numberCard, creditCard.getCardName(), creditCard.getExpiryDateString(), creditCard.getCvv());
+    }
+
+    @Step("Make a payment with a credit card using the wrong name")
+    public void submitCardDetailsWrongName(String nameCard, CreditCard creditCard) {
+        submitCardDetails(creditCard.getCardNumber(), nameCard, creditCard.getExpiryDateString(), creditCard.getCvv());
+    }
+
+    private void submitCardDetails(String cardNumber, String cardName, String expiryDate, String cvv) {
         waitForCreditCardForm();
-        enterCardNumber(number);
-        enterCardName(name);
-        enterCardExpiry(expiry);
-        enterCardCvc(cvc);
+        enterCardNumber(cardNumber);
+        enterCardName(cardName);
+        enterCardExpiry(expiryDate);
+        enterCardCvc(cvv);
         clickPayNow();
     }
+
 
     @Step("Get error message for credit card")
     public String getErrorMessageForCreditCard() {
@@ -86,4 +102,5 @@ public class CheckoutPage {
     public CheckoutPage(WebDriver driver) {
         this.driver = driver;
     }
+
 }
