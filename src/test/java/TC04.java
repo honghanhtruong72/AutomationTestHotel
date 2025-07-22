@@ -1,38 +1,42 @@
 import io.qameta.allure.Step;
-import pages.hotel.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+import pages.hotel.*;
 import utils.Constants;
 
 import java.time.LocalDate;
 import java.util.Random;
 
-public class TC09 {
+public class TC04 {
     @Test(
-            description = "Verify that the system validates card numbers with insufficient digits"
+            description = "Verify Grand Total Calculation Includes Tax and Discount"
     )
-    public void VerifySystemValidatesCardNumbersWithInsufficientDigits() {
+    public void VerifyGrandTotalCalculationIncludesTaxAndDiscount() {
 
-        homePage.clickRoom();
+        header.clickRoom();
 
         roomIndex = random.nextInt(roomsPage.getTotalRooms());
+
         checkInDate = LocalDate.now().plusMonths(1);
-        checkOutDate = checkInDate.plusDays(1);
+
+        checkOutDate = checkInDate.plusDays(2);
 
         roomsPage.openRoomDetailByIndex(roomIndex);
 
         roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
-        bookNowPage.submitUserInfoForm(Constants.FULL_NAME,
-                Constants.MAIL, Constants.PHONE_NUMBER, Constants.ADDRESS);
-        checkoutPage.submitCardDetails("2222 3333 4444",
-                Constants.CARD_NAME, Constants.EXPIRY_DATE, Constants.CVV);
 
-        softAssert.assertEquals(checkoutPage.getErrorMessageForCreditCard(), Constants.ERROR_MESSAGE_CARD_NOT_EXIST,
-                "Error message for invalid card number is incorrect");
+        bookNowPage.applyPromocode(Constants.INVALID_PROMOCODE);
+
+        actualDiscount = bookNowPage.getDiscount();
+
+        softAssert.assertEquals(actualDiscount,0.0,"Discount not show be $0.0");
+
+        softAssert.assertTrue(bookNowPage.getDisplayErrorPromotion(),"Error Promocode not display");
+
 
         softAssert.assertAll();
 
@@ -52,13 +56,16 @@ public class TC09 {
         roomDetailsPage = new RoomDetailsPage(webDriver);
         bookNowPage = new BookNowPage(webDriver);
         checkoutPage = new CheckoutPage(webDriver);
+        header = new Header(webDriver);
     }
 
     @AfterMethod
     public void tearDown() {
-        webDriver.quit();
+//        webDriver.quit();
     }
 
+    int roomIndex;
+    double actualDiscount;
     WebDriver webDriver;
     SoftAssert softAssert;
     HomePage homePage;
@@ -69,5 +76,5 @@ public class TC09 {
     CheckoutPage checkoutPage;
     LocalDate checkInDate;
     LocalDate checkOutDate;
-    int roomIndex;
+    Header header;
 }

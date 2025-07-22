@@ -9,7 +9,6 @@ import pages.hotel.*;
 import utils.Constants;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 public class TC10 {
@@ -18,7 +17,7 @@ public class TC10 {
     )
     public void VerifySystemValidatesCardNumbersWithWrongNameCard() {
 
-        homePage.openRoomsPage();
+        homePage.clickRoom();
 
         roomIndex = random.nextInt(roomsPage.getTotalRooms());
         checkInDate = LocalDate.now().plusMonths(1);

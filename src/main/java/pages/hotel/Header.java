@@ -20,6 +20,9 @@ public class Header {
     private By SignInButtonLocator = By.xpath("//input[@value='Sign In']");
     private By userNameLocator = By.id("NavebarProfileDrop");
     private By myBookingsLocator = By.linkText("My Bookings");
+    private By myAccountLocator = By.linkText("My Account");
+    private By cancelBookingLocator = By.linkText("Cancel Bookings");
+
 
     private void openDropDownFromUserName() {
         waitForUserName();
@@ -32,8 +35,20 @@ public class Header {
         driver.findElement(myBookingsLocator).click();
     }
 
+    @Step("Open My Account page")
+    public void openMyAccount(){
+        openDropDownFromUserName();
+        driver.findElement(myAccountLocator).click();
+    }
+
+    public void openCancelledBookingPage (){
+        openDropDownFromUserName();
+        driver.findElement(cancelBookingLocator).click();
+    }
+
+
     @Step("Open Rooms page")
-    public void openRoomsPage() {
+    public void clickRoom() {
         driver.findElement(roomMenuLocator).click();
     }
 

@@ -52,7 +52,7 @@ public class TC13 {
 
         homePage.login(Constants.USERNAME, Constants.PASSWORD);
 
-        homePage.openRoomsPage();
+        homePage.clickRoom();
 
         roomIndex = random.nextInt(roomsPage.getTotalRooms());
         checkInDate = LocalDate.now().plusMonths(1);
