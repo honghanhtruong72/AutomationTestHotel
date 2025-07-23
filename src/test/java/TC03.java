@@ -72,9 +72,8 @@ public class TC03 {
           webDriver.quit();
     }
 
-    int nights;
     int roomIndex;
-    long night;
+    int night;
     double priceOneNight;
     double ExpectedSubTotal;
     double tax;

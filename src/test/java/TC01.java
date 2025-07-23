@@ -1,3 +1,4 @@
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterMethod;
@@ -14,6 +15,7 @@ import java.util.Random;
 
 public class TC01 {
     @BeforeMethod
+    @Step("Go to hotel booking page")
     public void init(){
         webDriver = new ChromeDriver();
         webDriver.get(Constants.HOTEL_BOOKING_URL);

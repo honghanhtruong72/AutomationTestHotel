@@ -4,8 +4,8 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 public class DateUtils {
-    public static long calculateNights(LocalDate checkin, LocalDate checkout) {
-        return  ChronoUnit.DAYS.between(checkin, checkout);
+    public static int calculateNights(LocalDate checkin, LocalDate checkout) {
+        return (int) ChronoUnit.DAYS.between(checkin, checkout);
     }
 
 
