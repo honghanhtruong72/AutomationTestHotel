@@ -86,7 +86,7 @@ public class TC14 {
         softAssert.assertEquals(mailPage.getcancelationCharge(), expectedCancelationCharge, "Cancelation Charge in mail wrong");
         softAssert.assertEquals(mailPage.getRefundableAmount(), expectedRefundableAmount, "Refundable Amount in mail wrong");
         softAssert.assertAll();
-
+ w
     }
 
     @BeforeMethod
