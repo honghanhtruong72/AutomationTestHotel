@@ -64,7 +64,7 @@ public class TC14 {
         softAssert.assertEquals(cancelBookingPage.getDateCancelBookig(idBooking), cancelDate, "Cancel booking date is incorrect");
 
 
-//       webDriver.switchTo().newWindow(WindowType.TAB);
+//      webDriver.switchTo().newWindow(WindowType.TAB);
 
         ((JavascriptExecutor) webDriver).executeScript("window.open('about:blank','_blank')");
         List<String> tabs = new ArrayList<>(webDriver.getWindowHandles());
