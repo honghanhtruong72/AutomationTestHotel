@@ -115,7 +115,7 @@ public class TC14 {
 
     @AfterMethod
     public void tearDown() {
-//        webDriver.quit();
+        webDriver.quit();
     }
 
     int roomIndex;
