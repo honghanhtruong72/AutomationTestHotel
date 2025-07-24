@@ -1,8 +1,9 @@
 import io.qameta.allure.Step;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WindowType;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -12,7 +13,8 @@ import pages.mail.MailPage;
 import utils.Constants;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class TC14 {
@@ -27,7 +29,7 @@ public class TC14 {
 
         roomIndex = random.nextInt(roomsPage.getTotalRooms());
 
-        checkInDate = LocalDate.now().plusMonths(1);
+        checkInDate = LocalDate.now().plusWeeks(2);
 
         checkOutDate = checkInDate.plusDays(1);
 
@@ -37,6 +39,8 @@ public class TC14 {
 
         roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
 
+        expectedGrandTotal = bookNowPage.getGrandTotal();
+
         bookNowPage.submitUserInfoForm();
 
         checkoutPage.submitCardDetails(Constants.CARD_NUMBER, Constants.CARD_NAME, Constants.EXPIRY_DATE, Constants.CVV);
@@ -45,9 +49,7 @@ public class TC14 {
 
         header.openMyHistoryPage();
 
-      // datetimeBooking = myHistoryPage.getDateTimeBooking(idBooking);
-
-        System.out.println("datebooking: " + datetimeBooking);
+        cancelDate = LocalDate.now();
 
         myHistoryPage.openPopUpcancelBookingFromHistoryById(idBooking);
 
@@ -59,24 +61,30 @@ public class TC14 {
         softAssert.assertEquals(cancelBookingPage.getTypeRoom(idBooking), roomType, "Room type is incorrect");
         softAssert.assertEquals(cancelBookingPage.getDateCheckIn(idBooking), checkInDate, "Check in date is incorrect");
         softAssert.assertEquals(cancelBookingPage.getDateCheckOut(idBooking), checkOutDate, "Check out date is incorrect");
-
-
-
-        //softAssert.assertEquals(cancelBookingPage.getDateCancelBookig(idBooking), currentDate, "Cancel booking date is incorrect");
+        softAssert.assertEquals(cancelBookingPage.getDateCancelBookig(idBooking), cancelDate, "Cancel booking date is incorrect");
 
 
 //        webDriver.switchTo().newWindow(WindowType.TAB);
-//        webDriver.get(Constants.YOPMAIL_URL);
-//
-//        mailPage.openMail(Constants.MAIL);
-//        mailPage.openMostRecentMailByTitle(Constants.TITLE_MAIL_CANCEL_BOOKING);
-//
-//
-//        softAssert.assertEquals(mailPage.getRoomType(), roomType, "Room type in mail is incorrect");
-//        softAssert.assertEquals(mailPage.getCheckIn(), checkInDate, "Check in date in mail is incorrect");
-//        softAssert.assertEquals(mailPage.getCheckOut(), checkOutDate, "Check out date in mail is incorrect");
+
+        ((JavascriptExecutor) webDriver).executeScript("window.open('about:blank','_blank')");
+        List<String> tabs = new ArrayList<>(webDriver.getWindowHandles());
+
+        webDriver.switchTo().window(tabs.get(tabs.size()-1));
+
+        webDriver.get(Constants.YOPMAIL_URL);
+
+        mailPage.openMail(Constants.MAIL);
+        mailPage.openMostRecentMailByTitle(Constants.TITLE_MAIL_CANCEL_BOOKING);
 
 
+        expectedCancelationCharge = 0.2 * expectedGrandTotal;
+        expectedRefundableAmount = expectedGrandTotal - expectedCancelationCharge;
+
+        softAssert.assertEquals(mailPage.getRoomType(), roomType, "Room type in mail is incorrect");
+        softAssert.assertEquals(mailPage.getCheckInInCancelMail(), checkInDate, "Check in date in mail is incorrect");
+        softAssert.assertEquals(mailPage.getCheckOutInCancelMail(), checkOutDate, "Check out date in mail is incorrect");
+        softAssert.assertEquals(mailPage.getcancelationCharge(), expectedCancelationCharge, "Cancelation Charge in mail wrong");
+        softAssert.assertEquals(mailPage.getRefundableAmount(), expectedRefundableAmount, "Refundable Amount in mail wrong");
         softAssert.assertAll();
 
     }
@@ -113,7 +121,9 @@ public class TC14 {
     int roomIndex;
     String idBooking;
     String roomType;
-    String datetimeBooking;
+    Double expectedGrandTotal;
+    double expectedCancelationCharge;
+    double expectedRefundableAmount;
 
     WebDriver webDriver;
     SoftAssert softAssert;
@@ -125,6 +135,7 @@ public class TC14 {
     CheckoutPage checkoutPage;
     LocalDate checkInDate;
     LocalDate checkOutDate;
+    LocalDate cancelDate;
     Header header;
     MyAccountPage myAccountPage;
     ConfirmPage confirmPage;

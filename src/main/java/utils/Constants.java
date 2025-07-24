@@ -19,13 +19,11 @@ public class Constants {
     public static final String ERROR_MESSAGE_CARD_NOT_EXIST = "CreditCard not exists !!!";
     public static final String ERROR_MESSAGE_WRONG_CARD_INFO = "Wrong CreditCard information !!!";
     public static final String ERROR_MESSAGE_CARD_NOT_MONEY = "Balances not enough money !!!";
-    public static final String USERNAME = "team03";
+    public static final String USERNAME = "buutran";
     public static final String PASSWORD = "123456";
     public static final String VALID_PROMOCODE ="MT03";
     public static final String INVALID_PROMOCODE ="BT03";
     public static final String TITLE_MAIL_CANCEL_BOOKING = "Cancel booking !";
-
-
 
 
 

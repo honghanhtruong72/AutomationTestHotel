@@ -1,4 +1,5 @@
 import io.qameta.allure.Step;
+import org.openqa.selenium.JavascriptExecutor;
 import pages.hotel.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WindowType;
@@ -11,6 +12,8 @@ import pages.mail.MailPage;
 import utils.Constants;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class TC07 {
@@ -19,7 +22,7 @@ public class TC07 {
     )
     public void VerifyUsersBookRoomSuccessfully() {
 
-        homePage.clickRoom();
+        header.clickRoom();
 
         roomIndex = random.nextInt(roomsPage.getTotalRooms());
         checkInDate = LocalDate.now().plusMonths(1);
@@ -42,6 +45,7 @@ public class TC07 {
         softAssert.assertEquals(confirmPage.getChildrenNumber(), 0, "Children number is incorrect");
 
         webDriver.switchTo().newWindow(WindowType.TAB);
+
         webDriver.get(Constants.YOPMAIL_URL);
 
         mailPage.openMail(Constants.MAIL);
@@ -70,6 +74,7 @@ public class TC07 {
         checkoutPage = new CheckoutPage(webDriver);
         confirmPage = new ConfirmPage(webDriver);
         mailPage = new MailPage(webDriver);
+        header = new Header(webDriver);
     }
 
     @AfterMethod
@@ -79,6 +84,7 @@ public class TC07 {
 
     WebDriver webDriver;
     SoftAssert softAssert;
+    Header header;
     HomePage homePage;
     RoomsPage roomsPage;
     Random random;

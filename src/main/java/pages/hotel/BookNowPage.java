@@ -3,6 +3,10 @@ package pages.hotel;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class BookNowPage {
     private final WebDriver driver;
@@ -109,8 +113,14 @@ public class BookNowPage {
 
     @Step("Get Grand Total")
     public double getGrandTotal (){
+        waitGrandTotalDisplay();
         String text = driver.findElement(grandTotalLocator).getText().replace("$","");
         return Double.parseDouble(text);
+    }
+
+    public void waitGrandTotalDisplay() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(grandTotalLocator));
     }
 
     @Step("Get Display Error Promotion")
