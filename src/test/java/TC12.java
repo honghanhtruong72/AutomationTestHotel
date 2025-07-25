@@ -58,9 +58,9 @@ public class TC12 {
         confirmPage = new ConfirmPage(webDriver);
         searchPage = new SearchPage(webDriver);
 
-        homePage.clickRoom();
+        homePage.openRoomsPage();
         roomIndex = random.nextInt(roomsPage.getTotalRooms());
-        checkInDate = LocalDate.now().plusMonths(1);
+        checkInDate = LocalDate.now().plusWeeks(1);
         checkOutDate = checkInDate.plusDays(1);
         checkInDateText = checkInDate.format(DateTimeFormatter.ofPattern("MMMM dd", Locale.ENGLISH));
         checkOutDateText = checkOutDate.format(DateTimeFormatter.ofPattern("MMMM dd", Locale.ENGLISH));
@@ -72,7 +72,7 @@ public class TC12 {
         bookNowPage.submitUserInfoForm(Constants.FULL_NAME, Constants.MAIL, Constants.PHONE_NUMBER, Constants.ADDRESS);
 
         priceTotal = checkoutPage.getPriceTotal();
-        checkoutPage.submitCardDetails(Constants.CARD_NUMBER, Constants.CARD_NAME, Constants.EXPIRY_DATE, Constants.CVV);
+        checkoutPage.submitCardDetails(Constants.VALID_CREDIT_CARD);
 
     }
 

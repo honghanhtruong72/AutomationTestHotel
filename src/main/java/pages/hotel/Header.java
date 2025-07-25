@@ -36,19 +36,19 @@ public class Header {
     }
 
     @Step("Open My Account page")
-    public void openMyAccount(){
+    public void openMyAccount() {
         openDropDownFromUserName();
         driver.findElement(myAccountLocator).click();
     }
 
-    public void openCancelledBookingPage (){
+    public void openCancelledBookingPage() {
         openDropDownFromUserName();
         driver.findElement(cancelBookingLocator).click();
     }
 
 
     @Step("Open Rooms page")
-    public void clickRoom() {
+    public void openRoomsPage() {
         driver.findElement(roomMenuLocator).click();
     }
 

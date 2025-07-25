@@ -1,6 +1,4 @@
 import io.qameta.allure.Step;
-import org.openqa.selenium.JavascriptExecutor;
-import pages.hotel.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WindowType;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -8,12 +6,11 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+import pages.hotel.*;
 import pages.mail.MailPage;
 import utils.Constants;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class TC07 {
@@ -22,19 +19,18 @@ public class TC07 {
     )
     public void VerifyUsersBookRoomSuccessfully() {
 
-        header.clickRoom();
+        homePage.openRoomsPage();
 
         roomIndex = random.nextInt(roomsPage.getTotalRooms());
-        checkInDate = LocalDate.now().plusMonths(1);
+        checkInDate = LocalDate.now().plusWeeks(1);
         checkOutDate = checkInDate.plusDays(1);
-        roomType = roomsPage.getRoomTypeByIndex(roomIndex);
+        roomType = roomsPage.getRoomTypeByIndex(0);
 
-        roomsPage.openRoomDetailByIndex(roomIndex);
+        roomsPage.openRoomDetailByIndex(0);
         roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
         bookNowPage.submitUserInfoForm(Constants.FULL_NAME,
                 Constants.MAIL, Constants.PHONE_NUMBER, Constants.ADDRESS);
-        checkoutPage.submitCardDetails(Constants.CARD_NUMBER,
-                Constants.CARD_NAME, Constants.EXPIRY_DATE, Constants.CVV);
+        checkoutPage.submitCardDetails(Constants.VALID_CREDIT_CARD);
 
         softAssert.assertTrue(confirmPage.displaySuccessBookingMessage(Constants.MESSAGE_BOOKING_SUCCESS),
                 "Success booking message is not displayed");
@@ -45,7 +41,6 @@ public class TC07 {
         softAssert.assertEquals(confirmPage.getChildrenNumber(), 0, "Children number is incorrect");
 
         webDriver.switchTo().newWindow(WindowType.TAB);
-
         webDriver.get(Constants.YOPMAIL_URL);
 
         mailPage.openMail(Constants.MAIL);
@@ -74,7 +69,6 @@ public class TC07 {
         checkoutPage = new CheckoutPage(webDriver);
         confirmPage = new ConfirmPage(webDriver);
         mailPage = new MailPage(webDriver);
-        header = new Header(webDriver);
     }
 
     @AfterMethod
@@ -84,7 +78,6 @@ public class TC07 {
 
     WebDriver webDriver;
     SoftAssert softAssert;
-    Header header;
     HomePage homePage;
     RoomsPage roomsPage;
     Random random;

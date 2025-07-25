@@ -1,7 +1,6 @@
 import io.qameta.allure.Step;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WindowType;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterMethod;
@@ -25,7 +24,7 @@ public class TC14 {
 
         header.login(Constants.USERNAME, Constants.PASSWORD);
 
-        header.clickRoom();
+        header.openRoomsPage();
 
         roomIndex = random.nextInt(roomsPage.getTotalRooms());
 
@@ -43,7 +42,7 @@ public class TC14 {
 
         bookNowPage.submitUserInfoForm();
 
-        checkoutPage.submitCardDetails(Constants.CARD_NUMBER, Constants.CARD_NAME, Constants.EXPIRY_DATE, Constants.CVV);
+        checkoutPage.submitCardDetails(Constants.VALID_CREDIT_CARD);
 
         idBooking = confirmPage.getBookingId();
 
@@ -69,7 +68,7 @@ public class TC14 {
         ((JavascriptExecutor) webDriver).executeScript("window.open('about:blank','_blank')");
         List<String> tabs = new ArrayList<>(webDriver.getWindowHandles());
 
-        webDriver.switchTo().window(tabs.get(tabs.size()-1));
+        webDriver.switchTo().window(tabs.get(tabs.size() - 1));
 
         webDriver.get(Constants.YOPMAIL_URL);
 

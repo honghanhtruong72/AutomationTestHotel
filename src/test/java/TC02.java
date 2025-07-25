@@ -18,7 +18,7 @@ public class TC02 {
     )
     public void VerifyGrandTotalCalculationIncludesTaxAndDiscount() {
 
-        header.clickRoom();
+        header.openRoomsPage();
 
         roomIndex = random.nextInt(roomsPage.getTotalRooms());
 
@@ -69,7 +69,7 @@ public class TC02 {
 
     @AfterMethod
     public void tearDown() {
-          webDriver.quit();
+        webDriver.quit();
     }
 
     int roomIndex;

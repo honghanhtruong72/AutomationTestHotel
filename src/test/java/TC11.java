@@ -17,18 +17,17 @@ public class TC11 {
     )
     public void VerifyUserCanNotBookRoomWhenCreditCardIsNotEnoughMoney() {
 
-        homePage.clickRoom();
+        homePage.openRoomsPage();
 
         roomIndex = random.nextInt(roomsPage.getTotalRooms());
-        checkInDate = LocalDate.now().plusMonths(1);
+        checkInDate = LocalDate.now().plusWeeks(1);
         checkOutDate = checkInDate.plusDays(1);
 
         roomsPage.openRoomDetailByIndex(roomIndex);
         roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
         bookNowPage.submitUserInfoForm(Constants.FULL_NAME,
                 Constants.MAIL, Constants.PHONE_NUMBER, Constants.ADDRESS);
-        checkoutPage.submitCardDetails(Constants.CARD_NUMBER_NO_MONEY,
-                Constants.CARD_NAME_NO_MONEY, Constants.EXPIRY_DATE, Constants.CVV);
+        checkoutPage.submitCardDetails(Constants.CREDIT_CARD_NO_MONEY);
 
         softAssert.assertEquals(checkoutPage.getErrorMessageForCreditCard(), Constants.ERROR_MESSAGE_CARD_NOT_MONEY,
                 "The error message for insufficient funds is incorrect.");

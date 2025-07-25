@@ -7,7 +7,6 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import pages.hotel.*;
 import utils.Constants;
-import utils.DateUtils;
 
 import java.time.LocalDate;
 import java.util.Random;
@@ -18,7 +17,7 @@ public class TC06 {
     )
     public void VerifyTheTotalAmountEquasGrandTotalOfTablSummaryBooking() {
 
-        header.clickRoom();
+        header.openRoomsPage();
 
         roomIndex = random.nextInt(roomsPage.getTotalRooms());
 
@@ -35,7 +34,7 @@ public class TC06 {
         bookNowPage.submitUserInfoForm(Constants.FULL_NAME, Constants.MAIL
                 , Constants.PHONE_NUMBER, Constants.ADDRESS);
 
-        softAssert.assertEquals(checkoutPage.getPriceTotal(),expectedPrice,"Total Amount not math with GrandTotal");
+        softAssert.assertEquals(checkoutPage.getPriceTotal(), expectedPrice, "Total Amount not math with GrandTotal");
 
 
         softAssert.assertAll();

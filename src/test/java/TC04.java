@@ -17,7 +17,7 @@ public class TC04 {
     )
     public void VerifyGrandTotalCalculationIncludesTaxAndDiscount() {
 
-        header.clickRoom();
+        header.openRoomsPage();
 
         roomIndex = random.nextInt(roomsPage.getTotalRooms());
 
@@ -33,9 +33,9 @@ public class TC04 {
 
         actualDiscount = bookNowPage.getDiscount();
 
-        softAssert.assertEquals(actualDiscount,0.0,"Discount not show be $0.0");
+        softAssert.assertEquals(actualDiscount, 0.0, "Discount not show be $0.0");
 
-        softAssert.assertTrue(bookNowPage.getDisplayErrorPromotion(),"Error Promocode not display");
+        softAssert.assertTrue(bookNowPage.getDisplayErrorPromotion(), "Error Promocode not display");
 
 
         softAssert.assertAll();

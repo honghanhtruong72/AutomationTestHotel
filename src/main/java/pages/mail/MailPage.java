@@ -72,7 +72,6 @@ public class MailPage {
 
         ZonedDateTime zdt = ZonedDateTime.parse(checkInText, formatter);
         LocalDate checkInDate = zdt.toLocalDate();
-        System.out.println("Check-in date mail: " + checkInDate);
         return checkInDate;
     }
 

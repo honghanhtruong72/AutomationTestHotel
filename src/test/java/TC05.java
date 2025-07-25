@@ -27,7 +27,7 @@ public class TC05 {
         expectedPhone = myAccountPage.getPhoneNumberTextBoxValue();
         expectedAdress = myAccountPage.getAdressTextBoxValue();
 
-        header.clickRoom();
+        header.openRoomsPage();
 
         roomIndex = random.nextInt(roomsPage.getTotalRooms());
 

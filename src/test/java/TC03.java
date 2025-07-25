@@ -18,7 +18,7 @@ public class TC03 {
     )
     public void VerifyGrandTotalCalculationWithoutDiscount() {
 
-        header.clickRoom();
+        header.openRoomsPage();
 
         roomIndex = random.nextInt(roomsPage.getTotalRooms());
 
@@ -40,9 +40,9 @@ public class TC03 {
 
         discount = bookNowPage.getDiscount();
 
-        expectedGrandTotal = Math.round((ExpectedSubTotal + tax ) * 100.0) / 100.0;
+        expectedGrandTotal = Math.round((ExpectedSubTotal + tax) * 100.0) / 100.0;
 
-        softAssert.assertEquals(bookNowPage.getDiscount(),0.0,"Discount not show be $0.0");
+        softAssert.assertEquals(bookNowPage.getDiscount(), 0.0, "Discount not show be $0.0");
 
         softAssert.assertEquals(bookNowPage.getGrandTotal(), expectedGrandTotal, "The Total formula is applied and gives incorrect result");
 
@@ -69,7 +69,7 @@ public class TC03 {
 
     @AfterMethod
     public void tearDown() {
-          webDriver.quit();
+        webDriver.quit();
     }
 
     int roomIndex;
