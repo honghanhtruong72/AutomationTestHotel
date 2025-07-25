@@ -24,9 +24,9 @@ public class TC07 {
         roomIndex = random.nextInt(roomsPage.getTotalRooms());
         checkInDate = LocalDate.now().plusWeeks(1);
         checkOutDate = checkInDate.plusDays(1);
-        roomType = roomsPage.getRoomTypeByIndex(0);
+        roomType = roomsPage.getRoomTypeByIndex(roomIndex);
 
-        roomsPage.openRoomDetailByIndex(0);
+        roomsPage.openRoomDetailByIndex(roomIndex);
         roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
         bookNowPage.submitUserInfoForm(Constants.FULL_NAME,
                 Constants.MAIL, Constants.PHONE_NUMBER, Constants.ADDRESS);

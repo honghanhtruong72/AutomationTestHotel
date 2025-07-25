@@ -7,10 +7,10 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import pages.hotel.*;
 import utils.Constants;
+import utils.DateUtils;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.Locale;
 import java.util.Random;
 
@@ -31,10 +31,9 @@ public class TC12 {
         softAssert.assertEquals(searchPage.getChildrenNumber(), 0,
                 "Children number is incorrect");
 
-        nights = (int) ChronoUnit.DAYS.between(checkInDate, checkOutDate);
+        nights = DateUtils.calculateNights(checkInDate, checkOutDate);
 
-        softAssert.assertEquals(searchPage.getNights(), nights,
-                "Nights number is incorrect");
+        softAssert.assertEquals(searchPage.getNights(), nights, "Nights number is incorrect");
         softAssert.assertEquals(searchPage.getPrice(), priceTotal, "Price total is incorrect");
 
 

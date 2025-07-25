@@ -13,17 +13,17 @@ import java.util.Random;
 
 public class TC06 {
     @Test(
-            description = "Verify the Total Amount equas Grand Total of Table summary Booking"
+            description = "Verify the Total Amount equal Grand Total of Table summary Booking"
     )
-    public void VerifyTheTotalAmountEquasGrandTotalOfTablSummaryBooking() {
+    public void VerifyTheTotalAmountEqualGrandTotalOfTableSummaryBooking() {
 
-        header.openRoomsPage();
+        homePage.openRoomsPage();
 
         roomIndex = random.nextInt(roomsPage.getTotalRooms());
 
-        checkInDate = LocalDate.now().plusMonths(1);
+        checkInDate = LocalDate.now().plusWeeks(2);
 
-        checkOutDate = checkInDate.plusDays(2);
+        checkOutDate = checkInDate.plusDays(1);
 
         roomsPage.openRoomDetailByIndex(roomIndex);
 
@@ -55,12 +55,11 @@ public class TC06 {
         roomDetailsPage = new RoomDetailsPage(webDriver);
         bookNowPage = new BookNowPage(webDriver);
         checkoutPage = new CheckoutPage(webDriver);
-        header = new Header(webDriver);
     }
 
     @AfterMethod
     public void tearDown() {
-//        webDriver.quit();
+        webDriver.quit();
     }
 
     int roomIndex;
@@ -76,5 +75,4 @@ public class TC06 {
     CheckoutPage checkoutPage;
     LocalDate checkInDate;
     LocalDate checkOutDate;
-    Header header;
 }

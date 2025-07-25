@@ -18,13 +18,13 @@ public class TC02 {
     )
     public void VerifyGrandTotalCalculationIncludesTaxAndDiscount() {
 
-        header.openRoomsPage();
+        homePage.openRoomsPage();
 
         roomIndex = random.nextInt(roomsPage.getTotalRooms());
 
         checkInDate = LocalDate.now().plusMonths(1);
 
-        checkOutDate = checkInDate.plusDays(2);
+        checkOutDate = checkInDate.plusDays(1);
 
         roomsPage.openRoomDetailByIndex(roomIndex);
 
@@ -32,7 +32,7 @@ public class TC02 {
 
         roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
 
-        bookNowPage.applyPromocode(Constants.VALID_PROMOCODE);
+        bookNowPage.applyPromoCode(Constants.VALID_PROMOCODE);
 
         night = DateUtils.calculateNights(checkInDate, checkOutDate);
 
@@ -64,7 +64,6 @@ public class TC02 {
         roomDetailsPage = new RoomDetailsPage(webDriver);
         bookNowPage = new BookNowPage(webDriver);
         checkoutPage = new CheckoutPage(webDriver);
-        header = new Header(webDriver);
     }
 
     @AfterMethod
@@ -90,6 +89,5 @@ public class TC02 {
     CheckoutPage checkoutPage;
     LocalDate checkInDate;
     LocalDate checkOutDate;
-    Header header;
 
 }
