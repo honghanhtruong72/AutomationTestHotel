@@ -22,7 +22,7 @@ public class TC07 {
         homePage.openRoomsPage();
 
         roomIndex = random.nextInt(roomsPage.getTotalRooms());
-        checkInDate = LocalDate.now().plusMonths(1);
+        checkInDate = LocalDate.now().plusWeeks(1);
         checkOutDate = checkInDate.plusDays(1);
         roomType = roomsPage.getRoomTypeByIndex(0);
 

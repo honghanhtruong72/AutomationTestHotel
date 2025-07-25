@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Selenium Automation" parallel="classes" thread-count="3">
+    <test name="Hotel Booking Parallel Tests">
+        <classes>
+            <class name="TC07"/>
+            <class name="TC08"/>
+            <class name="TC09"/>
+            <class name="TC10"/>
+            <class name="TC11"/>
+            <class name="TC12"/>
+            <class name="TC13"/>
+        </classes>
+    </test>
+
+</suite>

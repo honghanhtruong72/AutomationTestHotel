@@ -58,16 +58,6 @@ public class CheckoutPage {
         submitCardDetails(creditCard.getCardNumber(), creditCard.getCardName(), creditCard.getExpiryDateString(), creditCard.getCvv());
     }
 
-    @Step("Make payment with credit card using the insufficient digits")
-    public void submitCardDetailsWrongNumber(String numberCard, CreditCard creditCard) {
-        submitCardDetails(numberCard, creditCard.getCardName(), creditCard.getExpiryDateString(), creditCard.getCvv());
-    }
-
-    @Step("Make a payment with a credit card using the wrong name")
-    public void submitCardDetailsWrongName(String nameCard, CreditCard creditCard) {
-        submitCardDetails(creditCard.getCardNumber(), nameCard, creditCard.getExpiryDateString(), creditCard.getCvv());
-    }
-
     private void submitCardDetails(String cardNumber, String cardName, String expiryDate, String cvv) {
         waitForCreditCardForm();
         enterCardNumber(cardNumber);

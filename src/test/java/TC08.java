@@ -1,12 +1,13 @@
 import io.qameta.allure.Step;
-import pages.hotel.HomePage;
-import pages.hotel.SearchPage;
+import net.datafaker.Faker;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+import pages.hotel.HomePage;
+import pages.hotel.SearchPage;
 import utils.Constants;
 
 public class TC08 {
@@ -16,7 +17,8 @@ public class TC08 {
     )
     public void VerifySystemDisplaysErrorWhenTheGuestSearchNumberBookingNotExists() {
 
-        homePage.searchBookingNumber("000001");
+        invalidBookingNumber = faker.number().digits(6);
+        homePage.searchBookingNumber(invalidBookingNumber);
         softAssert.assertEquals(searchPage.getErrorMessage(),
                 Constants.ERROR_MESSAGE_BOOKING_NOT_FOUND, "Error message is incorrect");
 
@@ -33,6 +35,7 @@ public class TC08 {
         softAssert = new SoftAssert();
         homePage = new HomePage(webDriver);
         searchPage = new SearchPage(webDriver);
+        faker = new Faker();
     }
 
     @AfterMethod
@@ -44,4 +47,6 @@ public class TC08 {
     SoftAssert softAssert;
     HomePage homePage;
     SearchPage searchPage;
+    Faker faker;
+    String invalidBookingNumber;
 }

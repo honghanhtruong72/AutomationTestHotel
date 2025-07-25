@@ -17,16 +17,20 @@ public class CreditCard {
         this.cvv = cvv;
     }
 
+    public void setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+
+    public void setCardName(String cardName) {
+        this.cardName = cardName;
+    }
+
     public String getCardNumber() {
         return cardNumber;
     }
 
     public String getCardName() {
         return cardName;
-    }
-
-    public YearMonth getExpiryDate() {
-        return expiryDate;
     }
 
     public String getCvv() {
@@ -37,4 +41,7 @@ public class CreditCard {
         return expiryDate.format(DateTimeFormatter.ofPattern("MM/yy"));
     }
 
+    public CreditCard cloneCard() {
+        return new CreditCard(cardNumber, cardName, getExpiryDateString(), cvv);
+    }
 }

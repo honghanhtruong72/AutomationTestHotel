@@ -1,3 +1,4 @@
+import io.qameta.allure.Issue;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -13,6 +14,7 @@ import java.util.Random;
 
 
 public class TC13 {
+    @Issue("Bug01")
     @Test(description = "Verify the booked room information is correctly displayed in My history section")
 
     public void VerifyBookedRoomInformationIsDisplayedInMyHistorySection() {
@@ -55,7 +57,7 @@ public class TC13 {
         homePage.openRoomsPage();
 
         roomIndex = random.nextInt(roomsPage.getTotalRooms());
-        checkInDate = LocalDate.now().plusMonths(1);
+        checkInDate = LocalDate.now().plusWeeks(1);
         checkOutDate = checkInDate.plusDays(1);
         roomType = roomsPage.getRoomTypeByIndex(roomIndex);
 
