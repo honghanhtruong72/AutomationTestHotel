@@ -21,6 +21,9 @@ public class RoomDetailsPage {
     private By adultQuantityLocator = By.name("adult");
     private By childrenQuantityLocator = By.name("children");
     private By timePickerLocator = By.className("ui-datepicker-title");
+    private By roomTypeLocator = By.xpath("//div[@class='hotel-detail_slider1']/div//h3");
+    private By priceLocator = By.xpath("//div[@class='yemm_top_price']/strong");
+
 
     protected By chooseTimeBook(int day, int month, int year) {
         return By.xpath(String.format(
@@ -100,7 +103,40 @@ public class RoomDetailsPage {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOfElementLocated(timePickerLocator));
     }
+    @Step("Get room type")
+    public String getRoomType (){
+        return driver.findElement(roomTypeLocator).getText();
+    }
+    @Step("get price room ")
+    public double getDisplayPrice(){
+        String price = driver.findElement(priceLocator).getText().replace("$","").trim();
+        return Double.parseDouble(price);
+    }
 
+    @Step("Get check-in date")
+    public LocalDate getCheckInDate() {
+        String checkInDateText = driver.findElement(checkInDateLocator).getAttribute("value");
+        System.out.println("Check-in date text: " + LocalDate.parse(checkInDateText, DateTimeFormatter.ofPattern("yyyy/MM/dd")));
+        return LocalDate.parse(checkInDateText, DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+    }
+
+    @Step("Get check-out date")
+    public LocalDate getCheckOutDate() {
+        String checkOutDateText = driver.findElement(checkOutDateLocator).getAttribute("value");
+        return LocalDate.parse(checkOutDateText, DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+    }
+
+    @Step("Get Adult")
+    public int getAdult (){
+        String text = driver.findElement(adultQuantityLocator).getAttribute("value");
+        return Integer.parseInt(text);
+    }
+
+    @Step("Get Chilren")
+    public int getChilren(){
+        String text = driver.findElement(childrenQuantityLocator).getAttribute("value");
+        return Integer.parseInt(text);
+    }
 
     public RoomDetailsPage(WebDriver driver) {
         this.driver = driver;

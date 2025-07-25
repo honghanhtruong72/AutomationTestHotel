@@ -11,6 +11,7 @@ public class RoomsPage {
     private By roomTypeLocator = By.xpath(".//h5");
     private By containerRoomsLocator = By.xpath(
             "//div[@class='most_pop_item_blog clearfix']");
+    private By priceRoomLocator = By.xpath("//strong[@class='green_text']");
 
     public int getTotalRooms() {
         return driver.findElements(containerRoomsLocator).size();
@@ -25,9 +26,22 @@ public class RoomsPage {
         getRoomLocatorByIndex(index).findElement(viewDetailButtonLocator).click();
     }
 
+
+
     @Step("Get room type")
     public String getRoomTypeByIndex(int index) {
         return getRoomLocatorByIndex(index).findElement(roomTypeLocator).getText();
+    }
+    @Step("Check that at least one room is displayed")
+    public boolean hasAvailableRooms (){
+        return getTotalRooms() > 0;
+    }
+
+    @Step("get price room of 1 room random")
+    public double getPriceRoomIndex(int index){
+        String price = getRoomLocatorByIndex(index).findElement(priceRoomLocator)
+                .getText().replace("$","").trim();
+        return Double.parseDouble(price);
     }
 
 
