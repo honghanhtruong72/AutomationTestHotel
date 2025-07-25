@@ -41,6 +41,7 @@ public class Header {
         driver.findElement(myAccountLocator).click();
     }
 
+    @Step("Open Cancelled Booking page")
     public void openCancelledBookingPage() {
         openDropDownFromUserName();
         driver.findElement(cancelBookingLocator).click();

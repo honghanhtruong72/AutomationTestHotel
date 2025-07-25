@@ -18,20 +18,18 @@ public class TC05 {
     )
     public void VerifyAutoFilledFieldsOnAddYourInformationFormOnBookNowPage() {
 
-        header.login(Constants.USERNAME, Constants.PASSWORD);
+        homePage.openMyAccount();
 
-        header.openMyAccount();
-
-        expectedFullname = myAccountPage.getFullNameTextBoxValue();
+        expectedFullName = myAccountPage.getFullNameTextBoxValue();
         expectedEmail = myAccountPage.getEmailTextBoxValue();
         expectedPhone = myAccountPage.getPhoneNumberTextBoxValue();
-        expectedAdress = myAccountPage.getAdressTextBoxValue();
+        expectedAddress = myAccountPage.getAdressTextBoxValue();
 
-        header.openRoomsPage();
+        homePage.openRoomsPage();
 
         roomIndex = random.nextInt(roomsPage.getTotalRooms());
 
-        checkInDate = LocalDate.now().plusMonths(2);
+        checkInDate = LocalDate.now().plusWeeks(2);
 
         checkOutDate = checkInDate.plusDays(1);
 
@@ -39,15 +37,15 @@ public class TC05 {
 
         roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
 
-        actualFullname = bookNowPage.getFullNameTextBoxValue();
+        actualFullName = bookNowPage.getFullNameTextBoxValue();
         actualEmail = bookNowPage.getEmailTextBoxValue();
         actualPhone = bookNowPage.getPhoneTextBoxValue();
-        actualAdress = bookNowPage.getAdressTextBoxValue();
+        actualAddress = bookNowPage.getAddressTextBoxValue();
 
-        softAssert.assertEquals(actualFullname, expectedFullname, "Full name not match");
+        softAssert.assertEquals(actualFullName, expectedFullName, "Full name not match");
         softAssert.assertEquals(actualEmail, expectedEmail, "Email not match");
         softAssert.assertEquals(actualPhone, expectedPhone, "PhoneNumber not match");
-        softAssert.assertEquals(actualAdress, expectedAdress, "Adress not match");
+        softAssert.assertEquals(actualAddress, expectedAddress, "Address not match");
 
 
         softAssert.assertAll();
@@ -70,8 +68,9 @@ public class TC05 {
         roomDetailsPage = new RoomDetailsPage(webDriver);
         bookNowPage = new BookNowPage(webDriver);
         checkoutPage = new CheckoutPage(webDriver);
-        header = new Header(webDriver);
         myAccountPage = new MyAccountPage(webDriver);
+
+        homePage.login(Constants.USERNAME, Constants.PASSWORD);
     }
 
     @AfterMethod
@@ -80,14 +79,14 @@ public class TC05 {
     }
 
     int roomIndex;
-    String expectedFullname;
+    String expectedFullName;
     String expectedEmail;
     String expectedPhone;
-    String expectedAdress;
-    String actualFullname;
+    String expectedAddress;
+    String actualFullName;
     String actualEmail;
     String actualPhone;
-    String actualAdress;
+    String actualAddress;
 
     WebDriver webDriver;
     SoftAssert softAssert;
@@ -99,6 +98,5 @@ public class TC05 {
     CheckoutPage checkoutPage;
     LocalDate checkInDate;
     LocalDate checkOutDate;
-    Header header;
     MyAccountPage myAccountPage;
 }

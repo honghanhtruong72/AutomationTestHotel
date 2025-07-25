@@ -1,4 +1,5 @@
 import io.qameta.allure.Step;
+import net.datafaker.Faker;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterMethod;
@@ -17,19 +18,20 @@ public class TC04 {
     )
     public void VerifyGrandTotalCalculationIncludesTaxAndDiscount() {
 
-        header.openRoomsPage();
+        homePage.openRoomsPage();
 
         roomIndex = random.nextInt(roomsPage.getTotalRooms());
 
-        checkInDate = LocalDate.now().plusMonths(1);
+        checkInDate = LocalDate.now().plusWeeks(1);
 
-        checkOutDate = checkInDate.plusDays(2);
+        checkOutDate = checkInDate.plusDays(1);
 
         roomsPage.openRoomDetailByIndex(roomIndex);
 
         roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
 
-        bookNowPage.applyPromocode(Constants.INVALID_PROMOCODE);
+        invalidPromoCode = faker.lorem().characters(6, false);
+        bookNowPage.applyPromoCode(invalidPromoCode);
 
         actualDiscount = bookNowPage.getDiscount();
 
@@ -56,14 +58,15 @@ public class TC04 {
         roomDetailsPage = new RoomDetailsPage(webDriver);
         bookNowPage = new BookNowPage(webDriver);
         checkoutPage = new CheckoutPage(webDriver);
-        header = new Header(webDriver);
+        faker = new Faker();
     }
 
     @AfterMethod
     public void tearDown() {
-//        webDriver.quit();
+        webDriver.quit();
     }
 
+    String invalidPromoCode;
     int roomIndex;
     double actualDiscount;
     WebDriver webDriver;
@@ -76,5 +79,5 @@ public class TC04 {
     CheckoutPage checkoutPage;
     LocalDate checkInDate;
     LocalDate checkOutDate;
-    Header header;
+    Faker faker;
 }

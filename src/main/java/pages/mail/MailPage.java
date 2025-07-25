@@ -1,14 +1,12 @@
 package pages.mail;
 
 import io.qameta.allure.Step;
-import jdk.jfr.StackTrace;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
@@ -22,7 +20,6 @@ public class MailPage {
     private By checkOutLocator = By.xpath("//div[@id='mail']//p[contains(text(), 'Day Check Out')]");
     private By cancelationChargeLocator = By.xpath("//div[@id='mail']//p[contains(text(),'The cancelation charge')]");
     private By refundableAmountLocator = By.xpath("//div[@id='mail']//p[contains(text(),'The refundable amount')]");
-
 
 
     protected By mailLocator(String title) {
@@ -57,9 +54,11 @@ public class MailPage {
     public String getRoomType() {
         switchToContentMail();
         String roomTypeText = driver.findElement(roomTypeLocator).getText();
+
         return roomTypeText.replace("Type Room Book: ", "")
                 .replace(",", "")
                 .trim();
+
     }
 
     @Step("Get check-in date from mail")
@@ -90,24 +89,24 @@ public class MailPage {
         return checkOutDate;
     }
 
-    @Step("Get check-in date from cancel mail")
+    @Step("Get check-in date from mail")
     public LocalDate getCheckInInCancelMail() {
         String checkInText = driver.findElement(checkInLocator).getText();
         checkInText = checkInText.replace("Day Check In: ", "")
-                .replace(",","") .trim();
+                .replace(",", "").trim();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S", Locale.ENGLISH);
 
         LocalDateTime ldt = LocalDateTime.parse(checkInText, formatter);
         LocalDate checkInDate = ldt.toLocalDate();
-        System.out.println("Check-in date mail: " + checkInDate);
+
         return checkInDate;
     }
 
-    @Step("Get check-out date from cancel mail")
+    @Step("Get check-out date from mail")
     public LocalDate getCheckOutInCancelMail() {
         String checkOutText = driver.findElement(checkOutLocator).getText();
         checkOutText = checkOutText.replace("Day Check Out: ", "")
-                .replace(",","").trim();
+                .replace(",", "").trim();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S", Locale.ENGLISH);
 
         LocalDateTime zdt = LocalDateTime.parse(checkOutText, formatter);
@@ -116,19 +115,22 @@ public class MailPage {
         return checkOutDate;
     }
 
-    @Step("Get Cancelation Charge")
-    public double getcancelationCharge(){
-        String cancelationCharge = driver.findElement(cancelationChargeLocator).getText().replace("The cancelation charge:","")
-                                    .replace("(20% of total amount due to Company Terms)","").trim();
-        return Double.parseDouble(cancelationCharge);
+    @Step("Get Cancellation Charge in mail")
+    public double getCancellationCharge() {
+        String cancellationCharge = driver.findElement(cancelationChargeLocator).getText()
+                .replace("The cancelation charge: ", "")
+                .replace("(20% of total amount due to Company Terms)", "").trim();
+        return Double.parseDouble(cancellationCharge);
     }
 
-    @Step("Get Refundable Amount")
-    public double getRefundableAmount (){
-        String refundableAmount = driver.findElement(refundableAmountLocator).getText().replace("The refundable amount:","")
-                .replace(",","").trim();
+    @Step("Get Refundable Amount in mail")
+    public double getRefundableAmount() {
+        String refundableAmount = driver.findElement(refundableAmountLocator).getText()
+                .replace("The refundable amount:", "")
+                .replace(",", "").trim();
         return Double.parseDouble(refundableAmount);
     }
+
     private void switchToListMail() {
         driver.switchTo().frame("ifinbox");
     }
