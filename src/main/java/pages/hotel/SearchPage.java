@@ -2,14 +2,11 @@ package pages.hotel;
 
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 
-
-public class SearchPage {
+public class SearchPage extends Header {
     private final WebDriver driver;
     private By errorMessageLocator = By.xpath("//h1[@class='mmb-blc-title']");
     private By roomForNightsLocator = By.xpath("//li[@class='text-center']/span");
@@ -19,6 +16,16 @@ public class SearchPage {
     private By childNumberLocator = By.xpath("//p[@class='getsts_cont']/span[contains(text(),'Children')]");
     private By priceLocator = By.xpath("//div[@class='receipt_widgets']/strong");
     private By roomTypeLocator = By.xpath("//h5");
+    private By messageNoRoomsFoundLocator = By.xpath("//button[contains(text(),'Back')]");
+
+    public boolean checkMessageNoRoomsFoundDisplayed() {
+        try {
+            return driver.findElement(messageNoRoomsFoundLocator).isDisplayed();
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
+
 
     @Step("Get error message displayed on the search page")
     public String getErrorMessage() {
@@ -69,6 +76,7 @@ public class SearchPage {
 
 
     public SearchPage(WebDriver driver) {
+        super(driver);
         this.driver = driver;
     }
 }

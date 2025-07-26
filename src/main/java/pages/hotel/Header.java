@@ -82,15 +82,21 @@ public class Header {
     @Step("Login with user name and password")
     public void login(String userName, String password) {
         clickLoginButton();
-        waitForLoginPopUp();
+        waitForLoginPopUpAppear();
         enterUserName(userName);
         enterPassword(password);
         clickSignInButton();
+        waitForLoginPopUpDisappear();
     }
 
-    private void waitForLoginPopUp() {
+    private void waitForLoginPopUpAppear() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOfElementLocated(userNameTextBoxLocator));
+    }
+
+    private void waitForLoginPopUpDisappear() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(userNameTextBoxLocator));
     }
 
     private void waitForUserName() {

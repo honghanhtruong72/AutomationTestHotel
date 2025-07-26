@@ -1,9 +1,13 @@
 package pages.hotel;
 
+import dto.RoomDetailData;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+import java.time.LocalDate;
+import java.util.Random;
 
 public class RoomsPage {
     private final WebDriver driver;
@@ -26,6 +30,32 @@ public class RoomsPage {
         getRoomLocatorByIndex(index).findElement(viewDetailButtonLocator).click();
     }
 
+    @Step("Ensure open room detail")
+    public RoomDetailData ensureOpenRoomDetailByIndex(RoomDetailsPage roomDetailsPage, SearchPage searchPage,
+                                                      LocalDate checkInDate, LocalDate checkOutDate) {
+        int maxTry = 10;
+        int count = 0;
+        int roomIndex = 1;
+        double priceOneNight = 0.0;
+        String roomType = "";
+        Random random = new Random();
+        int totalRooms = getTotalRooms();
+        while (count < maxTry) {
+            roomIndex = random.nextInt(totalRooms);
+            roomType = getRoomTypeByIndex(roomIndex);
+            openRoomDetailByIndex(roomIndex);
+
+            priceOneNight = roomDetailsPage.getDisplayPrice();
+
+            roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
+            if (!searchPage.checkMessageNoRoomsFoundDisplayed()) {
+                break;
+            }
+            count++;
+            searchPage.openRoomsPage();
+        }
+        return new RoomDetailData(roomIndex, count, priceOneNight, roomType);
+    }
 
     @Step("Get room type")
     public String getRoomTypeByIndex(int index) {

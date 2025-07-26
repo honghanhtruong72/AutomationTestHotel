@@ -68,7 +68,13 @@ public class ConfirmPage extends Header {
     }
 
     public String getBookingId() {
+        waitForBookingId();
         return driver.findElement(idBookingLocator).getText().replace("Id: ", "").trim();
+    }
+
+    private void waitForBookingId() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(idBookingLocator));
     }
 
     public ConfirmPage(WebDriver driver) {

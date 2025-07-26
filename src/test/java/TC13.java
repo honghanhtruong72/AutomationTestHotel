@@ -1,3 +1,4 @@
+import dto.RoomDetailData;
 import io.qameta.allure.Issue;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -56,13 +57,17 @@ public class TC13 {
 
         homePage.openRoomsPage();
 
-        roomIndex = random.nextInt(roomsPage.getTotalRooms());
         checkInDate = LocalDate.now().plusWeeks(1);
         checkOutDate = checkInDate.plusDays(1);
-        roomType = roomsPage.getRoomTypeByIndex(roomIndex);
 
-        roomsPage.openRoomDetailByIndex(roomIndex);
-        roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
+        RoomDetailData roomDetailData = roomsPage.ensureOpenRoomDetailByIndex(
+                roomDetailsPage,
+                searchPage,
+                checkInDate,
+                checkOutDate
+        );
+        roomType = roomDetailData.getRoomType();
+
         bookNowPage.submitUserInfoForm();
         priceTotal = checkoutPage.getPriceTotal();
         checkoutPage.submitCardDetails(Constants.VALID_CREDIT_CARD);
@@ -89,7 +94,6 @@ public class TC13 {
     LocalDate checkInDate;
     LocalDate checkOutDate;
     String roomType;
-    int roomIndex;
     double priceTotal;
     String idBooking;
 

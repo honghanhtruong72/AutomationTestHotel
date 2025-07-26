@@ -1,7 +1,10 @@
+import dto.RoomDetailData;
+import io.qameta.allure.Issue;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -13,6 +16,7 @@ import java.time.LocalDate;
 import java.util.Random;
 
 public class TC14 {
+    @Issue("Bug02")
     @Test(
             description = " Verify user can cancel the booked room"
     )
@@ -29,9 +33,8 @@ public class TC14 {
         cancelDate = LocalDate.now();
 
         softAssert.assertFalse(myHistoryPage.idBookingExists(idBooking), "Booking room still exists in My History page after cancellation");
-
+        
         myHistoryPage.openCancelledBookingPage();
-
 
         softAssert.assertEquals(cancelBookingPage.getTypeRoom(idBooking), roomType, "Room type is incorrect in History page");
         softAssert.assertEquals(cancelBookingPage.getDateCheckIn(idBooking), checkInDate, "Check in date is incorrect in History page");
@@ -78,19 +81,22 @@ public class TC14 {
         cancelBookingPage = new CancelBookingPage(webDriver);
         yopmailDriver = new ChromeDriver();
         mailPage = new MailPage(yopmailDriver);
+        searchPage = new SearchPage(webDriver);
 
         homePage.login(Constants.USERNAME, Constants.PASSWORD);
 
         homePage.openRoomsPage();
 
-        roomIndex = random.nextInt(roomsPage.getTotalRooms());
         checkInDate = LocalDate.now().plusWeeks(1);
         checkOutDate = checkInDate.plusDays(1);
-        roomType = roomsPage.getRoomTypeByIndex(roomIndex);
 
-        roomsPage.openRoomDetailByIndex(roomIndex);
-
-        roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
+        RoomDetailData roomDetailData = roomsPage.ensureOpenRoomDetailByIndex(
+                roomDetailsPage,
+                searchPage,
+                checkInDate,
+                checkOutDate
+        );
+        roomType = roomDetailData.getRoomType();
 
         expectedGrandTotal = bookNowPage.getGrandTotal();
 
@@ -99,10 +105,10 @@ public class TC14 {
         checkoutPage.submitCardDetails(Constants.VALID_CREDIT_CARD);
     }
 
-//    @AfterMethod
-//    public void tearDown() {
-//        webDriver.quit();
-//    }
+    @AfterMethod
+    public void tearDown() {
+        webDriver.quit();
+    }
 
     int roomIndex;
     String idBooking;
@@ -128,6 +134,7 @@ public class TC14 {
     MailPage mailPage;
     CancelBookingPage cancelBookingPage;
     WebDriver yopmailDriver;
+    SearchPage searchPage;
 
 
 }

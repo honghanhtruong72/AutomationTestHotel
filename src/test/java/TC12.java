@@ -1,3 +1,4 @@
+import dto.RoomDetailData;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -58,16 +59,21 @@ public class TC12 {
         searchPage = new SearchPage(webDriver);
 
         homePage.openRoomsPage();
-        roomIndex = random.nextInt(roomsPage.getTotalRooms());
+
         checkInDate = LocalDate.now().plusWeeks(1);
         checkOutDate = checkInDate.plusDays(1);
         checkInDateText = checkInDate.format(DateTimeFormatter.ofPattern("MMMM dd", Locale.ENGLISH));
         checkOutDateText = checkOutDate.format(DateTimeFormatter.ofPattern("MMMM dd", Locale.ENGLISH));
 
-        roomType = roomsPage.getRoomTypeByIndex(roomIndex);
+        RoomDetailData roomDetailData = roomsPage.ensureOpenRoomDetailByIndex(
+                roomDetailsPage,
+                searchPage,
+                checkInDate,
+                checkOutDate
+        );
 
-        roomsPage.openRoomDetailByIndex(roomIndex);
-        roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
+        roomType = roomDetailData.getRoomType();
+
         bookNowPage.submitUserInfoForm(Constants.FULL_NAME, Constants.MAIL, Constants.PHONE_NUMBER, Constants.ADDRESS);
 
         priceTotal = checkoutPage.getPriceTotal();
@@ -98,4 +104,5 @@ public class TC12 {
     int nights;
     String checkInDateText;
     String checkOutDateText;
+
 }

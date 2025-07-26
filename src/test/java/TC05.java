@@ -1,3 +1,4 @@
+import dto.RoomDetailData;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -27,15 +28,17 @@ public class TC05 {
 
         homePage.openRoomsPage();
 
-        roomIndex = random.nextInt(roomsPage.getTotalRooms());
-
-        checkInDate = LocalDate.now().plusWeeks(2);
+        checkInDate = LocalDate.now().plusWeeks(1);
 
         checkOutDate = checkInDate.plusDays(1);
 
-        roomsPage.openRoomDetailByIndex(roomIndex);
 
-        roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
+        RoomDetailData roomDetailData = roomsPage.ensureOpenRoomDetailByIndex(
+                roomDetailsPage,
+                searchPage,
+                checkInDate,
+                checkOutDate
+        );
 
         actualFullName = bookNowPage.getFullNameTextBoxValue();
         actualEmail = bookNowPage.getEmailTextBoxValue();
@@ -69,6 +72,7 @@ public class TC05 {
         bookNowPage = new BookNowPage(webDriver);
         checkoutPage = new CheckoutPage(webDriver);
         myAccountPage = new MyAccountPage(webDriver);
+        searchPage = new SearchPage(webDriver);
 
         homePage.login(Constants.USERNAME, Constants.PASSWORD);
     }
@@ -99,4 +103,5 @@ public class TC05 {
     LocalDate checkInDate;
     LocalDate checkOutDate;
     MyAccountPage myAccountPage;
+    SearchPage searchPage;
 }

@@ -1,3 +1,4 @@
+import dto.RoomDetailData;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -20,31 +21,31 @@ public class TC03 {
 
         homePage.openRoomsPage();
 
-        roomIndex = random.nextInt(roomsPage.getTotalRooms());
-
         checkInDate = LocalDate.now().plusWeeks(1);
 
         checkOutDate = checkInDate.plusDays(1);
-
-        roomsPage.openRoomDetailByIndex(roomIndex);
-
-        priceOneNight = roomDetailsPage.getDisplayPrice();
-
-        roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
+        RoomDetailData roomDetailData = roomsPage.ensureOpenRoomDetailByIndex(
+                roomDetailsPage,
+                searchPage,
+                checkInDate,
+                checkOutDate
+        );
+        priceOneNight = roomDetailData.getPriceOneNight();
 
         night = DateUtils.calculateNights(checkInDate, checkOutDate);
 
-        ExpectedSubTotal = Math.round(night * priceOneNight * 100.0) / 100.0;
+        expectedSubTotal = night * priceOneNight;
 
         tax = bookNowPage.getTax();
 
         discount = bookNowPage.getDiscount();
 
-        expectedGrandTotal = Math.round((ExpectedSubTotal + tax) * 100.0) / 100.0;
+        expectedGrandTotal = expectedSubTotal + tax;
+        delta = Math.pow(10, -6);
 
         softAssert.assertEquals(bookNowPage.getDiscount(), 0.0, "Discount not show be $0.0");
 
-        softAssert.assertEquals(bookNowPage.getGrandTotal(), expectedGrandTotal, "The Total formula is applied and gives incorrect result");
+        softAssert.assertEquals(bookNowPage.getGrandTotal(), expectedGrandTotal, delta, "The Total formula is applied and gives incorrect result");
 
         softAssert.assertAll();
 
@@ -64,6 +65,7 @@ public class TC03 {
         roomDetailsPage = new RoomDetailsPage(webDriver);
         bookNowPage = new BookNowPage(webDriver);
         checkoutPage = new CheckoutPage(webDriver);
+        searchPage = new SearchPage(webDriver);
     }
 
     @AfterMethod
@@ -71,13 +73,13 @@ public class TC03 {
         webDriver.quit();
     }
 
-    int roomIndex;
     int night;
     double priceOneNight;
-    double ExpectedSubTotal;
+    double expectedSubTotal;
     double tax;
     double discount;
     double expectedGrandTotal;
+    double delta;
 
     WebDriver webDriver;
     SoftAssert softAssert;
@@ -89,4 +91,5 @@ public class TC03 {
     CheckoutPage checkoutPage;
     LocalDate checkInDate;
     LocalDate checkOutDate;
+    SearchPage searchPage;
 }
