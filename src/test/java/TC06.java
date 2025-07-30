@@ -1,4 +1,3 @@
-import dto.RoomDetailData;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -10,7 +9,6 @@ import pages.hotel.*;
 import utils.Constants;
 
 import java.time.LocalDate;
-import java.util.Random;
 
 public class TC06 {
     @Test(
@@ -24,12 +22,7 @@ public class TC06 {
 
         checkOutDate = checkInDate.plusDays(1);
 
-        RoomDetailData roomDetailData = roomsPage.ensureOpenRoomDetailByIndex(
-                roomDetailsPage,
-                searchPage,
-                checkInDate,
-                checkOutDate
-        );
+        roomsPage.openRoomDetailByRoomType(Constants.ROOM_TYPE);
 
         expectedPrice = bookNowPage.getGrandTotal();
 
@@ -53,11 +46,9 @@ public class TC06 {
         softAssert = new SoftAssert();
         homePage = new HomePage(webDriver);
         roomsPage = new RoomsPage(webDriver);
-        random = new Random();
         roomDetailsPage = new RoomDetailsPage(webDriver);
         bookNowPage = new BookNowPage(webDriver);
         checkoutPage = new CheckoutPage(webDriver);
-        searchPage = new SearchPage(webDriver);
     }
 
     @AfterMethod
@@ -65,18 +56,15 @@ public class TC06 {
         webDriver.quit();
     }
 
-    int roomIndex;
     double expectedPrice;
 
     WebDriver webDriver;
     SoftAssert softAssert;
     HomePage homePage;
     RoomsPage roomsPage;
-    Random random;
     RoomDetailsPage roomDetailsPage;
     BookNowPage bookNowPage;
     CheckoutPage checkoutPage;
     LocalDate checkInDate;
     LocalDate checkOutDate;
-    SearchPage searchPage;
 }

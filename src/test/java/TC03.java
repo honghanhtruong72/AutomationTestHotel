@@ -1,4 +1,3 @@
-import dto.RoomDetailData;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -11,12 +10,9 @@ import utils.Constants;
 import utils.DateUtils;
 
 import java.time.LocalDate;
-import java.util.Random;
 
 public class TC03 {
-    @Test(
-            description = "Verify Grand Total Calculation without discount"
-    )
+    @Test(description = "Verify Grand Total Calculation without discount")
     public void VerifyGrandTotalCalculationWithoutDiscount() {
 
         homePage.openRoomsPage();
@@ -24,17 +20,12 @@ public class TC03 {
         checkInDate = LocalDate.now().plusWeeks(1);
 
         checkOutDate = checkInDate.plusDays(1);
-        RoomDetailData roomDetailData = roomsPage.ensureOpenRoomDetailByIndex(
-                roomDetailsPage,
-                searchPage,
-                checkInDate,
-                checkOutDate
-        );
-        priceOneNight = roomDetailData.getPriceOneNight();
-
+        roomsPage.openRoomDetailByRoomType(Constants.ROOM_TYPE);
+        priceOneNight = roomDetailsPage.getDisplayPrice();
         night = DateUtils.calculateNights(checkInDate, checkOutDate);
-
         expectedSubTotal = night * priceOneNight;
+
+        roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
 
         tax = bookNowPage.getTax();
 
@@ -61,11 +52,9 @@ public class TC03 {
         softAssert = new SoftAssert();
         homePage = new HomePage(webDriver);
         roomsPage = new RoomsPage(webDriver);
-        random = new Random();
         roomDetailsPage = new RoomDetailsPage(webDriver);
         bookNowPage = new BookNowPage(webDriver);
         checkoutPage = new CheckoutPage(webDriver);
-        searchPage = new SearchPage(webDriver);
     }
 
     @AfterMethod
@@ -85,11 +74,9 @@ public class TC03 {
     SoftAssert softAssert;
     HomePage homePage;
     RoomsPage roomsPage;
-    Random random;
     RoomDetailsPage roomDetailsPage;
     BookNowPage bookNowPage;
     CheckoutPage checkoutPage;
     LocalDate checkInDate;
     LocalDate checkOutDate;
-    SearchPage searchPage;
 }

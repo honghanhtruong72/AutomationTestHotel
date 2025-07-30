@@ -1,4 +1,3 @@
-import dto.RoomDetailData;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WindowType;
@@ -24,13 +23,8 @@ public class TC07 {
         checkInDate = LocalDate.now().plusWeeks(1);
         checkOutDate = checkInDate.plusDays(1);
 
-        RoomDetailData roomDetailData = roomsPage.ensureOpenRoomDetailByIndex(
-                roomDetailsPage,
-                searchPage,
-                checkInDate,
-                checkOutDate
-        );
-        roomType = roomDetailData.getRoomType();
+        roomsPage.openRoomDetailByRoomType(Constants.ROOM_TYPE);
+        roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
 
         bookNowPage.submitUserInfoForm(Constants.FULL_NAME,
                 Constants.MAIL, Constants.PHONE_NUMBER, Constants.ADDRESS);
@@ -38,7 +32,7 @@ public class TC07 {
 
         softAssert.assertTrue(confirmPage.displaySuccessBookingMessage(Constants.MESSAGE_BOOKING_SUCCESS),
                 "Success booking message is not displayed");
-        softAssert.assertEquals(confirmPage.getRoomType(), roomType, "Room type is incorrect");
+        softAssert.assertEquals(confirmPage.getRoomType(), Constants.ROOM_TYPE, "Room type is incorrect");
         softAssert.assertEquals(confirmPage.getCheckInDate(), checkInDate, "Check in date is incorrect");
         softAssert.assertEquals(confirmPage.getCheckOutDate(), checkOutDate, "Check out date is incorrect");
         softAssert.assertEquals(confirmPage.getAdultNumber(), 1, "Adult number is incorrect");
@@ -73,7 +67,6 @@ public class TC07 {
         checkoutPage = new CheckoutPage(webDriver);
         confirmPage = new ConfirmPage(webDriver);
         mailPage = new MailPage(webDriver);
-        searchPage = new SearchPage(webDriver);
     }
 
     @AfterMethod
@@ -94,6 +87,4 @@ public class TC07 {
     LocalDate checkInDate;
     LocalDate checkOutDate;
     String roomType;
-    int roomIndex;
-    SearchPage searchPage;
 }

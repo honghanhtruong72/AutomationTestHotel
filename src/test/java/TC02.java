@@ -1,8 +1,6 @@
-import dto.RoomDetailData;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -11,7 +9,6 @@ import utils.Constants;
 import utils.DateUtils;
 
 import java.time.LocalDate;
-import java.util.Random;
 
 public class TC02 {
     @Test(
@@ -24,14 +21,10 @@ public class TC02 {
         checkInDate = LocalDate.now().plusWeeks(1);
 
         checkOutDate = checkInDate.plusDays(1);
-        RoomDetailData roomDetailData = roomsPage.ensureOpenRoomDetailByIndex(
-                roomDetailsPage,
-                searchPage,
-                checkInDate,
-                checkOutDate
-        );
-        priceOneNight = roomDetailData.getPriceOneNight();
+        roomsPage.openRoomDetailByRoomType(Constants.ROOM_TYPE);
+        priceOneNight = roomDetailsPage.getDisplayPrice();
 
+        roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
         bookNowPage.applyPromoCode(Constants.VALID_PROMOCODE);
 
         night = DateUtils.calculateNights(checkInDate, checkOutDate);
@@ -61,17 +54,16 @@ public class TC02 {
         softAssert = new SoftAssert();
         homePage = new HomePage(webDriver);
         roomsPage = new RoomsPage(webDriver);
-        random = new Random();
         roomDetailsPage = new RoomDetailsPage(webDriver);
         bookNowPage = new BookNowPage(webDriver);
         checkoutPage = new CheckoutPage(webDriver);
         searchPage = new SearchPage(webDriver);
     }
 
-    @AfterMethod
-    public void tearDown() {
-        webDriver.quit();
-    }
+//    @AfterMethod
+//    public void tearDown() {
+//        webDriver.quit();
+//    }
 
     int night;
     double priceOneNight;
@@ -85,7 +77,6 @@ public class TC02 {
     SoftAssert softAssert;
     HomePage homePage;
     RoomsPage roomsPage;
-    Random random;
     RoomDetailsPage roomDetailsPage;
     BookNowPage bookNowPage;
     CheckoutPage checkoutPage;

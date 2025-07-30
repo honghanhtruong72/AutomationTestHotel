@@ -1,4 +1,3 @@
-import dto.RoomDetailData;
 import io.qameta.allure.Step;
 import net.datafaker.Faker;
 import org.openqa.selenium.WebDriver;
@@ -25,12 +24,8 @@ public class TC04 {
 
         checkOutDate = checkInDate.plusDays(1);
 
-        RoomDetailData roomDetailData = roomsPage.ensureOpenRoomDetailByIndex(
-                roomDetailsPage,
-                searchPage,
-                checkInDate,
-                checkOutDate
-        );
+        roomsPage.openRoomDetailByRoomType(Constants.ROOM_TYPE);
+        roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
 
         invalidPromoCode = faker.lorem().characters(6, false);
         bookNowPage.applyPromoCode(invalidPromoCode);
@@ -60,7 +55,6 @@ public class TC04 {
         roomDetailsPage = new RoomDetailsPage(webDriver);
         bookNowPage = new BookNowPage(webDriver);
         checkoutPage = new CheckoutPage(webDriver);
-        searchPage = new SearchPage(webDriver);
         faker = new Faker();
     }
 
@@ -70,7 +64,6 @@ public class TC04 {
     }
 
     String invalidPromoCode;
-    int roomIndex;
     double actualDiscount;
     WebDriver webDriver;
     SoftAssert softAssert;
@@ -83,5 +76,4 @@ public class TC04 {
     LocalDate checkInDate;
     LocalDate checkOutDate;
     Faker faker;
-    SearchPage searchPage;
 }

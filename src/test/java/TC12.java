@@ -1,4 +1,3 @@
-import dto.RoomDetailData;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -22,7 +21,7 @@ public class TC12 {
 
         confirmPage.searchBookingNumber(confirmPage.getBookingId());
 
-        softAssert.assertEquals(searchPage.getRoomType(), roomType, "Room type is incorrect");
+        softAssert.assertEquals(searchPage.getRoomType(), Constants.ROOM_TYPE, "Room type is incorrect");
         softAssert.assertEquals(searchPage.getCheckInDate(), checkInDateText,
                 "Check in date is incorrect");
         softAssert.assertEquals(searchPage.getCheckOutDate(), checkOutDateText,
@@ -51,7 +50,6 @@ public class TC12 {
         softAssert = new SoftAssert();
         homePage = new HomePage(webDriver);
         roomsPage = new RoomsPage(webDriver);
-        random = new Random();
         roomDetailsPage = new RoomDetailsPage(webDriver);
         bookNowPage = new BookNowPage(webDriver);
         checkoutPage = new CheckoutPage(webDriver);
@@ -65,15 +63,8 @@ public class TC12 {
         checkInDateText = checkInDate.format(DateTimeFormatter.ofPattern("MMMM dd", Locale.ENGLISH));
         checkOutDateText = checkOutDate.format(DateTimeFormatter.ofPattern("MMMM dd", Locale.ENGLISH));
 
-        RoomDetailData roomDetailData = roomsPage.ensureOpenRoomDetailByIndex(
-                roomDetailsPage,
-                searchPage,
-                checkInDate,
-                checkOutDate
-        );
-
-        roomType = roomDetailData.getRoomType();
-
+        roomsPage.openRoomDetailByRoomType(Constants.ROOM_TYPE);
+        roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
         bookNowPage.submitUserInfoForm(Constants.FULL_NAME, Constants.MAIL, Constants.PHONE_NUMBER, Constants.ADDRESS);
 
         priceTotal = checkoutPage.getPriceTotal();
@@ -98,9 +89,7 @@ public class TC12 {
     SearchPage searchPage;
     LocalDate checkInDate;
     LocalDate checkOutDate;
-    String roomType;
     double priceTotal;
-    int roomIndex;
     int nights;
     String checkInDateText;
     String checkOutDateText;

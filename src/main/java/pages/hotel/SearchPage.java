@@ -2,7 +2,6 @@ package pages.hotel;
 
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 
 
@@ -16,15 +15,6 @@ public class SearchPage extends Header {
     private By childNumberLocator = By.xpath("//p[@class='getsts_cont']/span[contains(text(),'Children')]");
     private By priceLocator = By.xpath("//div[@class='receipt_widgets']/strong");
     private By roomTypeLocator = By.xpath("//h5");
-    private By messageNoRoomsFoundLocator = By.xpath("//button[contains(text(),'Back')]");
-
-    public boolean checkMessageNoRoomsFoundDisplayed() {
-        try {
-            return driver.findElement(messageNoRoomsFoundLocator).isDisplayed();
-        } catch (NoSuchElementException e) {
-            return false;
-        }
-    }
 
 
     @Step("Get error message displayed on the search page")
