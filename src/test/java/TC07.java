@@ -43,7 +43,7 @@ public class TC07 {
 
         mailPage.openMail(Constants.MAIL);
         mailPage.openMostRecentMailByTitle(Constants.TITLE_MAIL_BOOKING_SUCCESS);
-        softAssert.assertEquals(mailPage.getRoomType(), roomType, "Room type in mail is incorrect");
+        softAssert.assertEquals(mailPage.getRoomType(), Constants.ROOM_TYPE, "Room type in mail is incorrect");
         softAssert.assertEquals(mailPage.getCheckIn(), checkInDate, "Check in date in mail is incorrect");
         softAssert.assertEquals(mailPage.getCheckOut(), checkOutDate, "Check out date in mail is incorrect");
 
@@ -86,5 +86,4 @@ public class TC07 {
     MailPage mailPage;
     LocalDate checkInDate;
     LocalDate checkOutDate;
-    String roomType;
 }

@@ -18,7 +18,7 @@ public class TC06 {
 
         homePage.openRoomsPage();
 
-        checkInDate = LocalDate.now().plusWeeks(1);
+        checkInDate = LocalDate.now().plusDays(1);
 
         checkOutDate = checkInDate.plusDays(1);
 

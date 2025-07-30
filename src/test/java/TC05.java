@@ -28,7 +28,7 @@ public class TC05 {
 
         checkInDate = LocalDate.now().plusWeeks(1);
 
-        checkOutDate = checkInDate.plusDays(1);
+        checkOutDate = checkInDate.plusDays(2);
 
         roomsPage.openRoomDetailByRoomType(Constants.ROOM_TYPE);
         roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);

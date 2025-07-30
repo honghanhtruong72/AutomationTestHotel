@@ -58,7 +58,7 @@ public class TC12 {
 
         homePage.openRoomsPage();
 
-        checkInDate = LocalDate.now().plusWeeks(1);
+        checkInDate = LocalDate.now().plusDays(5);
         checkOutDate = checkInDate.plusDays(1);
         checkInDateText = checkInDate.format(DateTimeFormatter.ofPattern("MMMM dd", Locale.ENGLISH));
         checkOutDateText = checkOutDate.format(DateTimeFormatter.ofPattern("MMMM dd", Locale.ENGLISH));

@@ -1,6 +1,6 @@
 import io.qameta.allure.Issue;
 import io.qameta.allure.Step;
-import org.openqa.selenium.WindowType;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterMethod;
@@ -12,6 +12,8 @@ import pages.mail.MailPage;
 import utils.Constants;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TC14 extends TestBase {
     @Issue("Bug02")
@@ -38,7 +40,11 @@ public class TC14 extends TestBase {
         softAssert.assertEquals(cancelBookingPage.getDateCheckOut(idBooking), checkOutDate, "Check out date is incorrect in History page");
         softAssert.assertEquals(cancelBookingPage.getDateCancelBooking(idBooking), cancelDate, "Cancel booking date is incorrect in History page");
 
-        webDriver.switchTo().newWindow(WindowType.TAB);
+        ((JavascriptExecutor) webDriver).executeScript("window.open('about:blank','_blank')");
+        List<String> tabs = new ArrayList<>(webDriver.getWindowHandles());
+
+        webDriver.switchTo().window(tabs.get(tabs.size() - 1));
+
         webDriver.get(Constants.YOPMAIL_URL);
 
         mailPage.openMail(Constants.MAIL);
@@ -61,7 +67,7 @@ public class TC14 extends TestBase {
     @Step("Go to hotel booking page the login and book a room")
     public void init() {
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--disable-features=PasswordManagerEnabled,AutofillEnableAccountWalletSeeding");
+        options.addArguments("--guest");
         webDriver = new ChromeDriver(options);
         webDriver.get(Constants.HOTEL_BOOKING_URL);
         webDriver.manage().window().maximize();

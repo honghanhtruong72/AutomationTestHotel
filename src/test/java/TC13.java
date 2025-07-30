@@ -52,7 +52,7 @@ public class TC13 extends TestBase {
 
         homePage.openRoomsPage();
 
-        checkInDate = LocalDate.now().plusWeeks(1);
+        checkInDate = LocalDate.now().plusDays(5);
         checkOutDate = checkInDate.plusDays(1);
 
         roomsPage.openRoomDetailByRoomType(Constants.ROOM_TYPE);

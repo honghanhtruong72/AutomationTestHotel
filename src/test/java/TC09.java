@@ -3,7 +3,6 @@ import model.CreditCard;
 import net.datafaker.Faker;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -21,7 +20,7 @@ public class TC09 {
 
         homePage.openRoomsPage();
 
-        checkInDate = LocalDate.now().plusWeeks(1);
+        checkInDate = LocalDate.now().plusDays(3);
         checkOutDate = checkInDate.plusDays(1);
 
         roomsPage.openRoomDetailByRoomType(Constants.ROOM_TYPE);
@@ -59,10 +58,10 @@ public class TC09 {
         faker = new Faker();
     }
 
-    @AfterMethod
-    public void tearDown() {
-        webDriver.quit();
-    }
+//    @AfterMethod
+//    public void tearDown() {
+//        webDriver.quit();
+//    }
 
     WebDriver webDriver;
     SoftAssert softAssert;

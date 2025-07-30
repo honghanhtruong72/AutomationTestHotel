@@ -32,7 +32,7 @@ public class TC01 {
     public void VerifyRoomInformationOnRoomDetail() {
         webDriver.get(Constants.HOTEL_BOOKING_URL);
 
-        checkInDate = LocalDate.now().plusWeeks(1);
+        checkInDate = LocalDate.now().plusDays(2);
 
         checkOutDate = checkInDate.plusDays(1);
         homePage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
