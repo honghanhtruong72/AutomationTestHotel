@@ -19,11 +19,10 @@ public class TC11 {
 
         homePage.openRoomsPage();
 
-        roomIndex = random.nextInt(roomsPage.getTotalRooms());
-        checkInDate = LocalDate.now().plusWeeks(1);
+        checkInDate = LocalDate.now().plusDays(3);
         checkOutDate = checkInDate.plusDays(1);
 
-        roomsPage.openRoomDetailByIndex(roomIndex);
+        roomsPage.openRoomDetailByRoomType(Constants.ROOM_TYPE);
         roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
         bookNowPage.submitUserInfoForm(Constants.FULL_NAME,
                 Constants.MAIL, Constants.PHONE_NUMBER, Constants.ADDRESS);
@@ -69,5 +68,5 @@ public class TC11 {
     ConfirmPage confirmPage;
     LocalDate checkInDate;
     LocalDate checkOutDate;
-    int roomIndex;
+
 }

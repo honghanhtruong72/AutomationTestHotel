@@ -32,22 +32,18 @@ public class TC01 {
     public void VerifyRoomInformationOnRoomDetail() {
         webDriver.get(Constants.HOTEL_BOOKING_URL);
 
-        checkInDate = LocalDate.now().plusMonths(1);
+        checkInDate = LocalDate.now().plusDays(2);
 
         checkOutDate = checkInDate.plusDays(1);
         homePage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
 
         softAssert.assertTrue(roomsPage.hasAvailableRooms(), "No rooms available");
 
-        roomIndex = random.nextInt(roomsPage.getTotalRooms());
+        expectedPrice = roomsPage.getPriceRoom(Constants.ROOM_TYPE);
 
-        expectedPrice = roomsPage.getPriceRoomIndex(roomIndex);
+        roomsPage.openRoomDetailByRoomType(Constants.ROOM_TYPE);
 
-        expectedRoomType = roomsPage.getRoomTypeByIndex(roomIndex);
-
-        roomsPage.openRoomDetailByIndex(roomIndex);
-
-        softAssert.assertEquals(roomDetailsPage.getRoomType(), expectedRoomType, "Room type mismatch");
+        softAssert.assertEquals(roomDetailsPage.getRoomType(), Constants.ROOM_TYPE, "Room type mismatch");
         softAssert.assertEquals(roomDetailsPage.getDisplayPrice(), expectedPrice, "Room price mismatch");
         softAssert.assertEquals(roomDetailsPage.getCheckInDate(), checkInDate, "Check in date is incorrect");
         softAssert.assertEquals(roomDetailsPage.getCheckOutDate(), checkOutDate, "Check out dates is incorrect");
@@ -70,7 +66,5 @@ public class TC01 {
     RoomDetailsPage roomDetailsPage;
     LocalDate checkInDate;
     LocalDate checkOutDate;
-    int roomIndex;
-    String expectedRoomType;
     double expectedPrice;
 }

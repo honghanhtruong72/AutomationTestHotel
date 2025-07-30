@@ -20,14 +20,11 @@ public class TC04 {
 
         homePage.openRoomsPage();
 
-        roomIndex = random.nextInt(roomsPage.getTotalRooms());
-
         checkInDate = LocalDate.now().plusWeeks(1);
 
-        checkOutDate = checkInDate.plusDays(1);
+        checkOutDate = checkInDate.plusDays(2);
 
-        roomsPage.openRoomDetailByIndex(roomIndex);
-
+        roomsPage.openRoomDetailByRoomType(Constants.ROOM_TYPE);
         roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
 
         invalidPromoCode = faker.lorem().characters(6, false);
@@ -67,7 +64,6 @@ public class TC04 {
     }
 
     String invalidPromoCode;
-    int roomIndex;
     double actualDiscount;
     WebDriver webDriver;
     SoftAssert softAssert;

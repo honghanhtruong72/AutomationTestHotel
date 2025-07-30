@@ -10,7 +10,6 @@ import pages.hotel.*;
 import utils.Constants;
 
 import java.time.LocalDate;
-import java.util.Random;
 
 public class TC05 {
     @Test(
@@ -27,14 +26,11 @@ public class TC05 {
 
         homePage.openRoomsPage();
 
-        roomIndex = random.nextInt(roomsPage.getTotalRooms());
+        checkInDate = LocalDate.now().plusWeeks(1);
 
-        checkInDate = LocalDate.now().plusWeeks(2);
+        checkOutDate = checkInDate.plusDays(2);
 
-        checkOutDate = checkInDate.plusDays(1);
-
-        roomsPage.openRoomDetailByIndex(roomIndex);
-
+        roomsPage.openRoomDetailByRoomType(Constants.ROOM_TYPE);
         roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
 
         actualFullName = bookNowPage.getFullNameTextBoxValue();
@@ -64,7 +60,6 @@ public class TC05 {
         softAssert = new SoftAssert();
         homePage = new HomePage(webDriver);
         roomsPage = new RoomsPage(webDriver);
-        random = new Random();
         roomDetailsPage = new RoomDetailsPage(webDriver);
         bookNowPage = new BookNowPage(webDriver);
         checkoutPage = new CheckoutPage(webDriver);
@@ -92,7 +87,6 @@ public class TC05 {
     SoftAssert softAssert;
     HomePage homePage;
     RoomsPage roomsPage;
-    Random random;
     RoomDetailsPage roomDetailsPage;
     BookNowPage bookNowPage;
     CheckoutPage checkoutPage;

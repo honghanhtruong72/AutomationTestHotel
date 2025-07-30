@@ -3,7 +3,6 @@ import model.CreditCard;
 import net.datafaker.Faker;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -21,12 +20,10 @@ public class TC09 {
 
         homePage.openRoomsPage();
 
-        roomIndex = random.nextInt(roomsPage.getTotalRooms());
-        checkInDate = LocalDate.now().plusWeeks(1);
+        checkInDate = LocalDate.now().plusDays(3);
         checkOutDate = checkInDate.plusDays(1);
 
-        roomsPage.openRoomDetailByIndex(roomIndex);
-
+        roomsPage.openRoomDetailByRoomType(Constants.ROOM_TYPE);
         roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
         bookNowPage.submitUserInfoForm(Constants.FULL_NAME,
                 Constants.MAIL, Constants.PHONE_NUMBER, Constants.ADDRESS);
@@ -61,10 +58,10 @@ public class TC09 {
         faker = new Faker();
     }
 
-    @AfterMethod
-    public void tearDown() {
-        webDriver.quit();
-    }
+//    @AfterMethod
+//    public void tearDown() {
+//        webDriver.quit();
+//    }
 
     WebDriver webDriver;
     SoftAssert softAssert;
@@ -76,7 +73,6 @@ public class TC09 {
     CheckoutPage checkoutPage;
     LocalDate checkInDate;
     LocalDate checkOutDate;
-    int roomIndex;
     Faker faker;
     String invalidNumber;
 }

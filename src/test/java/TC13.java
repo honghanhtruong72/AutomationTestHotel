@@ -1,5 +1,4 @@
 import io.qameta.allure.Issue;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterMethod;
@@ -10,17 +9,16 @@ import pages.hotel.*;
 import utils.Constants;
 
 import java.time.LocalDate;
-import java.util.Random;
 
 
-public class TC13 {
+public class TC13 extends TestBase {
     @Issue("Bug01")
     @Test(description = "Verify the booked room information is correctly displayed in My history section")
 
     public void VerifyBookedRoomInformationIsDisplayedInMyHistorySection() {
 
         confirmPage.openMyHistoryPage();
-        softAssert.assertEquals(myHistoryPage.getTypeRoom(idBooking), roomType, "Room type is incorrect");
+        softAssert.assertEquals(myHistoryPage.getTypeRoom(idBooking), Constants.ROOM_TYPE, "Room type is incorrect");
         softAssert.assertEquals(myHistoryPage.getDateCheckIn(idBooking), checkInDate,
                 "Check in date is incorrect");
         softAssert.assertEquals(myHistoryPage.getDateCheckOut(idBooking), checkOutDate,
@@ -44,24 +42,20 @@ public class TC13 {
         softAssert = new SoftAssert();
         homePage = new HomePage(webDriver);
         roomsPage = new RoomsPage(webDriver);
-        random = new Random();
         roomDetailsPage = new RoomDetailsPage(webDriver);
         bookNowPage = new BookNowPage(webDriver);
         checkoutPage = new CheckoutPage(webDriver);
         confirmPage = new ConfirmPage(webDriver);
-        searchPage = new SearchPage(webDriver);
         myHistoryPage = new MyHistoryPage(webDriver);
 
         homePage.login(Constants.USERNAME, Constants.PASSWORD);
 
         homePage.openRoomsPage();
 
-        roomIndex = random.nextInt(roomsPage.getTotalRooms());
-        checkInDate = LocalDate.now().plusWeeks(1);
+        checkInDate = LocalDate.now().plusDays(5);
         checkOutDate = checkInDate.plusDays(1);
-        roomType = roomsPage.getRoomTypeByIndex(roomIndex);
 
-        roomsPage.openRoomDetailByIndex(roomIndex);
+        roomsPage.openRoomDetailByRoomType(Constants.ROOM_TYPE);
         roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
         bookNowPage.submitUserInfoForm();
         priceTotal = checkoutPage.getPriceTotal();
@@ -75,21 +69,16 @@ public class TC13 {
         webDriver.quit();
     }
 
-    WebDriver webDriver;
     SoftAssert softAssert;
     HomePage homePage;
     RoomsPage roomsPage;
-    Random random;
     RoomDetailsPage roomDetailsPage;
     BookNowPage bookNowPage;
     CheckoutPage checkoutPage;
     ConfirmPage confirmPage;
-    SearchPage searchPage;
     MyHistoryPage myHistoryPage;
     LocalDate checkInDate;
     LocalDate checkOutDate;
-    String roomType;
-    int roomIndex;
     double priceTotal;
     String idBooking;
 

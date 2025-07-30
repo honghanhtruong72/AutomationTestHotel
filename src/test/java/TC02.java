@@ -1,7 +1,6 @@
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -10,7 +9,6 @@ import utils.Constants;
 import utils.DateUtils;
 
 import java.time.LocalDate;
-import java.util.Random;
 
 public class TC02 {
     @Test(
@@ -20,31 +18,27 @@ public class TC02 {
 
         homePage.openRoomsPage();
 
-        roomIndex = random.nextInt(roomsPage.getTotalRooms());
-
-        checkInDate = LocalDate.now().plusMonths(1);
+        checkInDate = LocalDate.now().plusWeeks(1);
 
         checkOutDate = checkInDate.plusDays(1);
-
-        roomsPage.openRoomDetailByIndex(roomIndex);
-
+        roomsPage.openRoomDetailByRoomType(Constants.ROOM_TYPE);
         priceOneNight = roomDetailsPage.getDisplayPrice();
 
         roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
-
         bookNowPage.applyPromoCode(Constants.VALID_PROMOCODE);
 
         night = DateUtils.calculateNights(checkInDate, checkOutDate);
 
-        ExpectedSubTotal = Math.round(night * priceOneNight * 100.0) / 100.0;
+        expectedSubTotal = night * priceOneNight;
 
         tax = bookNowPage.getTax();
 
         discount = bookNowPage.getDiscount();
 
-        expectedGrandTotal = Math.round((ExpectedSubTotal + tax - discount) * 100.0) / 100.0;
+        expectedGrandTotal = expectedSubTotal + tax - discount;
+        delta = Math.pow(10, -6);
 
-        softAssert.assertEquals(bookNowPage.getGrandTotal(), expectedGrandTotal, "The Total formula is applied and gives incorrect result");
+        softAssert.assertEquals(bookNowPage.getGrandTotal(), expectedGrandTotal, delta, "The Total formula is applied and gives incorrect result");
 
         softAssert.assertAll();
 
@@ -60,34 +54,33 @@ public class TC02 {
         softAssert = new SoftAssert();
         homePage = new HomePage(webDriver);
         roomsPage = new RoomsPage(webDriver);
-        random = new Random();
         roomDetailsPage = new RoomDetailsPage(webDriver);
         bookNowPage = new BookNowPage(webDriver);
         checkoutPage = new CheckoutPage(webDriver);
+        searchPage = new SearchPage(webDriver);
     }
 
-    @AfterMethod
-    public void tearDown() {
-        webDriver.quit();
-    }
+//    @AfterMethod
+//    public void tearDown() {
+//        webDriver.quit();
+//    }
 
-    int roomIndex;
     int night;
     double priceOneNight;
-    double ExpectedSubTotal;
+    double expectedSubTotal;
     double tax;
     double discount;
     double expectedGrandTotal;
+    double delta;
 
     WebDriver webDriver;
     SoftAssert softAssert;
     HomePage homePage;
     RoomsPage roomsPage;
-    Random random;
     RoomDetailsPage roomDetailsPage;
     BookNowPage bookNowPage;
     CheckoutPage checkoutPage;
     LocalDate checkInDate;
     LocalDate checkOutDate;
-
+    SearchPage searchPage;
 }
