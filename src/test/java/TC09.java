@@ -1,11 +1,12 @@
 import io.qameta.allure.Step;
-import pages.hotel.*;
+import model.CreditCard;
+import net.datafaker.Faker;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+import pages.hotel.*;
 import utils.Constants;
 
 import java.time.LocalDate;
@@ -17,19 +18,21 @@ public class TC09 {
     )
     public void VerifySystemValidatesCardNumbersWithInsufficientDigits() {
 
-        homePage.clickRoom();
+        homePage.openRoomsPage();
 
-        roomIndex = random.nextInt(roomsPage.getTotalRooms());
-        checkInDate = LocalDate.now().plusMonths(1);
+        checkInDate = LocalDate.now().plusDays(3);
         checkOutDate = checkInDate.plusDays(1);
 
-        roomsPage.openRoomDetailByIndex(roomIndex);
-
+        roomsPage.openRoomDetailByRoomType(Constants.ROOM_TYPE);
         roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
         bookNowPage.submitUserInfoForm(Constants.FULL_NAME,
                 Constants.MAIL, Constants.PHONE_NUMBER, Constants.ADDRESS);
-        checkoutPage.submitCardDetails("2222 3333 4444",
-                Constants.CARD_NAME, Constants.EXPIRY_DATE, Constants.CVV);
+
+        invalidNumber = faker.number().digits(12);
+        CreditCard invalidCard = Constants.VALID_CREDIT_CARD.cloneCard();
+        invalidCard.setCardNumber(invalidNumber);
+
+        checkoutPage.submitCardDetails(invalidCard);
 
         softAssert.assertEquals(checkoutPage.getErrorMessageForCreditCard(), Constants.ERROR_MESSAGE_CARD_NOT_EXIST,
                 "Error message for invalid card number is incorrect");
@@ -52,12 +55,13 @@ public class TC09 {
         roomDetailsPage = new RoomDetailsPage(webDriver);
         bookNowPage = new BookNowPage(webDriver);
         checkoutPage = new CheckoutPage(webDriver);
+        faker = new Faker();
     }
 
-    @AfterMethod
-    public void tearDown() {
-        webDriver.quit();
-    }
+//    @AfterMethod
+//    public void tearDown() {
+//        webDriver.quit();
+//    }
 
     WebDriver webDriver;
     SoftAssert softAssert;
@@ -69,5 +73,6 @@ public class TC09 {
     CheckoutPage checkoutPage;
     LocalDate checkInDate;
     LocalDate checkOutDate;
-    int roomIndex;
+    Faker faker;
+    String invalidNumber;
 }

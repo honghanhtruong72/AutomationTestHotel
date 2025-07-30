@@ -4,28 +4,24 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 
 public class CancelBookingPage {
     private final WebDriver driver;
-    private By typeRoomLocator = By.xpath("//div[@class='row listing_widgets rel_position']//h4");
-    private By dateCheckInLocator = By.xpath("//li[.//strong[contains(text(),'Check-In')]]/p");
-    private By dateCheckOutLocator = By.xpath("//li[.//strong[contains(text(),'Check-Out')]]/p");
-    private By dateCancellocator = By.xpath("//span[@class='gray_text2']/strong");
+    private By typeRoomLocator = By.xpath(".//h4");
+    private By dateCheckInLocator = By.xpath(".//li[.//strong[contains(text(),'Check-In')]]/p");
+    private By dateCheckOutLocator = By.xpath(".//li[.//strong[contains(text(),'Check-Out')]]/p");
+    private By dateCancellocator = By.xpath(".//span[contains(text(),'Cancel Date')]/strong");
 
     protected By containerBookingLocator(String bookingId) {
-        return By.xpath(String.format("//span[contains(@class,'green_text1') and contains(text(),'%s')]", bookingId));
+        return By.xpath(String.format("//div[@class='row listing_widgets rel_position'][.//span[contains(text(),'%s')]]", bookingId));
     }
 
     @Step("Get Type Room")
     public String getTypeRoom(String bookingId) {
-        WebElement container = waitForBookingContainer(bookingId);
+        WebElement container = driver.findElement(containerBookingLocator(bookingId));
         return container.findElement(typeRoomLocator).getText();
     }
 
@@ -44,15 +40,10 @@ public class CancelBookingPage {
     }
 
     @Step("Get Date Cancel Date")
-    public LocalDate getDateCancelBookig(String bookingId){
+    public LocalDate getDateCancelBooking(String bookingId) {
         WebElement container = driver.findElement(containerBookingLocator(bookingId));
         String checkCancelDateText = container.findElement(dateCancellocator).getText();
         return LocalDate.parse(checkCancelDateText, DateTimeFormatter.ofPattern("MMM dd yyyy"));
-    }
-
-    private WebElement waitForBookingContainer(String bookingId) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(containerBookingLocator(bookingId)));
     }
 
     public CancelBookingPage(WebDriver driver) {

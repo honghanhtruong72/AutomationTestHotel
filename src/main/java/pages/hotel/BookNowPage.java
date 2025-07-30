@@ -26,9 +26,9 @@ public class BookNowPage {
     private By errorPromotion = By.xpath("//p[contains(text(), 'Promotion Code not exists')]");
 
 
-
     @Step("Enter full name")
     private void fillFullName(String fullName) {
+        waitForInformationForm();
         driver.findElement(fullNameLocator).sendKeys(fullName);
     }
 
@@ -73,48 +73,51 @@ public class BookNowPage {
     }
 
     @Step("Click Promocode Radio")
-    public void clickRadioButtonPromcode(){
+    private void clickRadioButtonPromcode() {
         driver.findElement(promocodeRadioButtonLocator).click();
     }
 
     @Step("Enter Promocode")
-    public void enterTextboxPromcode(String promocode){
+    private void enterTextboxPromcode(String promocode) {
         driver.findElement(promocodelocator).sendKeys(promocode);
     }
 
     @Step("Click Apply Button")
-    public void  clickbuttonApply (){
+    private void clickButtonApply() {
         driver.findElement(buttonApplyLocator).click();
     }
 
-    @Step("Aplly Promocode")
-    public void applyPromocode(String a){
+    @Step("Apply PromoCode")
+    public void applyPromoCode(String a) {
         clickRadioButtonPromcode();
         enterTextboxPromcode(a);
-        clickbuttonApply();
+        clickButtonApply();
     }
+
     @Step("Get Subtotal")
-    public double getSubTotal (){
-        String text = driver.findElement(subTotalLocator).getText().replace("$","");
+    public double getSubTotal() {
+        String text = driver.findElement(subTotalLocator).getText().replace("$", "");
         return Double.parseDouble(text);
     }
 
     @Step("Get Tax")
-    public double getTax(){
-        String text = driver.findElement(taxLocator).getText().replace("$","");
+    public double getTax() {
+        waitForTableBooking();
+        String text = driver.findElement(taxLocator).getText().replace("$", "");
         return Double.parseDouble(text);
     }
 
     @Step("Get Discount")
-    public double getDiscount (){
-        String text = driver.findElement(discountLocator).getText().replace("$","");
+    public double getDiscount() {
+        waitForTableBooking();
+        String text = driver.findElement(discountLocator).getText().replace("$", "");
         return Double.parseDouble(text);
     }
 
     @Step("Get Grand Total")
-    public double getGrandTotal (){
+    public double getGrandTotal() {
         waitGrandTotalDisplay();
-        String text = driver.findElement(grandTotalLocator).getText().replace("$","");
+        String text = driver.findElement(grandTotalLocator).getText().replace("$", "");
         return Double.parseDouble(text);
     }
 
@@ -124,29 +127,40 @@ public class BookNowPage {
     }
 
     @Step("Get Display Error Promotion")
-    public boolean getDisplayErrorPromotion(){
+    public boolean getDisplayErrorPromotion() {
         driver.findElement(errorPromotion).isDisplayed();
         return true;
     }
 
     @Step("Get Value FullName")
-    public String getFullNameTextBoxValue(){
-        return  driver.findElement(fullNameLocator).getAttribute("value");
+    public String getFullNameTextBoxValue() {
+        waitForInformationForm();
+        return driver.findElement(fullNameLocator).getAttribute("value");
     }
 
     @Step("Get Value Email")
-    public String getEmailTextBoxValue(){
+    public String getEmailTextBoxValue() {
         return driver.findElement(emailLocator).getAttribute("value");
     }
 
     @Step("Get Value PhoneNumber")
-    public String getPhoneTextBoxValue(){
-        return   driver.findElement(phoneLocator).getAttribute("value");
+    public String getPhoneTextBoxValue() {
+        return driver.findElement(phoneLocator).getAttribute("value");
     }
 
-    @Step("Get Value getAdress")
-    public String getAdressTextBoxValue(){
-        return  driver.findElement(addressLocator).getAttribute("value");
+    @Step("Get Value getAddress")
+    public String getAddressTextBoxValue() {
+        return driver.findElement(addressLocator).getAttribute("value");
+    }
+
+    private void waitForTableBooking() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(discountLocator));
+    }
+
+    private void waitForInformationForm() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(fullNameLocator));
     }
 
     public BookNowPage(WebDriver driver) {

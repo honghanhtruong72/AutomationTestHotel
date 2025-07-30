@@ -7,10 +7,10 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import pages.hotel.*;
 import utils.Constants;
+import utils.DateUtils;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.Locale;
 import java.util.Random;
 
@@ -21,7 +21,7 @@ public class TC12 {
 
         confirmPage.searchBookingNumber(confirmPage.getBookingId());
 
-        softAssert.assertEquals(searchPage.getRoomType(), roomType, "Room type is incorrect");
+        softAssert.assertEquals(searchPage.getRoomType(), Constants.ROOM_TYPE, "Room type is incorrect");
         softAssert.assertEquals(searchPage.getCheckInDate(), checkInDateText,
                 "Check in date is incorrect");
         softAssert.assertEquals(searchPage.getCheckOutDate(), checkOutDateText,
@@ -31,10 +31,9 @@ public class TC12 {
         softAssert.assertEquals(searchPage.getChildrenNumber(), 0,
                 "Children number is incorrect");
 
-        nights = (int) ChronoUnit.DAYS.between(checkInDate, checkOutDate);
+        nights = DateUtils.calculateNights(checkInDate, checkOutDate);
 
-        softAssert.assertEquals(searchPage.getNights(), nights,
-                "Nights number is incorrect");
+        softAssert.assertEquals(searchPage.getNights(), nights, "Nights number is incorrect");
         softAssert.assertEquals(searchPage.getPrice(), priceTotal, "Price total is incorrect");
 
 
@@ -51,28 +50,25 @@ public class TC12 {
         softAssert = new SoftAssert();
         homePage = new HomePage(webDriver);
         roomsPage = new RoomsPage(webDriver);
-        random = new Random();
         roomDetailsPage = new RoomDetailsPage(webDriver);
         bookNowPage = new BookNowPage(webDriver);
         checkoutPage = new CheckoutPage(webDriver);
         confirmPage = new ConfirmPage(webDriver);
         searchPage = new SearchPage(webDriver);
 
-        homePage.clickRoom();
-        roomIndex = random.nextInt(roomsPage.getTotalRooms());
-        checkInDate = LocalDate.now().plusMonths(1);
+        homePage.openRoomsPage();
+
+        checkInDate = LocalDate.now().plusDays(5);
         checkOutDate = checkInDate.plusDays(1);
         checkInDateText = checkInDate.format(DateTimeFormatter.ofPattern("MMMM dd", Locale.ENGLISH));
         checkOutDateText = checkOutDate.format(DateTimeFormatter.ofPattern("MMMM dd", Locale.ENGLISH));
 
-        roomType = roomsPage.getRoomTypeByIndex(roomIndex);
-
-        roomsPage.openRoomDetailByIndex(roomIndex);
+        roomsPage.openRoomDetailByRoomType(Constants.ROOM_TYPE);
         roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
         bookNowPage.submitUserInfoForm(Constants.FULL_NAME, Constants.MAIL, Constants.PHONE_NUMBER, Constants.ADDRESS);
 
         priceTotal = checkoutPage.getPriceTotal();
-        checkoutPage.submitCardDetails(Constants.CARD_NUMBER, Constants.CARD_NAME, Constants.EXPIRY_DATE, Constants.CVV);
+        checkoutPage.submitCardDetails(Constants.VALID_CREDIT_CARD);
 
     }
 
@@ -93,10 +89,9 @@ public class TC12 {
     SearchPage searchPage;
     LocalDate checkInDate;
     LocalDate checkOutDate;
-    String roomType;
     double priceTotal;
-    int roomIndex;
     int nights;
     String checkInDateText;
     String checkOutDateText;
+
 }

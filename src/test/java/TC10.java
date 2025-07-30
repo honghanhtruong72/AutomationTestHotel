@@ -1,4 +1,6 @@
 import io.qameta.allure.Step;
+import model.CreditCard;
+import net.datafaker.Faker;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterMethod;
@@ -17,18 +19,20 @@ public class TC10 {
     )
     public void VerifySystemValidatesCardNumbersWithWrongNameCard() {
 
-        homePage.clickRoom();
+        homePage.openRoomsPage();
 
-        roomIndex = random.nextInt(roomsPage.getTotalRooms());
-        checkInDate = LocalDate.now().plusMonths(1);
+        checkInDate = LocalDate.now().plusDays(3);
         checkOutDate = checkInDate.plusDays(1);
-        roomsPage.openRoomDetailByIndex(roomIndex);
-
+        roomsPage.openRoomDetailByRoomType(Constants.ROOM_TYPE);
         roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
+
         bookNowPage.submitUserInfoForm(Constants.FULL_NAME,
                 Constants.MAIL, Constants.PHONE_NUMBER, Constants.ADDRESS);
-        checkoutPage.submitCardDetails(Constants.CARD_NUMBER,
-                "JOHN", Constants.EXPIRY_DATE, Constants.CVV);
+
+        randomName = faker.lorem().characters(6, true);
+        CreditCard invalidCard = Constants.VALID_CREDIT_CARD.cloneCard();
+        invalidCard.setCardName(randomName);
+        checkoutPage.submitCardDetails(invalidCard);
 
         softAssert.assertEquals(checkoutPage.getErrorMessageForCreditCard(), Constants.ERROR_MESSAGE_WRONG_CARD_INFO,
                 "Error message for wrong card name is incorrect");
@@ -51,6 +55,7 @@ public class TC10 {
         roomDetailsPage = new RoomDetailsPage(webDriver);
         bookNowPage = new BookNowPage(webDriver);
         checkoutPage = new CheckoutPage(webDriver);
+        faker = new Faker();
     }
 
     @AfterMethod
@@ -68,5 +73,6 @@ public class TC10 {
     CheckoutPage checkoutPage;
     LocalDate checkInDate;
     LocalDate checkOutDate;
-    int roomIndex;
+    Faker faker;
+    String randomName;
 }

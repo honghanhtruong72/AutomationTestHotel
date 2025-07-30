@@ -8,7 +8,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.time.LocalDate;
-import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.Locale;
@@ -103,20 +102,21 @@ public class RoomDetailsPage {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOfElementLocated(timePickerLocator));
     }
+
     @Step("Get room type")
-    public String getRoomType (){
+    public String getRoomType() {
         return driver.findElement(roomTypeLocator).getText();
     }
+
     @Step("get price room ")
-    public double getDisplayPrice(){
-        String price = driver.findElement(priceLocator).getText().replace("$","").trim();
+    public double getDisplayPrice() {
+        String price = driver.findElement(priceLocator).getText().replace("$", "").trim();
         return Double.parseDouble(price);
     }
 
     @Step("Get check-in date")
     public LocalDate getCheckInDate() {
         String checkInDateText = driver.findElement(checkInDateLocator).getAttribute("value");
-        System.out.println("Check-in date text: " + LocalDate.parse(checkInDateText, DateTimeFormatter.ofPattern("yyyy/MM/dd")));
         return LocalDate.parse(checkInDateText, DateTimeFormatter.ofPattern("yyyy/MM/dd"));
     }
 
@@ -127,13 +127,13 @@ public class RoomDetailsPage {
     }
 
     @Step("Get Adult")
-    public int getAdult (){
+    public int getAdult() {
         String text = driver.findElement(adultQuantityLocator).getAttribute("value");
         return Integer.parseInt(text);
     }
 
     @Step("Get Chilren")
-    public int getChilren(){
+    public int getChilren() {
         String text = driver.findElement(childrenQuantityLocator).getAttribute("value");
         return Integer.parseInt(text);
     }

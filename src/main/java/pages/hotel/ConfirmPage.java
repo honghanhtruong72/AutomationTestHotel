@@ -46,7 +46,6 @@ public class ConfirmPage extends Header {
     @Step("Get check-in date")
     public LocalDate getCheckInDate() {
         String checkInDateText = driver.findElement(checkInDateLocator).getText();
-        System.out.println("Check-in date text: " + LocalDate.parse(checkInDateText, DateTimeFormatter.ofPattern("MMM dd yyyy")));
         return LocalDate.parse(checkInDateText, DateTimeFormatter.ofPattern("MMM dd yyyy"));
     }
 
@@ -69,7 +68,13 @@ public class ConfirmPage extends Header {
     }
 
     public String getBookingId() {
+        waitForBookingId();
         return driver.findElement(idBookingLocator).getText().replace("Id: ", "").trim();
+    }
+
+    private void waitForBookingId() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(idBookingLocator));
     }
 
     public ConfirmPage(WebDriver driver) {

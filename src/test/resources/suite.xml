@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<!--<suite name="Selenium Automation">-->
+<suite name="Selenium Automation" parallel="classes" thread-count="3">
+    <listeners>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+    </listeners>
+    <test name="Hotel Booking Tests">
+        <classes>
+            <class name="TC14"/>
+            <class name="TC01"/>
+            <class name="TC02"/>
+            <class name="TC03"/>
+            <class name="TC04"/>
+            <class name="TC05"/>
+            <class name="TC06"/>
+            <class name="TC07"/>
+            <class name="TC08"/>
+            <class name="TC09"/>
+            <class name="TC10"/>
+            <class name="TC11"/>
+            <class name="TC12"/>
+            <class name="TC13"/>
+        </classes>
+    </test>
+
+</suite>

@@ -1,20 +1,18 @@
 package pages.hotel;
 
 import io.qameta.allure.Step;
-import jdk.jfr.StackTrace;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
-
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class MyHistoryPage {
+public class MyHistoryPage extends Header {
     private final WebDriver driver;
     private By typeRoomLocator = By.xpath(".//h4");
     private By dateCheckInLocator = By.xpath(".//li[.//strong[contains(text(),'Check-In')]]//p");
@@ -23,7 +21,7 @@ public class MyHistoryPage {
     private By childNumberLocator = By.xpath(".//li//span[contains(text(),'Children')]");
     private By priceLocator = By.xpath(".//div[@class='price_modual_sec']/strong");
     private By cancelBookingButtonLocator = By.xpath(".//a[text()='Cancel']");
-    private By cancelPopupButton = By.xpath("//form[.//input[@name='bookingId']]//input[@type='submit' and @value='Cancel']");
+    private By cancelPopupButton = By.xpath("//input[@type='submit' and @value='Cancel' and not(ancestor::div[contains(@style,'display: none')])]");
     private By bookingDateLocator = By.xpath("//span[@class='book_date_class']/strong");
 
     protected By containerBookingLocator(String id) {
@@ -77,23 +75,36 @@ public class MyHistoryPage {
         return container.findElement(cancelBookingButtonLocator).isDisplayed();
     }
 
-    @Step("Click Button Cancel")
-    public void openPopUpcancelBookingFromHistoryById(String id) {
+    @Step("open Pop-Up Cancel Booking from History")
+    public void openPopUpCancelBookingFromHistoryById(String id) {
         WebElement container = driver.findElement(containerBookingLocator(id));
         container.findElement(cancelBookingButtonLocator).click();
     }
 
-    @Step("Click Button Cancel In Popup CancelBooking")
-    public void clickButtonCancelinPopUpCanceBooking(String id) {
+    @Step("Submit Cancel Booking Form")
+    public void submitCancelBookingForm() {
         waitUntilCancelPopupAppears();
-        WebElement form = driver.findElement(containerBookingLocator(id));
-        form.findElement(cancelPopupButton).click();
+        driver.findElement(cancelPopupButton).click();
+        waitUntilCancelPopupDisappears();
+    }
 
+    @Step("Check Booking room is removed after cancel")
+    public boolean idBookingExists(String id) {
+        try {
+            return driver.findElement(containerBookingLocator(id)).isDisplayed();
+        } catch (NoSuchElementException e) {
+            return false;
+        }
     }
 
     private void waitUntilCancelPopupAppears() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         wait.until(ExpectedConditions.elementToBeClickable(cancelPopupButton));
+    }
+
+    private void waitUntilCancelPopupDisappears() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(cancelPopupButton));
     }
 
     @Step("Get Booking Date")
@@ -104,6 +115,7 @@ public class MyHistoryPage {
 
 
     public MyHistoryPage(WebDriver driver) {
+        super(driver);
         this.driver = driver;
     }
 

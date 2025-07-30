@@ -10,41 +10,33 @@ import utils.Constants;
 import utils.DateUtils;
 
 import java.time.LocalDate;
-import java.util.Random;
 
 public class TC03 {
-    @Test(
-            description = "Verify Grand Total Calculation without discount"
-    )
+    @Test(description = "Verify Grand Total Calculation without discount")
     public void VerifyGrandTotalCalculationWithoutDiscount() {
 
-        header.clickRoom();
+        homePage.openRoomsPage();
 
-        roomIndex = random.nextInt(roomsPage.getTotalRooms());
+        checkInDate = LocalDate.now().plusWeeks(1);
 
-        checkInDate = LocalDate.now().plusMonths(1);
-
-        checkOutDate = checkInDate.plusDays(2);
-
-        roomsPage.openRoomDetailByIndex(roomIndex);
-
+        checkOutDate = checkInDate.plusDays(1);
+        roomsPage.openRoomDetailByRoomType(Constants.ROOM_TYPE);
         priceOneNight = roomDetailsPage.getDisplayPrice();
+        night = DateUtils.calculateNights(checkInDate, checkOutDate);
+        expectedSubTotal = night * priceOneNight;
 
         roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
-
-        night = DateUtils.calculateNights(checkInDate, checkOutDate);
-
-        ExpectedSubTotal = Math.round(night * priceOneNight * 100.0) / 100.0;
 
         tax = bookNowPage.getTax();
 
         discount = bookNowPage.getDiscount();
 
-        expectedGrandTotal = Math.round((ExpectedSubTotal + tax ) * 100.0) / 100.0;
+        expectedGrandTotal = expectedSubTotal + tax;
+        delta = Math.pow(10, -6);
 
-        softAssert.assertEquals(bookNowPage.getDiscount(),0.0,"Discount not show be $0.0");
+        softAssert.assertEquals(bookNowPage.getDiscount(), 0.0, "Discount not show be $0.0");
 
-        softAssert.assertEquals(bookNowPage.getGrandTotal(), expectedGrandTotal, "The Total formula is applied and gives incorrect result");
+        softAssert.assertEquals(bookNowPage.getGrandTotal(), expectedGrandTotal, delta, "The Total formula is applied and gives incorrect result");
 
         softAssert.assertAll();
 
@@ -60,35 +52,31 @@ public class TC03 {
         softAssert = new SoftAssert();
         homePage = new HomePage(webDriver);
         roomsPage = new RoomsPage(webDriver);
-        random = new Random();
         roomDetailsPage = new RoomDetailsPage(webDriver);
         bookNowPage = new BookNowPage(webDriver);
         checkoutPage = new CheckoutPage(webDriver);
-        header = new Header(webDriver);
     }
 
     @AfterMethod
     public void tearDown() {
-          webDriver.quit();
+        webDriver.quit();
     }
 
-    int roomIndex;
     int night;
     double priceOneNight;
-    double ExpectedSubTotal;
+    double expectedSubTotal;
     double tax;
     double discount;
     double expectedGrandTotal;
+    double delta;
 
     WebDriver webDriver;
     SoftAssert softAssert;
     HomePage homePage;
     RoomsPage roomsPage;
-    Random random;
     RoomDetailsPage roomDetailsPage;
     BookNowPage bookNowPage;
     CheckoutPage checkoutPage;
     LocalDate checkInDate;
     LocalDate checkOutDate;
-    Header header;
 }
