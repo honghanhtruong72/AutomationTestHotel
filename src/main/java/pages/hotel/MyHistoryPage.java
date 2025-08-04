@@ -82,7 +82,7 @@ public class MyHistoryPage extends Header {
     }
 
     @Step("Submit Cancel Booking Form")
-    public void submitCancelBookingForm() {
+    public void submitCancelBookingForm(String reason) {
         waitUntilCancelPopupAppears();
         driver.findElement(cancelPopupButton).click();
         waitUntilCancelPopupDisappears();

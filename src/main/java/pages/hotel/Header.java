@@ -11,7 +11,7 @@ import java.time.Duration;
 
 public class Header {
     private final WebDriver driver;
-    private By roomMenuLocator = By.linkText("Rooms");
+    private By homeLocator = By.linkText("Home");
     private By findingButtonLocator = By.id("sb-search");
     private By searchFieldLocator = By.id("search");
     private By loginButtonLocator = By.linkText("Login");
@@ -49,8 +49,8 @@ public class Header {
 
 
     @Step("Open Rooms page")
-    public void openRoomsPage() {
-        driver.findElement(roomMenuLocator).click();
+    public void openHomePage() {
+        driver.findElement(homeLocator).click();
     }
 
     private void clickFindingButton() {

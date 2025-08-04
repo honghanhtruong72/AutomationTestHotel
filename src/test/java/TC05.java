@@ -10,6 +10,7 @@ import pages.hotel.*;
 import utils.Constants;
 
 import java.time.LocalDate;
+import java.util.Random;
 
 public class TC05 {
     @Test(
@@ -23,15 +24,17 @@ public class TC05 {
         expectedEmail = myAccountPage.getEmailTextBoxValue();
         expectedPhone = myAccountPage.getPhoneNumberTextBoxValue();
         expectedAddress = myAccountPage.getAdressTextBoxValue();
-
-        homePage.openRoomsPage();
+        myAccountPage.openHomePage();
 
         checkInDate = LocalDate.now().plusWeeks(1);
 
         checkOutDate = checkInDate.plusDays(2);
 
-        roomsPage.openRoomDetailByRoomType(Constants.ROOM_TYPE);
-        roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
+        homePage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
+        int randomNumber = random.nextInt(roomsPage.getTotalRooms());
+
+        roomsPage.openRoomDetailByIndex(randomNumber);
+        roomDetailsPage.openBookNowPage();
 
         actualFullName = bookNowPage.getFullNameTextBoxValue();
         actualEmail = bookNowPage.getEmailTextBoxValue();
@@ -64,6 +67,7 @@ public class TC05 {
         bookNowPage = new BookNowPage(webDriver);
         checkoutPage = new CheckoutPage(webDriver);
         myAccountPage = new MyAccountPage(webDriver);
+        random = new Random();
 
         homePage.login(Constants.USERNAME, Constants.PASSWORD);
     }
@@ -93,4 +97,5 @@ public class TC05 {
     LocalDate checkInDate;
     LocalDate checkOutDate;
     MyAccountPage myAccountPage;
+    Random random;
 }
