@@ -64,7 +64,7 @@ public class TC12 {
         checkOutDateText = checkOutDate.format(DateTimeFormatter.ofPattern("MMMM dd", Locale.ENGLISH));
 
         homePage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
-        int randomNumber = random.nextInt(roomsPage.getTotalRooms());
+        randomNumber = random.nextInt(roomsPage.getTotalRooms());
         roomType = roomsPage.getRoomType(randomNumber);
         roomsPage.openRoomDetailByIndex(randomNumber);
         roomDetailsPage.openBookNowPage();
@@ -94,6 +94,7 @@ public class TC12 {
     LocalDate checkOutDate;
     double priceTotal;
     int nights;
+    int randomNumber;
     String checkInDateText;
     String checkOutDateText;
     String roomType;

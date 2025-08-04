@@ -31,7 +31,7 @@ public class TC05 {
         checkOutDate = checkInDate.plusDays(2);
 
         homePage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
-        int randomNumber = random.nextInt(roomsPage.getTotalRooms());
+        randomNumber = random.nextInt(roomsPage.getTotalRooms());
 
         roomsPage.openRoomDetailByIndex(randomNumber);
         roomDetailsPage.openBookNowPage();
@@ -77,7 +77,7 @@ public class TC05 {
         webDriver.quit();
     }
 
-    int roomIndex;
+    int randomNumber;
     String expectedFullName;
     String expectedEmail;
     String expectedPhone;

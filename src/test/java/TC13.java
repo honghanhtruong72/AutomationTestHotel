@@ -13,7 +13,7 @@ import java.time.LocalDate;
 import java.util.Random;
 
 
-public class TC13 extends TestBase {
+public class TC13 {
     @Issue("Bug01")
     @Test(description = "Verify the booked room information is correctly displayed in My history section")
 
@@ -57,7 +57,7 @@ public class TC13 extends TestBase {
         checkOutDate = checkInDate.plusDays(1);
         homePage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
 
-        int randomNumber = random.nextInt(roomsPage.getTotalRooms());
+        randomNumber = random.nextInt(roomsPage.getTotalRooms());
         typeRoom = roomsPage.getRoomType(randomNumber);
 
         roomsPage.openRoomDetailByIndex(randomNumber);
@@ -89,5 +89,7 @@ public class TC13 extends TestBase {
     double priceTotal;
     String idBooking;
     String typeRoom;
+    int randomNumber;
+
 
 }

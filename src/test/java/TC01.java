@@ -37,7 +37,7 @@ public class TC01 {
         homePage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
 
         softAssert.assertTrue(roomsPage.hasAvailableRooms(), "No rooms available");
-        int randomNumber = random.nextInt(roomsPage.getTotalRooms());
+        randomNumber = random.nextInt(roomsPage.getTotalRooms());
 
         expectedPrice = roomsPage.getPriceRoom(randomNumber);
         String roomType = roomsPage.getRoomType(randomNumber);
@@ -68,4 +68,5 @@ public class TC01 {
     LocalDate checkInDate;
     LocalDate checkOutDate;
     double expectedPrice;
+    int randomNumber;
 }
