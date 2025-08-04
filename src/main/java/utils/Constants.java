@@ -5,7 +5,6 @@ import model.CreditCard;
 public class Constants {
     public static final String HOTEL_BOOKING_URL = "http://14.176.232.213:8084/";
     public static final String YOPMAIL_URL = "https://yopmail.com/";
-    public static final String ROOM_TYPE = "team03";
     public static final String FULL_NAME = "test 03";
     public static final String MAIL = "hotel@yopmail.com";
     public static final String PHONE_NUMBER = "012345678";
