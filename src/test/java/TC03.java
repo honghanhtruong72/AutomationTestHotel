@@ -10,23 +10,24 @@ import utils.Constants;
 import utils.DateUtils;
 
 import java.time.LocalDate;
+import java.util.Random;
 
 public class TC03 {
     @Test(description = "Verify Grand Total Calculation without discount")
     public void VerifyGrandTotalCalculationWithoutDiscount() {
 
-        homePage.openRoomsPage();
-
         checkInDate = LocalDate.now().plusWeeks(1);
-
         checkOutDate = checkInDate.plusDays(1);
-        roomsPage.openRoomDetailByRoomType(Constants.ROOM_TYPE);
+
+        homePage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
+        int randomNumber = random.nextInt(roomsPage.getTotalRooms());
+        roomsPage.openRoomDetailByIndex(randomNumber);
+
         priceOneNight = roomDetailsPage.getDisplayPrice();
         night = DateUtils.calculateNights(checkInDate, checkOutDate);
         expectedSubTotal = night * priceOneNight;
 
-        roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
-
+        roomDetailsPage.openBookNowPage();
         tax = bookNowPage.getTax();
 
         discount = bookNowPage.getDiscount();
@@ -55,6 +56,7 @@ public class TC03 {
         roomDetailsPage = new RoomDetailsPage(webDriver);
         bookNowPage = new BookNowPage(webDriver);
         checkoutPage = new CheckoutPage(webDriver);
+        random = new Random();
     }
 
     @AfterMethod
@@ -79,4 +81,5 @@ public class TC03 {
     CheckoutPage checkoutPage;
     LocalDate checkInDate;
     LocalDate checkOutDate;
+    Random random;
 }

@@ -1,4 +1,5 @@
 import io.qameta.allure.Issue;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterMethod;
@@ -9,6 +10,7 @@ import pages.hotel.*;
 import utils.Constants;
 
 import java.time.LocalDate;
+import java.util.Random;
 
 
 public class TC13 extends TestBase {
@@ -18,7 +20,7 @@ public class TC13 extends TestBase {
     public void VerifyBookedRoomInformationIsDisplayedInMyHistorySection() {
 
         confirmPage.openMyHistoryPage();
-        softAssert.assertEquals(myHistoryPage.getTypeRoom(idBooking), Constants.ROOM_TYPE, "Room type is incorrect");
+        softAssert.assertEquals(myHistoryPage.getTypeRoom(idBooking), typeRoom, "Room type is incorrect");
         softAssert.assertEquals(myHistoryPage.getDateCheckIn(idBooking), checkInDate,
                 "Check in date is incorrect");
         softAssert.assertEquals(myHistoryPage.getDateCheckOut(idBooking), checkOutDate,
@@ -47,16 +49,19 @@ public class TC13 extends TestBase {
         checkoutPage = new CheckoutPage(webDriver);
         confirmPage = new ConfirmPage(webDriver);
         myHistoryPage = new MyHistoryPage(webDriver);
+        random = new Random();
 
         homePage.login(Constants.USERNAME, Constants.PASSWORD);
 
-        homePage.openRoomsPage();
-
-        checkInDate = LocalDate.now().plusDays(5);
+        checkInDate = LocalDate.now().plusDays(1);
         checkOutDate = checkInDate.plusDays(1);
+        homePage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
 
-        roomsPage.openRoomDetailByRoomType(Constants.ROOM_TYPE);
-        roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
+        int randomNumber = random.nextInt(roomsPage.getTotalRooms());
+        typeRoom = roomsPage.getRoomType(randomNumber);
+
+        roomsPage.openRoomDetailByIndex(randomNumber);
+        roomDetailsPage.openBookNowPage();
         bookNowPage.submitUserInfoForm();
         priceTotal = checkoutPage.getPriceTotal();
         checkoutPage.submitCardDetails(Constants.VALID_CREDIT_CARD);
@@ -69,6 +74,7 @@ public class TC13 extends TestBase {
         webDriver.quit();
     }
 
+    WebDriver webDriver;
     SoftAssert softAssert;
     HomePage homePage;
     RoomsPage roomsPage;
@@ -79,7 +85,9 @@ public class TC13 extends TestBase {
     MyHistoryPage myHistoryPage;
     LocalDate checkInDate;
     LocalDate checkOutDate;
+    Random random;
     double priceTotal;
     String idBooking;
+    String typeRoom;
 
 }

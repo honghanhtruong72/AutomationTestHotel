@@ -1,6 +1,8 @@
 import io.qameta.allure.Issue;
 import io.qameta.allure.Step;
+import net.datafaker.Faker;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterMethod;
@@ -14,6 +16,7 @@ import utils.Constants;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class TC14 extends TestBase {
     @Issue("Bug02")
@@ -35,7 +38,7 @@ public class TC14 extends TestBase {
 
         myHistoryPage.openCancelledBookingPage();
 
-        softAssert.assertEquals(cancelBookingPage.getTypeRoom(idBooking), Constants.ROOM_TYPE, "Room type is incorrect in History page");
+        softAssert.assertEquals(cancelBookingPage.getTypeRoom(idBooking), roomType, "Room type is incorrect in History page");
         softAssert.assertEquals(cancelBookingPage.getDateCheckIn(idBooking), checkInDate, "Check in date is incorrect in History page");
         softAssert.assertEquals(cancelBookingPage.getDateCheckOut(idBooking), checkOutDate, "Check out date is incorrect in History page");
         softAssert.assertEquals(cancelBookingPage.getDateCancelBooking(idBooking), cancelDate, "Cancel booking date is incorrect in History page");
@@ -54,7 +57,7 @@ public class TC14 extends TestBase {
         expectedCancellationCharge = 0.2 * expectedGrandTotal;
         expectedRefundableAmount = expectedGrandTotal - expectedCancellationCharge;
 
-        softAssert.assertEquals(mailPage.getRoomType(), Constants.ROOM_TYPE, "Room type in mail is incorrect");
+        softAssert.assertEquals(mailPage.getRoomType(), roomType, "Room type in mail is incorrect");
         softAssert.assertEquals(mailPage.getCheckInInCancelMail(), checkInDate, "Check in date in mail is incorrect");
         softAssert.assertEquals(mailPage.getCheckOutInCancelMail(), checkOutDate, "Check out date in mail is incorrect");
         softAssert.assertEquals(mailPage.getCancellationCharge(), expectedCancellationCharge, "Cancellation Charge in mail wrong");
@@ -83,16 +86,20 @@ public class TC14 extends TestBase {
         myHistoryPage = new MyHistoryPage(webDriver);
         cancelBookingPage = new CancelBookingPage(webDriver);
         mailPage = new MailPage(webDriver);
+        random = new Random();
+        faker = new Faker();
 
         homePage.login(Constants.USERNAME, Constants.PASSWORD);
 
-        homePage.openRoomsPage();
-
-        checkInDate = LocalDate.now().plusWeeks(1);
+        checkInDate = LocalDate.now().plusDays(1);
         checkOutDate = checkInDate.plusDays(1);
 
-        roomsPage.openRoomDetailByRoomType(Constants.ROOM_TYPE);
-        roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
+        homePage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
+        int randomNumber = random.nextInt(roomsPage.getTotalRooms());
+        roomType = roomsPage.getRoomType(randomNumber);
+
+        roomsPage.openRoomDetailByIndex(randomNumber);
+        roomDetailsPage.openBookNowPage();
         expectedGrandTotal = bookNowPage.getGrandTotal();
 
         bookNowPage.submitUserInfoForm();
@@ -105,6 +112,7 @@ public class TC14 extends TestBase {
         webDriver.quit();
     }
 
+    WebDriver webDriver;
     String idBooking;
     Double expectedGrandTotal;
     double expectedCancellationCharge;
@@ -124,6 +132,9 @@ public class TC14 extends TestBase {
     MyHistoryPage myHistoryPage;
     MailPage mailPage;
     CancelBookingPage cancelBookingPage;
+    Random random;
+    String roomType;
+    Faker faker;
 
 
 }

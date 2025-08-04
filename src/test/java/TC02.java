@@ -1,6 +1,7 @@
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -9,6 +10,7 @@ import utils.Constants;
 import utils.DateUtils;
 
 import java.time.LocalDate;
+import java.util.Random;
 
 public class TC02 {
     @Test(
@@ -16,15 +18,16 @@ public class TC02 {
     )
     public void VerifyGrandTotalCalculationIncludesTaxAndDiscount() {
 
-        homePage.openRoomsPage();
-
-        checkInDate = LocalDate.now().plusWeeks(1);
-
+        checkInDate = LocalDate.now().plusWeeks(2);
         checkOutDate = checkInDate.plusDays(1);
-        roomsPage.openRoomDetailByRoomType(Constants.ROOM_TYPE);
-        priceOneNight = roomDetailsPage.getDisplayPrice();
 
-        roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
+        homePage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
+        int randomNumber = random.nextInt(roomsPage.getTotalRooms());
+
+        roomsPage.openRoomDetailByIndex(randomNumber);
+        priceOneNight = roomDetailsPage.getDisplayPrice();
+        roomDetailsPage.openBookNowPage();
+
         bookNowPage.applyPromoCode(Constants.VALID_PROMOCODE);
 
         night = DateUtils.calculateNights(checkInDate, checkOutDate);
@@ -58,12 +61,13 @@ public class TC02 {
         bookNowPage = new BookNowPage(webDriver);
         checkoutPage = new CheckoutPage(webDriver);
         searchPage = new SearchPage(webDriver);
+        random = new Random();
     }
 
-//    @AfterMethod
-//    public void tearDown() {
-//        webDriver.quit();
-//    }
+    @AfterMethod
+    public void tearDown() {
+        webDriver.quit();
+    }
 
     int night;
     double priceOneNight;
@@ -83,4 +87,5 @@ public class TC02 {
     LocalDate checkInDate;
     LocalDate checkOutDate;
     SearchPage searchPage;
+    Random random;
 }

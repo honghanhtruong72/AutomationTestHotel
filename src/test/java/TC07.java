@@ -19,12 +19,15 @@ public class TC07 {
     )
     public void VerifyUsersBookRoomSuccessfully() {
 
-        homePage.openRoomsPage();
         checkInDate = LocalDate.now().plusWeeks(1);
         checkOutDate = checkInDate.plusDays(1);
 
-        roomsPage.openRoomDetailByRoomType(Constants.ROOM_TYPE);
-        roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
+        homePage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
+        int randomNumber = random.nextInt(roomsPage.getTotalRooms());
+
+        String roomType = roomsPage.getRoomType(randomNumber);
+        roomsPage.openRoomDetailByIndex(randomNumber);
+        roomDetailsPage.openBookNowPage();
 
         bookNowPage.submitUserInfoForm(Constants.FULL_NAME,
                 Constants.MAIL, Constants.PHONE_NUMBER, Constants.ADDRESS);
@@ -32,7 +35,7 @@ public class TC07 {
 
         softAssert.assertTrue(confirmPage.displaySuccessBookingMessage(Constants.MESSAGE_BOOKING_SUCCESS),
                 "Success booking message is not displayed");
-        softAssert.assertEquals(confirmPage.getRoomType(), Constants.ROOM_TYPE, "Room type is incorrect");
+        softAssert.assertEquals(confirmPage.getRoomType(), roomType, "Room type is incorrect");
         softAssert.assertEquals(confirmPage.getCheckInDate(), checkInDate, "Check in date is incorrect");
         softAssert.assertEquals(confirmPage.getCheckOutDate(), checkOutDate, "Check out date is incorrect");
         softAssert.assertEquals(confirmPage.getAdultNumber(), 1, "Adult number is incorrect");
@@ -43,7 +46,7 @@ public class TC07 {
 
         mailPage.openMail(Constants.MAIL);
         mailPage.openMostRecentMailByTitle(Constants.TITLE_MAIL_BOOKING_SUCCESS);
-        softAssert.assertEquals(mailPage.getRoomType(), Constants.ROOM_TYPE, "Room type in mail is incorrect");
+        softAssert.assertEquals(mailPage.getRoomType(), roomType, "Room type in mail is incorrect");
         softAssert.assertEquals(mailPage.getCheckIn(), checkInDate, "Check in date in mail is incorrect");
         softAssert.assertEquals(mailPage.getCheckOut(), checkOutDate, "Check out date in mail is incorrect");
 
