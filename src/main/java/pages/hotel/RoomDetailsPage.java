@@ -132,8 +132,8 @@ public class RoomDetailsPage {
         return Integer.parseInt(text);
     }
 
-    @Step("Get Chilren")
-    public int getChilren() {
+    @Step("Get Children")
+    public int getChildren() {
         String text = driver.findElement(childrenQuantityLocator).getAttribute("value");
         return Integer.parseInt(text);
     }

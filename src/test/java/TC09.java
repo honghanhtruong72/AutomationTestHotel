@@ -3,6 +3,7 @@ import model.CreditCard;
 import net.datafaker.Faker;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -18,13 +19,14 @@ public class TC09 {
     )
     public void VerifySystemValidatesCardNumbersWithInsufficientDigits() {
 
-        homePage.openRoomsPage();
-
-        checkInDate = LocalDate.now().plusDays(3);
+        checkInDate = LocalDate.now().plusWeeks(2);
         checkOutDate = checkInDate.plusDays(1);
 
-        roomsPage.openRoomDetailByRoomType(Constants.ROOM_TYPE);
-        roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
+        homePage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
+        int randomNumber = random.nextInt(roomsPage.getTotalRooms());
+
+        roomsPage.openRoomDetailByIndex(randomNumber);
+        roomDetailsPage.openBookNowPage();
         bookNowPage.submitUserInfoForm(Constants.FULL_NAME,
                 Constants.MAIL, Constants.PHONE_NUMBER, Constants.ADDRESS);
 
@@ -56,12 +58,13 @@ public class TC09 {
         bookNowPage = new BookNowPage(webDriver);
         checkoutPage = new CheckoutPage(webDriver);
         faker = new Faker();
+        random = new Random();
     }
 
-//    @AfterMethod
-//    public void tearDown() {
-//        webDriver.quit();
-//    }
+    @AfterMethod
+    public void tearDown() {
+        webDriver.quit();
+    }
 
     WebDriver webDriver;
     SoftAssert softAssert;

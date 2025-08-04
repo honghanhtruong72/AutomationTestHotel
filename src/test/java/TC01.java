@@ -30,7 +30,6 @@ public class TC01 {
     @Test(description = "Verify room information on Room detail")
 
     public void VerifyRoomInformationOnRoomDetail() {
-        webDriver.get(Constants.HOTEL_BOOKING_URL);
 
         checkInDate = LocalDate.now().plusDays(2);
 
@@ -38,17 +37,19 @@ public class TC01 {
         homePage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
 
         softAssert.assertTrue(roomsPage.hasAvailableRooms(), "No rooms available");
+        int randomNumber = random.nextInt(roomsPage.getTotalRooms());
 
-        expectedPrice = roomsPage.getPriceRoom(Constants.ROOM_TYPE);
+        expectedPrice = roomsPage.getPriceRoom(randomNumber);
+        String roomType = roomsPage.getRoomType(randomNumber);
 
-        roomsPage.openRoomDetailByRoomType(Constants.ROOM_TYPE);
+        roomsPage.openRoomDetailByIndex(randomNumber);
 
-        softAssert.assertEquals(roomDetailsPage.getRoomType(), Constants.ROOM_TYPE, "Room type mismatch");
+        softAssert.assertEquals(roomDetailsPage.getRoomType(), roomType, "Room type mismatch");
         softAssert.assertEquals(roomDetailsPage.getDisplayPrice(), expectedPrice, "Room price mismatch");
         softAssert.assertEquals(roomDetailsPage.getCheckInDate(), checkInDate, "Check in date is incorrect");
         softAssert.assertEquals(roomDetailsPage.getCheckOutDate(), checkOutDate, "Check out dates is incorrect");
         softAssert.assertEquals(roomDetailsPage.getAdult(), 1, "Adult number is incorrect");
-        softAssert.assertEquals(roomDetailsPage.getChilren(), 0, "Children number is incorrect");
+        softAssert.assertEquals(roomDetailsPage.getChildren(), 0, "Children number is incorrect");
 
         softAssert.assertAll();
     }

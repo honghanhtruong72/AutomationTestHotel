@@ -19,12 +19,13 @@ public class TC10 {
     )
     public void VerifySystemValidatesCardNumbersWithWrongNameCard() {
 
-        homePage.openRoomsPage();
-
         checkInDate = LocalDate.now().plusDays(3);
         checkOutDate = checkInDate.plusDays(1);
-        roomsPage.openRoomDetailByRoomType(Constants.ROOM_TYPE);
-        roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
+        homePage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
+        int randomNumber = random.nextInt(roomsPage.getTotalRooms());
+
+        roomsPage.openRoomDetailByIndex(randomNumber);
+        roomDetailsPage.openBookNowPage();
 
         bookNowPage.submitUserInfoForm(Constants.FULL_NAME,
                 Constants.MAIL, Constants.PHONE_NUMBER, Constants.ADDRESS);

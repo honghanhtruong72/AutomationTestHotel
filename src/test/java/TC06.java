@@ -9,6 +9,7 @@ import pages.hotel.*;
 import utils.Constants;
 
 import java.time.LocalDate;
+import java.util.Random;
 
 public class TC06 {
     @Test(
@@ -16,13 +17,15 @@ public class TC06 {
     )
     public void VerifyTheTotalAmountEqualGrandTotalOfTableSummaryBooking() {
 
-        homePage.openRoomsPage();
-
-        checkInDate = LocalDate.now().plusDays(1);
+        checkInDate = LocalDate.now().plusWeeks(1);
 
         checkOutDate = checkInDate.plusDays(1);
 
-        roomsPage.openRoomDetailByRoomType(Constants.ROOM_TYPE);
+        homePage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
+        int randomNumber = random.nextInt(roomsPage.getTotalRooms());
+
+        roomsPage.openRoomDetailByIndex(randomNumber);
+        roomDetailsPage.openBookNowPage();
 
         expectedPrice = bookNowPage.getGrandTotal();
 
@@ -49,6 +52,7 @@ public class TC06 {
         roomDetailsPage = new RoomDetailsPage(webDriver);
         bookNowPage = new BookNowPage(webDriver);
         checkoutPage = new CheckoutPage(webDriver);
+        random = new Random();
     }
 
     @AfterMethod
@@ -67,4 +71,5 @@ public class TC06 {
     CheckoutPage checkoutPage;
     LocalDate checkInDate;
     LocalDate checkOutDate;
+    Random random;
 }

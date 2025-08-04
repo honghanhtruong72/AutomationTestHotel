@@ -18,14 +18,15 @@ public class TC04 {
     )
     public void VerifyGrandTotalCalculationIncludesTaxAndDiscount() {
 
-        homePage.openRoomsPage();
-
         checkInDate = LocalDate.now().plusWeeks(1);
 
         checkOutDate = checkInDate.plusDays(2);
 
-        roomsPage.openRoomDetailByRoomType(Constants.ROOM_TYPE);
-        roomDetailsPage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
+        homePage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
+        int randomNumber = random.nextInt(roomsPage.getTotalRooms());
+
+        roomsPage.openRoomDetailByIndex(randomNumber);
+        roomDetailsPage.openBookNowPage();
 
         invalidPromoCode = faker.lorem().characters(6, false);
         bookNowPage.applyPromoCode(invalidPromoCode);
@@ -56,6 +57,7 @@ public class TC04 {
         bookNowPage = new BookNowPage(webDriver);
         checkoutPage = new CheckoutPage(webDriver);
         faker = new Faker();
+        random = new Random();
     }
 
     @AfterMethod
