@@ -1,4 +1,5 @@
 import io.qameta.allure.Issue;
+import io.qameta.allure.Issues;
 import io.qameta.allure.Step;
 import net.datafaker.Faker;
 import org.openqa.selenium.JavascriptExecutor;
@@ -18,8 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class TC14 extends TestBase {
-    @Issue("Bug02")
+public class TC14 {
+    @Issues({
+            @Issue("Bug02"),
+            @Issue("Bug03")
+    })
     @Test(
             description = " Verify user can cancel the booked room"
     )
@@ -95,7 +99,7 @@ public class TC14 extends TestBase {
         checkOutDate = checkInDate.plusDays(1);
 
         homePage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
-        int randomNumber = random.nextInt(roomsPage.getTotalRooms());
+        randomNumber = random.nextInt(roomsPage.getTotalRooms());
         roomType = roomsPage.getRoomType(randomNumber);
 
         roomsPage.openRoomDetailByIndex(randomNumber);
@@ -117,6 +121,7 @@ public class TC14 extends TestBase {
     Double expectedGrandTotal;
     double expectedCancellationCharge;
     double expectedRefundableAmount;
+    int randomNumber;
 
     SoftAssert softAssert;
     HomePage homePage;
