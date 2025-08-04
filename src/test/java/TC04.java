@@ -23,7 +23,7 @@ public class TC04 {
         checkOutDate = checkInDate.plusDays(2);
 
         homePage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
-        int randomNumber = random.nextInt(roomsPage.getTotalRooms());
+        randomNumber = random.nextInt(roomsPage.getTotalRooms());
 
         roomsPage.openRoomDetailByIndex(randomNumber);
         roomDetailsPage.openBookNowPage();
@@ -78,4 +78,5 @@ public class TC04 {
     LocalDate checkInDate;
     LocalDate checkOutDate;
     Faker faker;
+    int randomNumber;
 }

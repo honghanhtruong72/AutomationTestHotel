@@ -22,7 +22,7 @@ public class TC06 {
         checkOutDate = checkInDate.plusDays(1);
 
         homePage.submitBookingForm(checkInDate, checkOutDate, 1, 0);
-        int randomNumber = random.nextInt(roomsPage.getTotalRooms());
+        randomNumber = random.nextInt(roomsPage.getTotalRooms());
 
         roomsPage.openRoomDetailByIndex(randomNumber);
         roomDetailsPage.openBookNowPage();
@@ -61,6 +61,7 @@ public class TC06 {
     }
 
     double expectedPrice;
+    int randomNumber;
 
     WebDriver webDriver;
     SoftAssert softAssert;
