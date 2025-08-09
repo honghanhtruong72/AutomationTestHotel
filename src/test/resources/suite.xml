@@ -2,9 +2,6 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Selenium Automation">
     <!--<suite name="Selenium Automation" parallel="classes" thread-count="3">-->
-    <listeners>
-        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
-    </listeners>
     <test name="Hotel Booking Tests">
         <classes>
             <class name="TC14"/>

@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.util.Locale;
 
-public class HomePage extends Header{
+public class HomePage extends Header {
     private final WebDriver driver;
     private By checkInDateLocator = By.id("check-in");
     private By checkOutDateLocator = By.id("check-out");
@@ -24,11 +24,13 @@ public class HomePage extends Header{
         super(driver);
         this.driver = driver;
     }
+
     protected By chooseTimeBook(int day, int month, int year) {
         return By.xpath(String.format(
                 "//td[@data-handler='selectDay' and @data-month='%d' and @data-year='%d']/a[text()='%d']",
                 month - 1, year, day));
     }
+
     @Step("Click on Check-In date text field")
     private void clickCheckInLocator() {
         driver.findElement(checkInDateLocator).click();
@@ -67,11 +69,13 @@ public class HomePage extends Header{
             driver.findElement(By.className("ui-datepicker-next")).click();
         }
     }
+
     @Step("Enter number of adults")
     private void enterAdultNumber(int adultQuantity) {
         driver.findElement(adultQuantityLocator).clear();
         driver.findElement(adultQuantityLocator).sendKeys(String.valueOf(adultQuantity));
     }
+
     @Step("Enter number of children")
     private void enterChildrenNumber(int childrenQuantity) {
         driver.findElement(childrenQuantityLocator).clear();
@@ -79,9 +83,10 @@ public class HomePage extends Header{
     }
 
     @Step("Click on 'Search' button")
-    public void clickRoom(){
+    public void clickRoom() {
         driver.findElement(searchButtonLocator).click();
     }
+
     @Step("Submit booking form")
     public void submitBookingForm(LocalDate dateCheckIn, LocalDate dateCheckOut, int adultQuantity, int childrenQuantity) {
         clickCheckInLocator();
@@ -92,6 +97,7 @@ public class HomePage extends Header{
         enterChildrenNumber(childrenQuantity);
         clickRoom();
     }
+
     private void waitTimePicker() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOfElementLocated(timePickerLocator));
